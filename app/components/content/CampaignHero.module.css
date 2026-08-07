@@ -1,0 +1,104 @@
+.root {
+  position: relative;
+  display: grid;
+  min-height: min(78vh, 42rem);
+  background: var(--color-bg-muted, #efefef);
+}
+
+.media {
+  grid-area: 1 / 1;
+  min-height: inherit;
+  background: var(--color-bg-muted, #efefef);
+}
+
+.image,
+.placeholder {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: inherit;
+  object-fit: cover;
+}
+
+.placeholder {
+  background:
+    linear-gradient(
+      135deg,
+      transparent 49.5%,
+      var(--color-grey-300, #c8c8c8) 49.5%,
+      var(--color-grey-300, #c8c8c8) 50.5%,
+      transparent 50.5%
+    ),
+    var(--color-bg-muted, #efefef);
+}
+
+.copy {
+  grid-area: 1 / 1;
+  z-index: 1;
+  align-self: end;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3, 0.75rem);
+  padding: var(--space-6, 2rem) var(--page-gutter, 1rem) var(--space-8, 3rem);
+  max-width: 36rem;
+  background: linear-gradient(
+    to top,
+    rgba(244, 243, 240, 0.94) 0%,
+    rgba(244, 243, 240, 0.5) 58%,
+    transparent 100%
+  );
+}
+
+.eyebrow {
+  margin: 0;
+  font-size: var(--text-xs, 0.6875rem);
+  font-weight: var(--font-weight-medium, 500);
+  letter-spacing: var(--tracking-caps, 0.12em);
+  text-transform: uppercase;
+  color: var(--color-fg-muted, #6e6e6e);
+}
+
+.title {
+  margin: 0;
+  font-size: var(--text-3xl, clamp(2.25rem, 1.75rem + 2vw, 3.25rem));
+  font-weight: var(--font-weight-medium, 500);
+  letter-spacing: var(--tracking-snug, -0.015em);
+  line-height: var(--leading-tight, 1.15);
+}
+
+.subtitle {
+  margin: 0;
+  font-size: var(--text-md, 1.125rem);
+  line-height: var(--leading-normal, 1.5);
+  color: var(--color-fg-muted, #6e6e6e);
+  max-width: 28rem;
+}
+
+.cta {
+  margin-top: var(--space-2, 0.5rem);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2, 0.5rem);
+  padding: 0;
+  border: none;
+  background: none;
+  font: inherit;
+  font-size: var(--text-sm, 0.8125rem);
+  letter-spacing: var(--tracking-wide, 0.04em);
+  text-transform: uppercase;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  color: var(--color-fg, #0a0a0a);
+  cursor: pointer;
+}
+
+.cta:focus-visible {
+  outline: 2px solid var(--color-focus, #0a0a0a);
+  outline-offset: 4px;
+}
+
+@media (min-width: 45em) {
+  .copy {
+    padding: var(--space-8, 3rem) var(--page-gutter-lg, 2rem) var(--space-10, 5rem);
+  }
+}

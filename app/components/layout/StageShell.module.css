@@ -1,0 +1,64 @@
+.root {
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding-inline: clamp(0.75rem, 3vw, 2.5rem);
+  padding-block: 0 clamp(1.5rem, 4vw, 3.5rem);
+}
+
+.headerSlot {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-header, 20);
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  max-width: calc(var(--width-stage, 68rem) + 2rem);
+  margin-inline: auto;
+  padding-block: var(--nav-float-offset, 1.25rem) 0.85rem;
+  pointer-events: none;
+}
+
+.headerSlot > * {
+  pointer-events: auto;
+  width: 100%;
+}
+
+.stage {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex: 1 0 auto;
+  width: 100%;
+  max-width: var(--width-stage, 68rem);
+  margin-inline: auto;
+  background: var(--color-stage, #f4f3f0);
+  border: 1px solid var(--color-nav-border, rgba(10, 10, 10, 0.08));
+  border-radius: var(--radius-stage, 1.5rem);
+  box-shadow: var(--shadow-stage);
+  overflow: clip;
+  min-height: min(100vh - 6rem, 54rem);
+}
+
+.stage > main {
+  flex: 1 0 auto;
+  width: 100%;
+  background: var(--color-stage, #f4f3f0);
+}
+
+@media (max-width: 640px) {
+  .root {
+    padding-inline: 0.5rem;
+    padding-block: 0 1.25rem;
+  }
+
+  .headerSlot {
+    padding-block: 0.75rem 0.65rem;
+  }
+
+  .stage {
+    border-radius: var(--radius-lg, 1.25rem);
+    min-height: calc(100vh - 5rem);
+  }
+}

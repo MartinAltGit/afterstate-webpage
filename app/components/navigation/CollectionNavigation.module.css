@@ -1,0 +1,32 @@
+.root {
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 1.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.link {
+  display: inline-block;
+  padding: 0.85rem 0;
+  color: #525252;
+  font-size: 0.8125rem;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  text-transform: uppercase;
+  border-bottom: 1px solid transparent;
+}
+
+.link:hover {
+  color: #0a0a0a;
+}
+
+.active {
+  color: #0a0a0a;
+  border-bottom-color: #0a0a0a;
+}

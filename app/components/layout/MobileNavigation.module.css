@@ -1,0 +1,31 @@
+.root {
+  display: block;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.link {
+  display: block;
+  padding: 1rem 0;
+  border-bottom: 1px solid #e5e5e5;
+  color: #0a0a0a;
+  font-size: 1.125rem;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.link:hover {
+  color: #525252;
+}
+
+.active {
+  font-weight: 500;
+}

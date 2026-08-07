@@ -1,0 +1,52 @@
+.root {
+  margin: 0;
+  font-family: inherit;
+  line-height: 1.45;
+  color: #0a0a0a;
+}
+
+.tone-default {
+  color: #0a0a0a;
+}
+
+.tone-muted {
+  color: #525252;
+}
+
+.tone-subtle {
+  color: #737373;
+}
+
+.size-xs {
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+}
+
+.size-sm {
+  font-size: 0.875rem;
+}
+
+.size-md {
+  font-size: 1rem;
+}
+
+.size-lg {
+  font-size: 1.125rem;
+}
+
+.size-xl {
+  font-size: 1.5rem;
+  line-height: 1.25;
+}
+
+.weight-regular {
+  font-weight: 400;
+}
+
+.weight-medium {
+  font-weight: 500;
+}
+
+.weight-semibold {
+  font-weight: 600;
+}

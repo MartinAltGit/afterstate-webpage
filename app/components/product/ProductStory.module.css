@@ -1,0 +1,36 @@
+.root {
+  display: grid;
+  gap: 1rem;
+  padding: 2.5rem 0;
+  border-top: 1px solid var(--color-dark, #000);
+}
+
+@media (min-width: 45em) {
+  .root {
+    grid-template-columns: minmax(8rem, 12rem) 1fr;
+    gap: 2rem;
+    align-items: start;
+  }
+}
+
+.title {
+  margin: 0;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.body {
+  font-size: 1rem;
+  line-height: 1.6;
+  max-width: 36rem;
+}
+
+.body p {
+  margin: 0 0 1rem;
+}
+
+.body p:last-child {
+  margin-bottom: 0;
+}

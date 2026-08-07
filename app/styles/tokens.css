@@ -1,0 +1,187 @@
+/**
+ * Afterstate — Calm editorial stage tokens
+ * Soft atmosphere outside a centered content stage.
+ */
+
+:root {
+  /* ------------------------------------------------------------------ */
+  /* Color — neutral palette                                            */
+  /* ------------------------------------------------------------------ */
+  --color-black: #0a0a0a;
+  --color-white: #ffffff;
+  --color-grey-50: #f7f7f7;
+  --color-grey-100: #efefef;
+  --color-grey-200: #e2e2e2;
+  --color-grey-300: #c8c8c8;
+  --color-grey-400: #9a9a9a;
+  --color-grey-500: #6e6e6e;
+  --color-grey-600: #4a4a4a;
+  --color-grey-700: #2e2e2e;
+  --color-grey-800: #1a1a1a;
+  --color-grey-900: #111111;
+
+  --color-fg: var(--color-black);
+  --color-fg-muted: var(--color-grey-500);
+  --color-fg-subtle: var(--color-grey-400);
+  --color-fg-inverse: var(--color-white);
+
+  --color-bg: var(--color-white);
+  --color-bg-subtle: var(--color-grey-50);
+  --color-bg-muted: var(--color-grey-100);
+  --color-bg-inverse: var(--color-black);
+
+  --color-border: var(--color-black);
+  --color-border-muted: var(--color-grey-300);
+  --color-border-subtle: var(--color-grey-200);
+
+  --color-focus: var(--color-black);
+  --color-focus-ring: var(--color-black);
+
+  /* Atmosphere + stage (outer canvas / inner content plane) */
+  --color-canvas: #d8dde2;
+  --color-glow-a: rgba(120, 148, 138, 0.28);
+  --color-glow-b: rgba(148, 156, 176, 0.22);
+  --color-glow-c: rgba(176, 168, 152, 0.18);
+  --color-stage: #f4f3f0;
+  --color-stage-elevated: #faf9f7;
+  --color-nav-surface: rgba(250, 249, 247, 0.88);
+  --color-nav-border: rgba(10, 10, 10, 0.08);
+  --shadow-stage:
+    0 1px 0 rgba(255, 255, 255, 0.55) inset,
+    0 24px 64px rgba(40, 48, 56, 0.1),
+    0 4px 16px rgba(40, 48, 56, 0.06);
+  --shadow-nav:
+    0 1px 0 rgba(255, 255, 255, 0.7) inset,
+    0 10px 28px rgba(40, 48, 56, 0.12),
+    0 2px 6px rgba(40, 48, 56, 0.06);
+
+  /* Legacy aliases used by existing Hydrogen shells */
+  --color-dark: var(--color-black);
+  --color-light: var(--color-white);
+
+  /* ------------------------------------------------------------------ */
+  /* Typography                                                         */
+  /* ------------------------------------------------------------------ */
+  --font-sans:
+    'Neue Haas Grotesk', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* Fluid-ish type scale (rem) */
+  --text-xs: 0.6875rem; /* 11px */
+  --text-sm: 0.8125rem; /* 13px */
+  --text-base: 1rem; /* 16px */
+  --text-md: 1.125rem; /* 18px */
+  --text-lg: 1.25rem; /* 20px */
+  --text-xl: 1.5rem; /* 24px */
+  --text-2xl: clamp(1.75rem, 1.5rem + 1vw, 2.25rem); /* ~28–36 */
+  --text-3xl: clamp(2.25rem, 1.75rem + 2vw, 3.25rem); /* ~36–52 */
+  --text-4xl: clamp(2.75rem, 2rem + 3vw, 4.5rem); /* ~44–72 */
+  --text-display: clamp(3rem, 2.25rem + 4vw, 5.5rem);
+
+  --leading-none: 1;
+  --leading-tight: 1.15;
+  --leading-snug: 1.3;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.65;
+
+  --tracking-tight: -0.03em;
+  --tracking-snug: -0.015em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.04em;
+  --tracking-wider: 0.08em;
+  --tracking-caps: 0.12em;
+
+  /* ------------------------------------------------------------------ */
+  /* Spacing — 4/8 scale                                                */
+  /* ------------------------------------------------------------------ */
+  --space-0: 0;
+  --space-1: 0.25rem; /* 4 */
+  --space-2: 0.5rem; /* 8 */
+  --space-3: 0.75rem; /* 12 */
+  --space-4: 1rem; /* 16 */
+  --space-5: 1.5rem; /* 24 */
+  --space-6: 2rem; /* 32 */
+  --space-7: 2.5rem; /* 40 */
+  --space-8: 3rem; /* 48 */
+  --space-9: 4rem; /* 64 */
+  --space-10: 5rem; /* 80 */
+  --space-11: 6rem; /* 96 */
+  --space-12: 8rem; /* 128 */
+
+  /* ------------------------------------------------------------------ */
+  /* Layout widths & gaps                                               */
+  /* ------------------------------------------------------------------ */
+  --width-page: 72rem; /* 1152 */
+  --width-editorial: 40rem; /* 640 — reading measure */
+  --width-wide: 90rem; /* 1440 */
+  --width-narrow: 28rem;
+  --width-stage: 68rem; /* centered content column */
+  --width-nav: 52rem;
+
+  --grid-gap: var(--space-5);
+  --grid-gap-lg: var(--space-8);
+  --grid-gap-sm: var(--space-3);
+
+  --page-gutter: var(--space-4);
+  --page-gutter-lg: var(--space-6);
+
+  --aside-width: 24rem;
+  --grid-item-width: 16rem;
+
+  /* ------------------------------------------------------------------ */
+  /* Borders                                                            */
+  /* ------------------------------------------------------------------ */
+  --border-width: 1px;
+  --border-width-thick: 2px;
+  --radius-none: 0;
+  --radius-sm: 2px;
+  --radius: 0.375rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1.25rem;
+  --radius-stage: 1.5rem;
+
+  /* ------------------------------------------------------------------ */
+  /* Motion                                                             */
+  /* ------------------------------------------------------------------ */
+  --duration-instant: 0ms;
+  --duration-fast: 120ms;
+  --duration-base: 200ms;
+  --duration-slow: 360ms;
+  --duration-slower: 520ms;
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.45, 0, 0.55, 1);
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+
+  /* ------------------------------------------------------------------ */
+  /* Z-index                                                            */
+  /* ------------------------------------------------------------------ */
+  --z-base: 0;
+  --z-raised: 1;
+  --z-sticky: 10;
+  --z-header: 20;
+  --z-buy-bar: 30;
+  --z-overlay: 40;
+  --z-aside: 50;
+  --z-modal: 60;
+  --z-toast: 70;
+  --z-skip: 100;
+
+  /* ------------------------------------------------------------------ */
+  /* Chrome heights                                                     */
+  /* ------------------------------------------------------------------ */
+  --header-height: 3.5rem; /* 56 */
+  --header-height-lg: 4rem; /* 64 */
+  --nav-float-offset: 1.25rem;
+  --stage-margin-y: var(--space-8);
+  --buy-bar-height: 4.5rem;
+  --footer-pad-y: var(--space-8);
+
+  --cart-aside-summary-height: 15.625rem;
+  --cart-aside-summary-height-with-discount: 18.75rem;
+}

@@ -1,0 +1,19 @@
+.link {
+  position: absolute;
+  left: 1rem;
+  top: -100%;
+  z-index: 1000;
+  padding: 0.75rem 1rem;
+  background: #0a0a0a;
+  color: #fafafa;
+  font-size: 0.875rem;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.link:focus {
+  top: 1rem;
+  outline: 1px solid #fafafa;
+  outline-offset: 2px;
+}

@@ -1,0 +1,28 @@
+.root {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  line-height: 1.4;
+  letter-spacing: 0.02em;
+}
+
+.onSale {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.current {
+  font-weight: 500;
+}
+
+.compare {
+  opacity: 0.55;
+  text-decoration: line-through;
+}
+
+.placeholder {
+  display: inline-block;
+  min-width: 3ch;
+}
