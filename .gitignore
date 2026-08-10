@@ -14,3 +14,4 @@ node_modules
 *.tsbuildinfo
 hydrogen-quickstart/
 .cursor/settings.json
+assets/printful-test/
