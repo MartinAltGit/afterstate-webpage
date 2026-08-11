@@ -1,0 +1,227 @@
+.root {
+  background: var(--color-night, #0b100e);
+  color: var(--color-bone, #ece7da);
+}
+
+.hero {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  align-content: end;
+  justify-items: start;
+  min-height: min(72svh, 40rem);
+  overflow: hidden;
+  background: var(--color-night, #0b100e);
+  color: var(--color-bone, #ece7da);
+}
+
+.heroMedia {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.heroImage {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 112%;
+  object-fit: cover;
+  object-position: 55% 28%;
+  filter: brightness(0.7) contrast(1.08) saturate(0.9);
+  transform: scale(1.04);
+  transform-origin: 60% 40%;
+  pointer-events: none;
+  user-select: none;
+}
+
+.heroVeil {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(8, 12, 10, 0.78) 0%,
+      rgba(8, 12, 10, 0.42) 38%,
+      rgba(8, 12, 10, 0.14) 62%,
+      rgba(8, 12, 10, 0.1) 100%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(8, 12, 10, 0.22) 0%,
+      rgba(8, 12, 10, 0.2) 40%,
+      var(--color-night, #0b100e) 100%
+    );
+}
+
+.heroGrain {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  opacity: 0.14;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+  mix-blend-mode: soft-light;
+  pointer-events: none;
+}
+
+.heroInner {
+  position: relative;
+  z-index: 3;
+  width: min(100%, 44rem);
+  padding: var(--space-8, 3rem) var(--page-gutter, 1rem) var(--space-7, 2.5rem);
+  display: grid;
+  gap: var(--space-4, 1rem);
+}
+
+.meta {
+  margin: 0;
+  font-size: var(--text-xs, 0.6875rem);
+  font-weight: var(--font-weight-medium, 500);
+  letter-spacing: var(--tracking-caps, 0.12em);
+  text-transform: uppercase;
+  color: var(--color-bone-muted, rgba(236, 231, 218, 0.64));
+}
+
+.title {
+  margin: 0;
+  font-size: clamp(2.25rem, 1.6rem + 3vw, 3.75rem);
+  font-weight: var(--font-weight-medium, 500);
+  letter-spacing: var(--tracking-snug, -0.02em);
+  line-height: var(--leading-tight, 1.1);
+  color: var(--color-bone, #ece7da);
+}
+
+.excerpt {
+  margin: 0;
+  max-width: 34rem;
+  font-size: var(--text-md, 1.125rem);
+  line-height: var(--leading-relaxed, 1.65);
+  color: var(--color-bone-muted, rgba(236, 231, 218, 0.72));
+}
+
+.body {
+  display: grid;
+}
+
+.related {
+  padding: var(--space-9, 4rem) var(--page-gutter, 1rem);
+  border-bottom: 1px solid
+    var(--color-hairline-dark-subtle, rgba(236, 231, 218, 0.08));
+  background: var(--color-night-raised, #121814);
+  color: var(--color-bone, #ece7da);
+}
+
+.relatedEyebrow {
+  margin: 0 0 var(--space-2, 0.5rem);
+  font-size: var(--text-xs, 0.6875rem);
+  font-weight: var(--font-weight-medium, 500);
+  letter-spacing: var(--tracking-caps, 0.12em);
+  text-transform: uppercase;
+  color: var(--color-brass, #c2a878);
+}
+
+.relatedTitle {
+  margin: 0 0 var(--space-6, 2rem);
+  font-size: var(--text-xl, 1.5rem);
+  font-weight: var(--font-weight-medium, 500);
+  letter-spacing: var(--tracking-snug, -0.015em);
+  color: var(--color-bone, #ece7da);
+}
+
+.relatedList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0;
+  max-width: 40rem;
+}
+
+.relatedList li {
+  border-top: 1px solid var(--color-hairline-dark, rgba(236, 231, 218, 0.14));
+}
+
+.relatedList li:last-child {
+  border-bottom: 1px solid var(--color-hairline-dark, rgba(236, 231, 218, 0.14));
+}
+
+.relatedList a {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: auto auto;
+  column-gap: var(--space-4, 1rem);
+  row-gap: var(--space-1, 0.25rem);
+  padding: var(--space-4, 1rem) 0;
+  text-decoration: none;
+  color: inherit;
+  transition: color 160ms ease;
+}
+
+.relatedList a:hover .relatedName,
+.relatedList a:focus-visible .relatedName {
+  color: var(--color-brass-strong, #d3bc8f);
+}
+
+.relatedList a:focus-visible {
+  outline: 2px solid var(--color-brass, #c2a878);
+  outline-offset: 4px;
+}
+
+.relatedLabel {
+  grid-column: 1;
+  font-size: var(--text-xs, 0.6875rem);
+  letter-spacing: var(--tracking-caps, 0.12em);
+  text-transform: uppercase;
+  color: var(--color-bone-muted, rgba(236, 231, 218, 0.64));
+}
+
+.relatedName {
+  grid-column: 1;
+  font-size: var(--text-lg, 1.25rem);
+  font-weight: var(--font-weight-medium, 500);
+  letter-spacing: var(--tracking-snug, -0.015em);
+  color: var(--color-bone, #ece7da);
+}
+
+.relatedCta {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  align-self: center;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: var(--text-xs, 0.6875rem);
+  letter-spacing: var(--tracking-caps, 0.12em);
+  text-transform: uppercase;
+  color: var(--color-brass, #c2a878);
+}
+
+@media (min-width: 45em) {
+  .heroInner {
+    padding: var(--space-10, 5rem) var(--page-gutter-lg, 2rem)
+      var(--space-9, 4rem);
+  }
+
+  .related {
+    padding: var(--space-10, 5rem) var(--page-gutter-lg, 2rem);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .heroImage {
+    animation: journal-hero-drift 28s ease-in-out infinite alternate;
+  }
+}
+
+@keyframes journal-hero-drift {
+  from {
+    transform: scale(1.04) translate3d(0, 0, 0);
+  }
+  to {
+    transform: scale(1.08) translate3d(-1.5%, -1%, 0);
+  }
+}

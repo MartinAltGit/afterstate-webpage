@@ -28,12 +28,24 @@ export function JournalCard({
       <Link to={to} prefetch="intent" className={styles.link}>
         <div className={styles.media}>
           {image?.url ? (
-            <Image
-              data={image}
-              alt={image.altText || title}
-              className={styles.image}
-              sizes="(min-width: 45em) 33vw, 100vw"
-            />
+            image.url.includes('cdn.shopify.com') ? (
+              <Image
+                data={image}
+                alt={image.altText || title}
+                className={styles.image}
+                sizes="(min-width: 45em) 33vw, 100vw"
+              />
+            ) : (
+              <img
+                src={image.url}
+                alt={image.altText || title}
+                width={image.width ?? 1200}
+                height={image.height ?? 900}
+                loading="lazy"
+                decoding="async"
+                className={styles.image}
+              />
+            )
           ) : (
             <div className={styles.placeholder} aria-hidden="true" />
           )}

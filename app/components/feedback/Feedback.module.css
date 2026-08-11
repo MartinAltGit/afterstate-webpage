@@ -12,35 +12,49 @@
   font-size: 0.75rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: #737373;
+  color: var(--color-fg-subtle, #737373);
 }
 
 .title {
   margin: 0;
+  font-family: var(--font-display);
   font-size: 1.5rem;
   font-weight: 500;
   letter-spacing: -0.02em;
   line-height: 1.2;
-  color: #0a0a0a;
+  color: var(--color-fg, #0a0a0a);
 }
 
 .message {
   margin: 0;
   font-size: 0.9375rem;
   line-height: 1.5;
-  color: #525252;
+  color: var(--color-fg-muted, #525252);
 }
 
 .action {
   margin-top: 0.5rem;
 }
 
+.action a {
+  color: var(--color-fg, inherit);
+  text-decoration: none;
+  border-bottom: 1px solid var(--color-border, currentColor);
+  padding-bottom: 0.15rem;
+}
+
+.action a:hover {
+  color: var(--color-primary, inherit);
+  border-color: var(--color-primary, currentColor);
+  text-decoration: none;
+}
+
 .formError {
   margin: 0.75rem 0;
   padding: 0.75rem 1rem;
-  border: 1px solid #0a0a0a;
-  background: #fafafa;
-  color: #0a0a0a;
+  border: 1px solid var(--color-border, #0a0a0a);
+  background: var(--color-bg-muted, #fafafa);
+  color: var(--color-fg, #0a0a0a);
   font-size: 0.875rem;
   line-height: 1.45;
 }

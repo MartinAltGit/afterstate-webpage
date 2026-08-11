@@ -24,7 +24,7 @@ Phase: Technical foundation (editorial wireframe)
 - GraphQL fragments/queries for products, collections, homepage, journal, campaign
 - Product metafield helpers + Admin setup docs
 - Routes: home, shop, collections, products, campaign, journal, lookbook, about, philosophy, size-guide, care, shipping-returns, contact, search, cart, account, policies, sitemap, robots
-- Redirects: `/collections/all` → `/shop`, `/blogs/*` → `/journal`
+- Redirects: `/collections/all` → `/shop`, `/blogs/journal/*` → `/journal`, `/blogs` + `/blogs/blog/*` → `/blog`
 - SEO helpers + JSON-LD components; robots disallow cart/account/search
 - Analytics + consent stubs (no nonessential scripts pre-consent)
 - Playwright critical flows under `tests/e2e`

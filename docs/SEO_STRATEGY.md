@@ -60,7 +60,7 @@ Helpers: `CanonicalUrl` component / SEO meta builders.
 
 | Surface | robots |
 | --- | --- |
-| Product, collection, shop, journal article, campaign, lookbook, about, philosophy, care, size-guide, shipping-returns, contact (if public), policies | `index,follow` (unless unpublished) |
+| Product, collection, shop, journal article, blog article, campaign, lookbook, about, philosophy, care, size-guide, shipping-returns, contact (if public), policies | `index,follow` (unless unpublished) |
 | Cart | `noindex,nofollow` |
 | Account (`/account/*`) | `noindex,nofollow` |
 | Search (`/search`) | `noindex,follow` |
@@ -74,7 +74,7 @@ Helpers: `CanonicalUrl` component / SEO meta builders.
 ## Sitemap
 
 - Locale-aware sitemap routes (`($locale).[sitemap.xml].tsx` + typed pages)
-- Include: products, collections, journal articles, key static pages, campaigns/lookbooks that are public
+- Include: products, collections, journal articles, fashion blog articles, key static pages, campaigns/lookbooks that are public
 - Exclude: cart, account, search, internal previews
 - Keep lastmod honest when available; do not invent changefreq theater
 
@@ -134,12 +134,13 @@ Primary indexable hubs:
 - `/products/:handle`
 - Campaign e.g. `/afterstate-001-no-rush`
 - `/journal`, `/journal/:article`
+- `/blog`, `/blog/:article`
 - `/lookbook/:handle`
 - Brand/utility: `/about`, `/philosophy`, `/size-guide`, `/care`, `/shipping-returns`, `/contact`
 
-Avoid duplicate shop surfaces: redirect `/collections/all` → `/shop`. Prefer Admin redirects for legacy Online Store `/pages/*` and `/blogs/journal/*` paths (see Architecture redirect table).
+Avoid duplicate shop surfaces: redirect `/collections/all` → `/shop`. Prefer Admin redirects for legacy Online Store `/pages/*`, `/blogs/journal/*`, and `/blogs/blog/*` paths (see Architecture redirect table).
 
-Internal linking: header/footer menus from Shopify; breadcrumbs; related / complete-the-look; journal → product links where editorial.
+Internal linking: header/footer menus from Shopify; breadcrumbs; related / complete-the-look; journal → product links where editorial; blog → topical internal links for SEO.
 
 ---
 

@@ -79,6 +79,8 @@ Public commerce and content routes use optional locale prefixes via React Router
 | `/afterstate-001-no-rush` | `($locale).afterstate-001-no-rush.tsx` |
 | `/journal` | `($locale).journal._index.tsx` |
 | `/journal/:article` | `($locale).journal.$articleHandle.tsx` |
+| `/blog` | `($locale).blog._index.tsx` |
+| `/blog/:article` | `($locale).blog.$articleHandle.tsx` |
 | `/lookbook/:handle` | `($locale).lookbook.$handle.tsx` |
 | `/about` | `($locale).about.tsx` |
 | `/philosophy` | `($locale).philosophy.tsx` |
@@ -100,8 +102,11 @@ Locale validation lives in `($locale).tsx`. Invalid locales return 404.
 | From | To |
 | --- | --- |
 | `/collections/all` | `/shop` |
+| `/blogs` | `/blog` |
 | `/blogs/journal` | `/journal` |
 | `/blogs/journal/:handle` | `/journal/:handle` |
+| `/blogs/blog` | `/blog` |
+| `/blogs/blog/:handle` | `/blog/:handle` |
 | `/pages/about` | `/about` |
 | `/pages/philosophy` | `/philosophy` |
 | `/pages/size-guide` | `/size-guide` |

@@ -1,13 +1,25 @@
 import {useLoaderData} from 'react-router';
 import type {Route} from './+types/($locale).journal.$articleHandle';
 import {Image} from '@shopify/hydrogen';
+import {FallbackJournalArticleView} from '~/components/journal/FallbackJournalArticle';
 import {Breadcrumbs} from '~/components/navigation/Breadcrumbs';
 import {PageContainer} from '~/components/layout/PageContainer';
 import {ArticleJsonLd, buildMetaTags} from '~/components/seo';
 import {JOURNAL_ARTICLE_QUERY} from '~/graphql/queries/journal';
+import {getFallbackJournalArticle} from '~/lib/journal/fallback';
 import {redirectIfHandleIsLocalized} from '~/lib/redirect';
 
 export const meta: Route.MetaFunction = ({data}) => {
+  if (data?.source === 'fallback' && data.fallback) {
+    return buildMetaTags({
+      title: data.fallback.title,
+      description: data.fallback.seoDescription,
+      type: 'article',
+      imageUrl: data.fallback.hero.url,
+      imageAlt: data.fallback.hero.altText,
+    });
+  }
+
   const article = data?.article;
   return buildMetaTags({
     title: article?.seo?.title || article?.title || 'Journal',
@@ -38,24 +50,58 @@ export async function loader({context, params, request}: Route.LoaderArgs) {
 
   const article = result?.blog?.articleByHandle;
 
+  if (article) {
+    redirectIfHandleIsLocalized(request, {
+      handle: articleHandle,
+      data: article,
+    });
+
+    return {
+      source: 'shopify' as const,
+      article,
+      fallback: null,
+      relatedProducts: null as null,
+    };
+  }
+
+  const fallback = getFallbackJournalArticle(articleHandle);
+  if (fallback) {
+    return {
+      source: 'fallback' as const,
+      article: null,
+      fallback,
+      relatedProducts: null as null,
+    };
+  }
+
+  throw new Response('Not found', {status: 404});
+}
+
+export default function JournalArticle() {
+  const data = useLoaderData<typeof loader>();
+
+  if (data.source === 'fallback' && data.fallback) {
+    const article = data.fallback;
+    return (
+      <>
+        <ArticleJsonLd
+          headline={article.title}
+          description={article.excerpt}
+          url={`/journal/${article.handle}`}
+          image={article.hero.url}
+          datePublished={article.publishedAt}
+          authorName={article.authorName}
+        />
+        <FallbackJournalArticleView article={article} />
+      </>
+    );
+  }
+
+  const {article, relatedProducts} = data;
   if (!article) {
     throw new Response('Not found', {status: 404});
   }
 
-  redirectIfHandleIsLocalized(request, {
-    handle: articleHandle,
-    data: article,
-  });
-
-  return {
-    article,
-    /** Related products via article metafields can be wired later. */
-    relatedProducts: null as null,
-  };
-}
-
-export default function JournalArticle() {
-  const {article, relatedProducts} = useLoaderData<typeof loader>();
   const {title, image, contentHtml, author, publishedAt, excerpt} = article;
 
   const publishedDate = new Intl.DateTimeFormat('en-US', {
@@ -108,7 +154,6 @@ export default function JournalArticle() {
           style={{marginBlock: '2rem'}}
         />
 
-        {/* Slot for related products when article metafields are connected */}
         {relatedProducts ? null : null}
       </article>
     </PageContainer>

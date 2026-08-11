@@ -1,0 +1,68 @@
+.root {
+  display: block;
+  flex-shrink: 0;
+}
+
+/* AS symbol — PNG masked to currentColor */
+.mark {
+  background-color: currentColor;
+  color: inherit;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+
+.mark.sm {
+  width: 2.75rem;
+  height: 1.7rem;
+}
+
+.mark.md {
+  width: 3.5rem;
+  height: 2.15rem;
+}
+
+.mark.lg {
+  width: 5.5rem;
+  height: 3.35rem;
+}
+
+.mark.hero {
+  width: min(11rem, 42vw);
+  height: min(6.75rem, 26vw);
+}
+
+/* Horizontal “after state” sticker — real image, keep outline colors */
+.wordmark {
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  object-position: center;
+}
+
+.wordmark.sm {
+  height: 1.35rem;
+  width: auto;
+  max-width: 7.5rem;
+}
+
+.wordmark.md {
+  height: 1.55rem;
+  width: auto;
+  max-width: 9.25rem;
+}
+
+.wordmark.lg {
+  height: 2.1rem;
+  width: auto;
+  max-width: 12.5rem;
+}
+
+.wordmark.hero {
+  height: min(3.75rem, 14vw);
+  width: auto;
+  max-width: min(22rem, 72vw);
+}

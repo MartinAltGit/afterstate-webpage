@@ -2,6 +2,21 @@
   display: block;
 }
 
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  margin-bottom: 1.75rem;
+}
+
+.brandName {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  color: var(--color-fg, #1a2423);
+}
+
 .list {
   display: flex;
   flex-direction: column;
@@ -14,8 +29,8 @@
 .link {
   display: block;
   padding: 1rem 0;
-  border-bottom: 1px solid #e5e5e5;
-  color: #0a0a0a;
+  border-bottom: 1px solid var(--color-border-subtle, rgba(26, 36, 35, 0.06));
+  color: var(--color-fg, #1a2423);
   font-size: 1.125rem;
   letter-spacing: 0.04em;
   text-decoration: none;
@@ -23,9 +38,11 @@
 }
 
 .link:hover {
-  color: #525252;
+  color: var(--color-primary-strong, #4a757c);
+  text-decoration: none;
 }
 
 .active {
   font-weight: 500;
+  color: var(--color-primary-strong, #4a757c);
 }

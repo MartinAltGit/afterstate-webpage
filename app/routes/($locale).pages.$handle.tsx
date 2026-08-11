@@ -1,6 +1,17 @@
-import {useLoaderData} from 'react-router';
+import {redirect, useLoaderData} from 'react-router';
 import type {Route} from './+types/($locale).pages.$handle';
+import type {I18nLocale} from '~/lib/i18n';
 import {redirectIfHandleIsLocalized} from '~/lib/redirect';
+
+/** Dedicated storefront routes that replace Shopify Online Store page URLs. */
+const STATIC_PAGE_REDIRECTS: Record<string, string> = {
+  about: '/about',
+  contact: '/contact',
+  care: '/care',
+  philosophy: '/philosophy',
+  'size-guide': '/size-guide',
+  'shipping-returns': '/shipping-returns',
+};
 
 export const meta: Route.MetaFunction = ({data}) => {
   return [{title: `Hydrogen | ${data?.page.title ?? ''}`}];
@@ -23,6 +34,12 @@ export async function loader(args: Route.LoaderArgs) {
 async function loadCriticalData({context, request, params}: Route.LoaderArgs) {
   if (!params.handle) {
     throw new Error('Missing page handle');
+  }
+
+  const staticPath = STATIC_PAGE_REDIRECTS[params.handle.toLowerCase()];
+  if (staticPath) {
+    const pathPrefix = (context.storefront.i18n as I18nLocale).pathPrefix || '';
+    throw redirect(`${pathPrefix}${staticPath}`);
   }
 
   const [{page}] = await Promise.all([

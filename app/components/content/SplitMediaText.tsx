@@ -40,12 +40,24 @@ export function SplitMediaText({
     >
       <div className={styles.media}>
         {image?.url ? (
-          <Image
-            data={image}
-            alt={image.altText || title}
-            className={styles.image}
-            sizes="(min-width: 45em) 50vw, 100vw"
-          />
+          image.url.includes('cdn.shopify.com') ? (
+            <Image
+              data={image}
+              alt={image.altText || title}
+              className={styles.image}
+              sizes="(min-width: 45em) 50vw, 100vw"
+            />
+          ) : (
+            <img
+              src={image.url}
+              alt={image.altText || title}
+              width={image.width ?? 1200}
+              height={image.height ?? 1500}
+              loading="lazy"
+              decoding="async"
+              className={styles.image}
+            />
+          )
         ) : (
           <div className={styles.placeholder} aria-hidden="true" />
         )}

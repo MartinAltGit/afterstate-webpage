@@ -1,11 +1,14 @@
 import type {Route} from './+types/($locale).shop';
 import {useLoaderData} from 'react-router';
 import {getPaginationVariables, Pagination} from '@shopify/hydrogen';
+import heroShop from '~/assets/mockups/hero-campaign-hoodies.jpg';
 import {CATALOG_QUERY} from '~/graphql/queries/collection';
 import {CollectionProductGrid} from '~/components/collection/CollectionProductGrid';
 import {CollectionToolbar} from '~/components/collection/CollectionToolbar';
-import {PageContainer} from '~/components/layout/PageContainer';
-import {Breadcrumbs} from '~/components/navigation/Breadcrumbs';
+import {EditorialStage} from '~/components/layout/EditorialStage';
+import stageStyles from '~/components/layout/EditorialStage.module.css';
+import {PageHero} from '~/components/layout/PageHero';
+import {OpeningStatement} from '~/sections/OpeningStatement';
 import {getProductSubtitle} from '~/lib/metafields';
 import type {ProductCardFragment} from 'storefrontapi.generated';
 
@@ -44,47 +47,82 @@ export default function Shop() {
   const count = products.nodes.length;
 
   return (
-    <PageContainer as="div" className="shop-page">
-      <Breadcrumbs items={[{label: 'Home', to: '/'}, {label: 'Shop'}]} />
-      <header className="shop-header">
-        <h1>Shop</h1>
-      </header>
-      <CollectionToolbar productCount={count} />
-      <Pagination connection={products}>
-        {({nodes, isLoading, PreviousLink, NextLink}) => (
-          <div className="shop-catalog">
-            <PreviousLink>
-              {isLoading ? (
-                'Loading...'
-              ) : (
-                <span>
-                  <span aria-hidden="true">↑</span> Load previous
-                </span>
-              )}
-            </PreviousLink>
-            <CollectionProductGrid
-              products={(nodes as ProductCardFragment[]).map((product) => ({
-                id: product.id,
-                handle: product.handle,
-                title: product.title,
-                subtitle: getProductSubtitle(product),
-                featuredImage: product.featuredImage,
-                priceRange: product.priceRange,
-              }))}
-              emptyMessage="No products available yet."
-            />
-            <NextLink>
-              {isLoading ? (
-                'Loading...'
-              ) : (
-                <span>
-                  Load more <span aria-hidden="true">↓</span>
-                </span>
-              )}
-            </NextLink>
-          </div>
-        )}
-      </Pagination>
-    </PageContainer>
+    <div className="shop-page">
+      <PageHero
+        eyebrow="Afterstate"
+        title="Shop"
+        support="Limited editions only — short runs, clear intent, clothes made to stay."
+        imageSrc={heroShop}
+        imageAlt="Afterstate hoodies — charcoal and burgundy limited drop"
+      />
+
+      <EditorialStage>
+        <div className={stageStyles.section}>
+          <header className={stageStyles.header}>
+            <p className={stageStyles.eyebrow}>Catalog</p>
+            <h2 className={stageStyles.title}>All pieces</h2>
+            <p className={stageStyles.lede}>
+              Every item in the Afterstate catalog — fewer SKUs, clearer
+              purpose.
+            </p>
+          </header>
+
+          <CollectionToolbar productCount={count} />
+
+          <Pagination connection={products}>
+            {({nodes, isLoading, PreviousLink, NextLink}) => (
+              <div>
+                <div className={stageStyles.pager}>
+                  <PreviousLink>
+                    {isLoading ? (
+                      'Loading...'
+                    ) : (
+                      <span>
+                        <span aria-hidden="true">↑</span> Load previous
+                      </span>
+                    )}
+                  </PreviousLink>
+                </div>
+
+                <CollectionProductGrid
+                  products={(nodes as ProductCardFragment[]).map((product) => ({
+                    id: product.id,
+                    handle: product.handle,
+                    title: product.title,
+                    subtitle: getProductSubtitle(product),
+                    featuredImage: product.featuredImage,
+                    priceRange: product.priceRange,
+                  }))}
+                  emptyMessage="No products available yet."
+                />
+
+                <div className={stageStyles.pager}>
+                  <span />
+                  <NextLink>
+                    {isLoading ? (
+                      'Loading...'
+                    ) : (
+                      <span>
+                        Load more <span aria-hidden="true">↓</span>
+                      </span>
+                    )}
+                  </NextLink>
+                </div>
+              </div>
+            )}
+          </Pagination>
+        </div>
+      </EditorialStage>
+
+      <OpeningStatement
+        section={{
+          id: 'shop-closing',
+          type: 'closing_statement',
+          brand: 'Afterstate',
+          tagline: 'Life beyond the rush.',
+          body: 'Every piece is limited edition. Short runs. No restocks.',
+        }}
+      />
+    </div>
   );
 }

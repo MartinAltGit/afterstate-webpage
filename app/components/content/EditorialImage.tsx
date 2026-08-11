@@ -35,12 +35,24 @@ export function EditorialImage({
       <figure className={styles.figure}>
         <div className={styles.media}>
           {image?.url ? (
-            <Image
-              data={image}
-              alt={resolvedAlt}
-              className={styles.image}
-              sizes="100vw"
-            />
+            image.url.includes('cdn.shopify.com') ? (
+              <Image
+                data={image}
+                alt={resolvedAlt}
+                className={styles.image}
+                sizes="100vw"
+              />
+            ) : (
+              <img
+                src={image.url}
+                alt={resolvedAlt}
+                width={image.width ?? 1600}
+                height={image.height ?? 1200}
+                loading="lazy"
+                decoding="async"
+                className={styles.image}
+              />
+            )
           ) : (
             <div className={styles.placeholder} role="img" aria-label={resolvedAlt} />
           )}

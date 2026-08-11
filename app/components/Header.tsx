@@ -211,7 +211,7 @@ const FALLBACK_HEADER_MENU = {
       tags: [],
       title: 'About',
       type: 'PAGE',
-      url: '/pages/about',
+      url: '/about',
       items: [],
     },
   ],

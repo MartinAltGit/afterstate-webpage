@@ -1,0 +1,100 @@
+.root {
+  --magnetic-bg: var(--color-ink, #1c2423);
+  --magnetic-fg: var(--color-sand, #f3f1ec);
+
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  min-height: 3rem;
+  padding: 0.85rem 1.45rem;
+  border: 1px solid transparent;
+  background: var(--magnetic-bg);
+  color: var(--magnetic-fg);
+  font-size: 0.75rem;
+  font-weight: var(--font-weight-medium, 500);
+  letter-spacing: var(--tracking-wider, 0.08em);
+  text-transform: uppercase;
+  text-decoration: none;
+  transition:
+    transform 180ms var(--ease-out, cubic-bezier(0.16, 1, 0.3, 1)),
+    background 200ms var(--ease-out, cubic-bezier(0.16, 1, 0.3, 1)),
+    color 200ms var(--ease-out, cubic-bezier(0.16, 1, 0.3, 1)),
+    border-color 200ms var(--ease-out, cubic-bezier(0.16, 1, 0.3, 1));
+  will-change: transform;
+}
+
+.root:hover {
+  text-decoration: none;
+  background: color-mix(in srgb, var(--magnetic-bg) 88%, #fff);
+  color: var(--magnetic-fg);
+}
+
+.root:focus-visible {
+  outline: 2px solid var(--color-primary-soft, #dce8e9);
+  outline-offset: 3px;
+}
+
+.ghost {
+  --magnetic-bg: transparent;
+  --magnetic-fg: var(--color-bone, #ece7da);
+  border-color: rgba(236, 231, 218, 0.42);
+  background: transparent;
+  color: var(--color-bone, #ece7da);
+  letter-spacing: 0.18em;
+  font-size: 0.6875rem;
+  backdrop-filter: blur(6px);
+}
+
+.ghost:hover {
+  background: rgba(236, 231, 218, 0.1);
+  border-color: var(--color-brass, #c2a878);
+  color: var(--color-bone, #ece7da);
+}
+
+.ghost:focus-visible {
+  outline: 2px solid var(--color-brass, #c2a878);
+  outline-offset: 3px;
+}
+
+.outline {
+  --magnetic-bg: transparent;
+  --magnetic-fg: var(--color-ink, #15201f);
+  border-color: rgba(21, 32, 31, 0.22);
+  background: transparent;
+  color: var(--color-ink, #15201f);
+}
+
+.outline:hover {
+  background: rgba(21, 32, 31, 0.05);
+  border-color: var(--color-primary, #4f7a80);
+  color: var(--color-ink, #15201f);
+}
+
+.outline:focus-visible {
+  outline: 2px solid var(--color-primary, #4f7a80);
+  outline-offset: 3px;
+}
+
+.label {
+  display: inline-block;
+}
+
+.arrow {
+  display: inline-block;
+  transition: transform 220ms var(--ease-out, cubic-bezier(0.16, 1, 0.3, 1));
+}
+
+.root:hover .arrow {
+  transform: translateX(0.2rem);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .root {
+    transition: background 120ms ease, color 120ms ease;
+  }
+
+  .root:hover .arrow {
+    transform: none;
+  }
+}

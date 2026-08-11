@@ -33,6 +33,7 @@ export function CollectionHero({
         ) : (
           <div className={styles.placeholder} />
         )}
+        <div className={styles.veil} aria-hidden="true" />
       </div>
       <div className={styles.copy}>
         <h1 className={styles.title}>{title}</h1>

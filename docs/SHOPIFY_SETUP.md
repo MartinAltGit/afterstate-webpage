@@ -203,6 +203,22 @@ Query: `metaobjects(type: "homepage_section", first: 20)` — see `app/graphql/q
 3. Add articles; ensure they are published
 4. Storefront queries use `blog(handle: "journal")` — see `app/graphql/queries/journal.ts`
 
+Brand essays, quality standards, Afterstate voice. Routes: `/journal`, `/journal/:articleHandle`.
+
+---
+
+## 3b. Fashion Blog
+
+1. Online Store → Blog posts → **Manage blogs**
+2. Create a **second** blog with **Handle** = `blog` (exact) — title can be “Blog” or “Fashion”
+3. Add posts for trends, fashion-world stories, culture — publish when ready
+4. Fill SEO title / description on the blog and each article in Admin
+5. Storefront queries use `blog(handle: "blog")` — see `app/graphql/queries/blog.ts`
+
+Routes: `/blog`, `/blog/:articleHandle`. Legacy `/blogs` and `/blogs/blog/*` redirect here.
+
+Do **not** publish fashion-trend posts into the `journal` blog — keep the two handles separate for IA and SEO.
+
 ---
 
 ## 4. Menus

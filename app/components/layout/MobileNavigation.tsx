@@ -1,4 +1,5 @@
 import {NavLink} from 'react-router';
+import {BrandLogo} from '~/components/brand/BrandLogo';
 import {prefixPathWithLocale, useLocalePathPrefix} from '~/lib/locale';
 import {
   MAIN_NAV_ITEMS,
@@ -27,22 +28,11 @@ export function MobileNavigation({
       className={[styles.root, className].filter(Boolean).join(' ')}
       aria-label="Mobile"
     >
+      <div className={styles.brand}>
+        <BrandLogo size="lg" />
+        <p className={styles.brandName}>Afterstate</p>
+      </div>
       <ul className={styles.list}>
-        <li>
-          <NavLink
-            className={({isActive}) =>
-              [styles.link, isActive ? styles.active : null]
-                .filter(Boolean)
-                .join(' ')
-            }
-            end
-            onClick={onNavigate}
-            prefetch="intent"
-            to={prefixPathWithLocale('/', localePrefix)}
-          >
-            Home
-          </NavLink>
-        </li>
         {items.map((item) => (
           <li key={item.to}>
             <NavLink

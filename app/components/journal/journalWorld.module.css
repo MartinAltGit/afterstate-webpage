@@ -1,0 +1,30 @@
+/**
+ * Shared night-world tokens for journal pages —
+ * keeps editorial blocks continuous with the Afterhours stage.
+ */
+.journalWorld {
+  --color-bg: var(--color-night, #0b100e);
+  --color-bg-subtle: var(--color-night-raised, #121814);
+  --color-bg-muted: var(--color-night-overlay, #182019);
+  --color-bg-inverse: var(--color-brass, #c2a878);
+  --color-fg: var(--color-bone, #ece7da);
+  --color-fg-muted: var(--color-bone-muted, rgba(236, 231, 218, 0.64));
+  --color-fg-subtle: var(--color-bone-subtle, rgba(236, 231, 218, 0.4));
+  --color-fg-inverse: var(--color-night, #0b100e);
+  --color-ink: var(--color-bone, #ece7da);
+  --color-ink-soft: var(--color-bone-muted, rgba(236, 231, 218, 0.72));
+  --color-mist: var(--color-night-overlay, #182019);
+  --color-sand: var(--color-night, #0b100e);
+  --color-stage: var(--color-night, #0b100e);
+  --color-stage-elevated: var(--color-night-raised, #121814);
+  --color-primary: var(--color-brass, #c2a878);
+  --color-primary-strong: var(--color-brass-strong, #d3bc8f);
+  --color-primary-soft: var(--color-night-raised, #121814);
+  --color-border: var(--color-hairline-dark, rgba(236, 231, 218, 0.14));
+  --color-border-subtle: var(--color-hairline-dark-subtle, rgba(236, 231, 218, 0.08));
+  --color-focus: var(--color-brass, #c2a878);
+  --color-grey-300: rgba(236, 231, 218, 0.22);
+
+  background: var(--color-night, #0b100e);
+  color: var(--color-bone, #ece7da);
+}

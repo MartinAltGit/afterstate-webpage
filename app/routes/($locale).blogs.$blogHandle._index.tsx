@@ -1,10 +1,15 @@
 import {redirect} from 'react-router';
 import type {Route} from './+types/($locale).blogs.$blogHandle._index';
+import {
+  FASHION_BLOG_HANDLE,
+  JOURNAL_BLOG_HANDLE,
+  blogIndexPath,
+} from '~/lib/content-paths';
 import type {I18nLocale} from '~/lib/i18n';
 
 /**
- * Legacy Shopify blog URLs.
- * Journal content lives at `/journal` — redirect the journal handle there.
+ * Legacy Shopify blog index URLs under /blogs/:blogHandle.
+ * Journal → `/journal`, fashion Blog → `/blog`.
  */
 export async function loader({params, context}: Route.LoaderArgs) {
   const {blogHandle} = params;
@@ -14,10 +19,13 @@ export async function loader({params, context}: Route.LoaderArgs) {
     throw new Response('Not found', {status: 404});
   }
 
-  if (blogHandle.toLowerCase() === 'journal') {
-    throw redirect(`${pathPrefix}/journal`);
+  const normalized = blogHandle.toLowerCase();
+  if (
+    normalized === JOURNAL_BLOG_HANDLE ||
+    normalized === FASHION_BLOG_HANDLE
+  ) {
+    throw redirect(`${pathPrefix}${blogIndexPath(normalized)}`);
   }
 
-  // Non-journal blogs are not part of Afterstate IA
-  throw redirect(`${pathPrefix}/journal`);
+  throw redirect(`${pathPrefix}/blog`);
 }

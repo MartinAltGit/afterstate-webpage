@@ -1,5 +1,5 @@
 import {Suspense, type ReactNode} from 'react';
-import {Await, useAsyncValue} from 'react-router';
+import {Await, NavLink, useAsyncValue} from 'react-router';
 import {
   type CartViewPayload,
   useAnalytics,
@@ -7,9 +7,16 @@ import {
 } from '@shopify/hydrogen';
 import type {CartApiQueryFragment} from 'storefrontapi.generated';
 import {useAside} from '~/components/Aside';
+import {BrandLogo} from '~/components/brand/BrandLogo';
 import {LocaleAwareLink} from '~/components/navigation/LocaleAwareLink';
-import {MainNavigation} from '~/components/layout/MainNavigation';
+import {
+  ABOUT_NAV_ITEM,
+  BLOG_NAV_ITEM,
+  MainNavigation,
+  PRIMARY_NAV_ITEMS,
+} from '~/components/layout/MainNavigation';
 import {VisuallyHidden} from '~/components/primitives/VisuallyHidden';
+import {prefixPathWithLocale, useLocalePathPrefix} from '~/lib/locale';
 import styles from './SiteHeader.module.css';
 
 type SiteHeaderProps = {
@@ -20,7 +27,7 @@ type SiteHeaderProps = {
 };
 
 /**
- * Floating mid-top navigation — separated from the page stage.
+ * Floating nav — logo centered, chrome on the sides.
  */
 export function SiteHeader({
   cart,
@@ -28,23 +35,50 @@ export function SiteHeader({
   marketSelector,
   className,
 }: SiteHeaderProps) {
+  const localePrefix = useLocalePathPrefix();
+
   return (
     <header className={[styles.root, className].filter(Boolean).join(' ')}>
       <div className={styles.float}>
         <div className={styles.leading}>
           <MobileMenuToggle />
-          <LocaleAwareLink
-            className={styles.wordmark}
-            prefetch="intent"
-            to="/"
-          >
-            Afterstate
-          </LocaleAwareLink>
+          <MainNavigation items={PRIMARY_NAV_ITEMS} className={styles.nav} />
         </div>
 
-        <MainNavigation className={styles.nav} />
+        <LocaleAwareLink
+          className={styles.logoLink}
+          prefetch="intent"
+          to="/"
+          aria-label="Afterstate home"
+        >
+          <BrandLogo variant="wordmark" size="md" />
+        </LocaleAwareLink>
 
         <div className={styles.actions}>
+          <NavLink
+            className={({isActive}) =>
+              [styles.utilityLink, isActive ? styles.utilityActive : null]
+                .filter(Boolean)
+                .join(' ')
+            }
+            end
+            prefetch="intent"
+            to={prefixPathWithLocale(ABOUT_NAV_ITEM.to, localePrefix)}
+          >
+            {ABOUT_NAV_ITEM.label}
+          </NavLink>
+          <NavLink
+            className={({isActive}) =>
+              [styles.utilityLink, isActive ? styles.utilityActive : null]
+                .filter(Boolean)
+                .join(' ')
+            }
+            end
+            prefetch="intent"
+            to={prefixPathWithLocale(BLOG_NAV_ITEM.to, localePrefix)}
+          >
+            {BLOG_NAV_ITEM.label}
+          </NavLink>
           {marketSelector ? (
             <div className={styles.market}>{marketSelector}</div>
           ) : null}

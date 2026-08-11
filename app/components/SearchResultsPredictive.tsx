@@ -1,6 +1,7 @@
 import {Link, useFetcher, type Fetcher} from 'react-router';
 import {Image, Money} from '@shopify/hydrogen';
 import React, {useRef, useEffect} from 'react';
+import {articlePath} from '~/lib/content-paths';
 import {
   getEmptyPredictiveSearchResult,
   urlWithTrackingParams,
@@ -93,7 +94,7 @@ function SearchResultsPredictiveArticles({
       <ul>
         {articles.map((article) => {
           const articleUrl = urlWithTrackingParams({
-            baseUrl: `/blogs/${article.blog.handle}/${article.handle}`,
+            baseUrl: articlePath(article.blog.handle, article.handle),
             trackingParams: article.trackingParameters,
             term: term.current ?? '',
           });

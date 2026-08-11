@@ -12,4 +12,9 @@ export {
 export {ManifestoBlock, type ManifestoBlockProps} from './ManifestoBlock';
 export {QuoteBlock, type QuoteBlockProps} from './QuoteBlock';
 export {JournalCard, type JournalCardProps} from './JournalCard';
+export {
+  QualityPoints,
+  type QualityPointsProps,
+  type QualityPoint,
+} from './QualityPoints';
 export {NewsletterForm, type NewsletterFormProps} from './NewsletterForm';

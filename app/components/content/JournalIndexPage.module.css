@@ -1,0 +1,52 @@
+.intro {
+  padding: var(--space-9, 4rem) var(--page-gutter, 1rem);
+  border-bottom: 1px solid
+    var(--color-hairline-dark-subtle, rgba(236, 231, 218, 0.08));
+  background:
+    radial-gradient(
+      90% 70% at 0% 0%,
+      rgba(194, 168, 120, 0.06),
+      transparent 55%
+    ),
+    var(--color-night, #0b100e);
+  color: var(--color-bone, #ece7da);
+}
+
+.introEyebrow {
+  margin: 0 0 var(--space-3, 0.75rem);
+  font-size: var(--text-xs, 0.6875rem);
+  font-weight: var(--font-weight-medium, 500);
+  letter-spacing: var(--tracking-caps, 0.12em);
+  text-transform: uppercase;
+  color: var(--color-brass, #c2a878);
+}
+
+.introTitle {
+  margin: 0 0 var(--space-5, 1.5rem);
+  max-width: 22ch;
+  font-family: var(--font-display, inherit);
+  font-size: clamp(1.75rem, 1.4rem + 1.4vw, 2.5rem);
+  font-weight: var(--font-weight-medium, 500);
+  letter-spacing: var(--tracking-snug, -0.02em);
+  line-height: var(--leading-tight, 1.15);
+  color: var(--color-bone, #ece7da);
+}
+
+.introBody {
+  max-width: 38rem;
+  display: grid;
+  gap: var(--space-4, 1rem);
+  font-size: var(--text-md, 1.125rem);
+  line-height: var(--leading-relaxed, 1.65);
+  color: var(--color-bone-muted, rgba(236, 231, 218, 0.72));
+}
+
+.introBody p {
+  margin: 0;
+}
+
+@media (min-width: 45em) {
+  .intro {
+    padding: var(--space-10, 5rem) var(--page-gutter-lg, 2.5rem);
+  }
+}

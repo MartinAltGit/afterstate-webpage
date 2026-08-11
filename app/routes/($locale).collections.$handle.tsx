@@ -4,13 +4,13 @@ import {getPaginationVariables, Analytics, Pagination} from '@shopify/hydrogen';
 import {redirectIfHandleIsLocalized} from '~/lib/redirect';
 import {COLLECTION_QUERY} from '~/graphql/queries/collection';
 import {CollectionHero} from '~/components/collection/CollectionHero';
-import {CollectionManifesto} from '~/components/collection/CollectionManifesto';
 import {CollectionToolbar} from '~/components/collection/CollectionToolbar';
 import {CollectionProductGrid} from '~/components/collection/CollectionProductGrid';
-import {Breadcrumbs} from '~/components/navigation/Breadcrumbs';
-import {PageContainer} from '~/components/layout/PageContainer';
+import {EditorialStage} from '~/components/layout/EditorialStage';
+import stageStyles from '~/components/layout/EditorialStage.module.css';
 import {EmptyState} from '~/components/feedback/EmptyState';
 import {LocaleAwareLink} from '~/components/navigation/LocaleAwareLink';
+import {OpeningStatement} from '~/sections/OpeningStatement';
 import {getProductSubtitle} from '~/lib/metafields';
 import type {ProductCardFragment} from 'storefrontapi.generated';
 
@@ -66,85 +66,95 @@ function loadDeferredData(_args: Route.LoaderArgs) {
 export default function Collection() {
   const {collection} = useLoaderData<typeof loader>();
   const productCount = collection.products.nodes.length;
+  const manifesto =
+    collection.description?.trim() ||
+    'Clothes for life beyond the rush — fewer pieces, clearer intent.';
 
   return (
     <div className="collection-page">
-      <PageContainer>
-        <Breadcrumbs
-          items={[
-            {label: 'Home', to: '/'},
-            {label: 'Collections', to: '/collections'},
-            {label: collection.title},
-          ]}
-        />
-      </PageContainer>
-
       <CollectionHero
         title={collection.title}
         description={collection.description}
         image={collection.image}
       />
 
-      <PageContainer>
-        <CollectionManifesto title="Manifesto">
-          <p>
-            {collection.description?.trim()
-              ? collection.description
-              : 'Clothes for life beyond the rush — fewer pieces, clearer intent.'}
-          </p>
-        </CollectionManifesto>
+      <EditorialStage>
+        <div className={stageStyles.section}>
+          <header className={stageStyles.header}>
+            <p className={stageStyles.eyebrow}>Manifesto</p>
+            <h2 className={stageStyles.title}>{collection.title}</h2>
+            <p className={stageStyles.lede}>{manifesto}</p>
+          </header>
 
-        <CollectionToolbar productCount={productCount} />
+          <CollectionToolbar productCount={productCount} />
 
-        <Pagination connection={collection.products}>
-          {({nodes, isLoading, PreviousLink, NextLink}) => (
-            <div>
-              <PreviousLink>
-                {isLoading ? (
-                  'Loading...'
+          <Pagination connection={collection.products}>
+            {({nodes, isLoading, PreviousLink, NextLink}) => (
+              <div>
+                <div className={stageStyles.pager}>
+                  <PreviousLink>
+                    {isLoading ? (
+                      'Loading...'
+                    ) : (
+                      <span>
+                        <span aria-hidden="true">↑</span> Load previous
+                      </span>
+                    )}
+                  </PreviousLink>
+                </div>
+
+                {nodes.length === 0 ? (
+                  <EmptyState
+                    title="Nothing in this collection"
+                    message="Check back when Afterstate adds pieces here."
+                    action={
+                      <LocaleAwareLink to="/shop" prefetch="intent">
+                        Shop all
+                      </LocaleAwareLink>
+                    }
+                  />
                 ) : (
-                  <span>
-                    <span aria-hidden="true">↑</span> Load previous
-                  </span>
+                  <CollectionProductGrid
+                    products={(nodes as ProductCardFragment[]).map(
+                      (product) => ({
+                        id: product.id,
+                        handle: product.handle,
+                        title: product.title,
+                        subtitle: getProductSubtitle(product),
+                        featuredImage: product.featuredImage,
+                        priceRange: product.priceRange,
+                      }),
+                    )}
+                  />
                 )}
-              </PreviousLink>
 
-              {nodes.length === 0 ? (
-                <EmptyState
-                  title="Nothing in this collection"
-                  message="Check back when Afterstate adds pieces here."
-                  action={
-                    <LocaleAwareLink to="/shop" prefetch="intent">
-                      Shop all
-                    </LocaleAwareLink>
-                  }
-                />
-              ) : (
-                <CollectionProductGrid
-                  products={(nodes as ProductCardFragment[]).map((product) => ({
-                    id: product.id,
-                    handle: product.handle,
-                    title: product.title,
-                    subtitle: getProductSubtitle(product),
-                    featuredImage: product.featuredImage,
-                    priceRange: product.priceRange,
-                  }))}
-                />
-              )}
+                <div className={stageStyles.pager}>
+                  <span />
+                  <NextLink>
+                    {isLoading ? (
+                      'Loading...'
+                    ) : (
+                      <span>
+                        Load more <span aria-hidden="true">↓</span>
+                      </span>
+                    )}
+                  </NextLink>
+                </div>
+              </div>
+            )}
+          </Pagination>
+        </div>
+      </EditorialStage>
 
-              <NextLink>
-                {isLoading ? (
-                  'Loading...'
-                ) : (
-                  <span>
-                    Load more <span aria-hidden="true">↓</span>
-                  </span>
-                )}
-              </NextLink>
-            </div>
-          )}
-        </Pagination>
-      </PageContainer>
+      <OpeningStatement
+        section={{
+          id: 'collection-closing',
+          type: 'closing_statement',
+          brand: 'Afterstate',
+          tagline: 'Life beyond the rush.',
+          body: 'Every piece is limited edition. Short runs. No restocks.',
+        }}
+      />
 
       <Analytics.CollectionView
         data={{

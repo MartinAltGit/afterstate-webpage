@@ -27,27 +27,33 @@ body {
   color: var(--color-fg);
   background-image:
     radial-gradient(
-      ellipse 55% 45% at 12% 18%,
+      ellipse 55% 42% at 14% 8%,
       var(--color-glow-a),
       transparent 70%
     ),
     radial-gradient(
-      ellipse 50% 40% at 88% 22%,
+      ellipse 45% 38% at 88% 18%,
       var(--color-glow-b),
       transparent 68%
     ),
     radial-gradient(
-      ellipse 60% 50% at 50% 100%,
+      ellipse 50% 36% at 62% 92%,
       var(--color-glow-c),
       transparent 72%
     ),
     linear-gradient(
-      165deg,
-      #e2e6ea 0%,
-      var(--color-canvas) 42%,
-      #d4d9df 100%
+      168deg,
+      #0d130f 0%,
+      var(--color-canvas) 46%,
+      #050807 100%
     );
   background-attachment: fixed;
+}
+
+h1,
+h2,
+.font-display {
+  font-family: var(--font-display);
 }
 
 #root,
@@ -503,11 +509,11 @@ samp {
   align-items: center;
   justify-content: center;
   gap: var(--space-2);
-  min-height: 2.75rem;
-  padding: var(--space-3) var(--space-5);
+  min-height: 2.125rem;
+  padding: 0.45rem 1rem;
   border: var(--border-width) solid var(--color-border);
-  border-radius: var(--radius-none);
-  font-size: var(--text-sm);
+  border-radius: var(--radius-sm);
+  font-size: 0.8125rem;
   font-weight: var(--font-weight-medium);
   letter-spacing: var(--tracking-wider);
   text-transform: uppercase;
@@ -515,37 +521,46 @@ samp {
   transition:
     background-color var(--duration-fast) var(--ease-standard),
     color var(--duration-fast) var(--ease-standard),
-    border-color var(--duration-fast) var(--ease-standard);
+    border-color var(--duration-fast) var(--ease-standard),
+    transform var(--duration-fast) var(--ease-out);
 }
 
 .btn:hover {
   text-decoration: none;
 }
 
+@media (hover: hover) and (pointer: fine) {
+  .btn:active {
+    transform: scale(0.96);
+  }
+}
+
 .btn--primary {
-  background: var(--color-bg-inverse);
-  color: var(--color-fg-inverse);
-  border-color: var(--color-bg-inverse);
+  background: var(--color-primary);
+  color: var(--color-sand);
+  border-color: var(--color-primary);
 }
 
 .btn--primary:hover {
-  background: var(--color-grey-800);
-  border-color: var(--color-grey-800);
+  background: var(--color-primary-strong);
+  border-color: var(--color-primary-strong);
 }
 
 .btn--secondary {
-  background: var(--color-bg);
+  background: transparent;
   color: var(--color-fg);
+  border-color: var(--color-border);
 }
 
 .btn--secondary:hover {
   background: var(--color-bg-subtle);
+  color: var(--color-fg);
 }
 
 .btn--ghost {
   background: transparent;
   border-color: transparent;
-  color: var(--color-fg);
+  color: var(--color-primary-strong);
   min-height: auto;
   padding-inline: 0;
 }
@@ -948,84 +963,13 @@ aside li {
 .shop-page,
 .cart-page,
 .collections-index,
-.collection-page {
-  padding-bottom: var(--space-10);
+.collection-page,
+.journal-index {
+  padding-bottom: 0;
 }
 
-.shop-header,
-.collections-index-header {
-  margin-block: var(--space-6) var(--space-4);
-}
-
-.shop-header h1,
-.collections-index-header h1,
 .cart-page h1 {
   margin: 0;
-}
-
-.collections-index-header p {
-  margin: var(--space-2) 0 0;
-  color: var(--color-fg-muted);
-  max-width: var(--width-editorial);
-}
-
-.collections-editorial-grid {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  gap: var(--space-8);
-}
-
-@media (min-width: 48em) {
-  .collections-editorial-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: var(--space-9);
-  }
-}
-
-.collection-editorial-card {
-  display: block;
-  color: inherit;
-  text-decoration: none;
-}
-
-.collection-editorial-card:hover {
-  text-decoration: none;
-}
-
-.collection-editorial-media {
-  aspect-ratio: 4 / 5;
-  overflow: hidden;
-  border: var(--border-width) solid var(--color-border-subtle);
-  background: var(--color-bg-muted);
-}
-
-.collection-editorial-media img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.collection-editorial-placeholder {
-  width: 100%;
-  height: 100%;
-  background: var(--color-bg-muted);
-}
-
-.collection-editorial-copy {
-  margin-top: var(--space-3);
-}
-
-.collection-editorial-copy h2 {
-  margin: 0;
-  font-size: var(--text-xl);
-}
-
-.collection-editorial-copy p {
-  margin: var(--space-2) 0 0;
-  color: var(--color-fg-muted);
-  font-size: var(--text-sm);
 }
 
 .cart-page-layout {

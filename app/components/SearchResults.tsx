@@ -1,5 +1,6 @@
 import {Link} from 'react-router';
 import {Image, Money, Pagination} from '@shopify/hydrogen';
+import {articlePath} from '~/lib/content-paths';
 import {urlWithTrackingParams, type RegularSearchReturn} from '~/lib/search';
 
 type SearchItems = RegularSearchReturn['result']['items'];
@@ -44,7 +45,7 @@ function SearchResultsArticles({
       <div>
         {articles?.nodes?.map((article) => {
           const articleUrl = urlWithTrackingParams({
-            baseUrl: `/journal/${article.handle}`,
+            baseUrl: articlePath(article.blog?.handle ?? 'journal', article.handle),
             trackingParams: article.trackingParameters,
             term,
           });

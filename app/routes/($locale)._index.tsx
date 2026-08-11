@@ -4,7 +4,6 @@ import {Suspense} from 'react';
 import {HomepageSections} from '~/sections';
 import {ProductItem} from '~/components/ProductItem';
 import {RECOMMENDED_PRODUCTS_QUERY} from '~/graphql/queries/homepage';
-import {PageContainer} from '~/components/layout/PageContainer';
 import type {ProductCardFragment} from 'storefrontapi.generated';
 
 export const meta: Route.MetaFunction = () => {
@@ -39,24 +38,20 @@ export default function Homepage() {
   const data = useLoaderData<typeof loader>();
 
   return (
-    <PageContainer as="div">
-      <Suspense fallback={<HomepageSections />}>
-        <Await resolve={data.recommendedProducts}>
-          {(response) => (
-            <HomepageSections
-              products={
-                response
-                  ? response.products.nodes.map(
-                      (product: ProductCardFragment) => (
-                        <ProductItem key={product.id} product={product} />
-                      ),
-                    )
-                  : null
-              }
-            />
-          )}
-        </Await>
-      </Suspense>
-    </PageContainer>
+    <Suspense fallback={<HomepageSections />}>
+      <Await resolve={data.recommendedProducts}>
+        {(response) => (
+          <HomepageSections
+            products={
+              response
+                ? response.products.nodes.map((product: ProductCardFragment) => (
+                    <ProductItem key={product.id} product={product} />
+                  ))
+                : null
+            }
+          />
+        )}
+      </Await>
+    </Suspense>
   );
 }

@@ -1,4 +1,5 @@
 import type {ReactNode} from 'react';
+import {BrandLogo} from '~/components/brand/BrandLogo';
 import {LocaleAwareLink} from '~/components/navigation/LocaleAwareLink';
 import {PageContainer} from '~/components/layout/PageContainer';
 import styles from './SiteFooter.module.css';
@@ -9,17 +10,19 @@ export type FooterLink = {
 };
 
 const SHOP_LINKS: FooterLink[] = [
-  {label: 'Shop', to: '/collections/all'},
+  {label: 'Shop', to: '/shop'},
+  {label: 'Limited drops', to: '/collections'},
   {label: 'Afterstate 001', to: '/collections/afterstate-001'},
-  {label: 'Journal', to: '/blogs/journal'},
-  {label: 'Philosophy', to: '/pages/about'},
+  {label: 'Journal', to: '/journal'},
+  {label: 'Blog', to: '/blog'},
+  {label: 'About', to: '/about'},
 ];
 
 const SUPPORT_LINKS: FooterLink[] = [
-  {label: 'Size guide', to: '/pages/size-guide'},
-  {label: 'Care', to: '/pages/care'},
-  {label: 'Shipping & returns', to: '/policies/shipping-policy'},
-  {label: 'Contact', to: '/pages/contact'},
+  {label: 'Size guide', to: '/size-guide'},
+  {label: 'Care', to: '/care'},
+  {label: 'Shipping & returns', to: '/shipping-returns'},
+  {label: 'Contact', to: '/contact'},
   {label: 'Policies', to: '/policies'},
 ];
 
@@ -37,7 +40,15 @@ export function SiteFooter({newsletter, className}: SiteFooterProps) {
       <PageContainer>
         <div className={styles.grid}>
           <div className={styles.brand}>
-            <p className={styles.wordmark}>Afterstate</p>
+            <LocaleAwareLink
+              className={styles.brandLink}
+              prefetch="intent"
+              to="/"
+              aria-label="Afterstate home"
+            >
+              <BrandLogo size="lg" />
+              <span className={styles.wordmark}>Afterstate</span>
+            </LocaleAwareLink>
             <p className={styles.tagline}>Life beyond the rush.</p>
           </div>
 

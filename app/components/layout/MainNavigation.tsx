@@ -8,11 +8,28 @@ export type MainNavItem = {
 };
 
 export const MAIN_NAV_ITEMS: MainNavItem[] = [
-  {label: 'Shop', to: '/collections/all'},
-  {label: 'Collections', to: '/collections'},
-  {label: 'Journal', to: '/blogs/journal'},
-  {label: 'About', to: '/pages/about'},
+  {label: 'Home', to: '/'},
+  {label: 'Shop', to: '/shop'},
+  {label: 'Limited', to: '/collections'},
+  {label: 'Journal', to: '/journal'},
+  {label: 'About', to: '/about'},
+  {label: 'Blog', to: '/blog'},
 ];
+
+/** Desktop left cluster — About and Blog sit with the utility chrome. */
+export const PRIMARY_NAV_ITEMS: MainNavItem[] = MAIN_NAV_ITEMS.filter(
+  (item) => item.label !== 'About' && item.label !== 'Blog',
+);
+
+export const ABOUT_NAV_ITEM: MainNavItem = {
+  label: 'About',
+  to: '/about',
+};
+
+export const BLOG_NAV_ITEM: MainNavItem = {
+  label: 'Blog',
+  to: '/blog',
+};
 
 type MainNavigationProps = {
   items?: MainNavItem[];

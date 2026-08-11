@@ -1,24 +1,23 @@
 .grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 1.5rem 0.75rem;
+  gap: 1.75rem 0.85rem;
   margin: 0;
-  padding: 1.25rem;
+  padding: 0;
   list-style: none;
 }
 
 .empty {
   margin: 0;
-  padding: 2rem 1.25rem;
-  font-size: 0.9375rem;
-  opacity: 0.7;
+  padding: 2.5rem 0;
+  font-size: var(--text-sm, 0.8125rem);
+  color: var(--color-bone-muted, rgba(236, 231, 218, 0.64));
 }
 
 @media (min-width: 45em) {
   .grid {
     grid-template-columns: repeat(3, 1fr);
-    gap: 2rem 1.25rem;
-    padding: 2rem;
+    gap: 2.25rem 1.5rem;
   }
 }
 

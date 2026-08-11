@@ -38,7 +38,8 @@ Exit criteria: production-capable commerce on a linked store; wireframe UI compl
 | Metafield definitions | All `custom.*` product fields; Storefront API access on |
 | Metaobject definitions | Homepage, campaign, lookbook, guides, etc. |
 | Menus | `main-menu`, `footer` |
-| Blog | Handle `journal` + seed articles |
+| Journal | Handle `journal` + seed brand essays |
+| Fashion Blog | Handle `blog` + trend / culture posts (SEO) |
 | Catalog | Products, variants, collections, inventory, prices |
 | Homepage sections | Ordered `homepage_section` entries |
 | Campaign `afterstate-001-no-rush` | Bound collection + chapters |

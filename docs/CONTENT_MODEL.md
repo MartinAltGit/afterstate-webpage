@@ -122,6 +122,23 @@ Loaders should `.catch()` metaobject queries when targeting mock.shop or stores 
 
 Queries: `JOURNAL_INDEX_QUERY`, `JOURNAL_ARTICLE_QUERY` in `app/graphql/queries/journal.ts`.
 
+Brand essays, materials, philosophy — Afterstate voice only.
+
+---
+
+## Fashion Blog
+
+| Shopify | Route |
+| --- | --- |
+| Blog handle `blog` | `/blog` |
+| Article | `/blog/:articleHandle` |
+
+Queries: `BLOG_INDEX_QUERY`, `BLOG_ARTICLE_QUERY` in `app/graphql/queries/blog.ts`.
+
+Fashion trends, stories, and culture for the wider fashion world — SEO-oriented topical content, distinct from Journal.
+
+Legacy `/blogs` and `/blogs/:handle` URLs redirect into `/blog` or `/journal` by Shopify blog handle.
+
 ---
 
 ## Homepage composition

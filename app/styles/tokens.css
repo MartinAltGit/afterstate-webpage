@@ -1,69 +1,98 @@
 /**
- * Afterstate — Calm editorial stage tokens
- * Soft atmosphere outside a centered content stage.
+ * Afterstate — Mediterranean stone × cool fog luxury
+ * Neutrals lead · teal / coral / mustard as accents
  */
 
 :root {
   /* ------------------------------------------------------------------ */
-  /* Color — neutral palette                                            */
+  /* Color                                                              */
   /* ------------------------------------------------------------------ */
-  --color-black: #0a0a0a;
-  --color-white: #ffffff;
-  --color-grey-50: #f7f7f7;
-  --color-grey-100: #efefef;
-  --color-grey-200: #e2e2e2;
-  --color-grey-300: #c8c8c8;
-  --color-grey-400: #9a9a9a;
-  --color-grey-500: #6e6e6e;
-  --color-grey-600: #4a4a4a;
-  --color-grey-700: #2e2e2e;
-  --color-grey-800: #1a1a1a;
-  --color-grey-900: #111111;
+  --color-primary: #4f7a80;
+  --color-primary-strong: #3a5f64;
+  --color-primary-soft: #d7e6e8;
+  --color-secondary: #c47772;
+  --color-secondary-strong: #a85a56;
+  --color-secondary-soft: #f4e2e0;
+  --color-accent: #c4a45a;
+  --color-accent-strong: #a8893f;
+  --color-accent-soft: #f2e9d0;
 
-  --color-fg: var(--color-black);
+  --color-ink: #15201f;
+  --color-ink-soft: #334240;
+  --color-sand: #f6f3ee;
+  --color-mist: #e8eeec;
+  --color-stone: #d9e0dd;
+
+  --color-black: #15201f;
+  --color-white: #fbfaf8;
+  --color-grey-50: #f5f6f5;
+  --color-grey-100: #eaeeed;
+  --color-grey-200: #d4dbd9;
+  --color-grey-300: #b3bcba;
+  --color-grey-400: #84918e;
+  --color-grey-500: #62706d;
+  --color-grey-600: #465452;
+  --color-grey-700: #303d3b;
+  --color-grey-800: #212c2a;
+  --color-grey-900: #15201f;
+
+  --color-fg: var(--color-ink);
   --color-fg-muted: var(--color-grey-500);
   --color-fg-subtle: var(--color-grey-400);
-  --color-fg-inverse: var(--color-white);
+  --color-fg-inverse: var(--color-sand);
 
-  --color-bg: var(--color-white);
-  --color-bg-subtle: var(--color-grey-50);
-  --color-bg-muted: var(--color-grey-100);
-  --color-bg-inverse: var(--color-black);
+  --color-bg: var(--color-sand);
+  --color-bg-subtle: var(--color-mist);
+  --color-bg-muted: var(--color-primary-soft);
+  --color-bg-inverse: var(--color-primary-strong);
 
-  --color-border: var(--color-black);
-  --color-border-muted: var(--color-grey-300);
-  --color-border-subtle: var(--color-grey-200);
+  --color-border: rgba(21, 32, 31, 0.12);
+  --color-border-muted: rgba(21, 32, 31, 0.09);
+  --color-border-subtle: rgba(21, 32, 31, 0.06);
 
-  --color-focus: var(--color-black);
-  --color-focus-ring: var(--color-black);
+  --color-focus: var(--color-primary);
+  --color-focus-ring: var(--color-primary);
 
-  /* Atmosphere + stage (outer canvas / inner content plane) */
-  --color-canvas: #d8dde2;
-  --color-glow-a: rgba(120, 148, 138, 0.28);
-  --color-glow-b: rgba(148, 156, 176, 0.22);
-  --color-glow-c: rgba(176, 168, 152, 0.18);
-  --color-stage: #f4f3f0;
-  --color-stage-elevated: #faf9f7;
-  --color-nav-surface: rgba(250, 249, 247, 0.88);
-  --color-nav-border: rgba(10, 10, 10, 0.08);
+  /* Afterhours world — deep ink canvas, bone type, one brass accent */
+  --color-night: #0b100e;
+  --color-night-raised: #121814;
+  --color-night-overlay: #182019;
+  --color-bone: #ece7da;
+  --color-bone-muted: rgba(236, 231, 218, 0.64);
+  --color-bone-subtle: rgba(236, 231, 218, 0.4);
+  --color-brass: #c2a878;
+  --color-brass-strong: #d3bc8f;
+  --color-hairline-dark: rgba(236, 231, 218, 0.14);
+  --color-hairline-dark-subtle: rgba(236, 231, 218, 0.08);
+
+  --color-canvas: #080c0a;
+  --color-glow-a: rgba(194, 168, 120, 0.07);
+  --color-glow-b: rgba(120, 140, 128, 0.05);
+  --color-glow-c: rgba(194, 168, 120, 0.04);
+  --color-stage: #f7f4ef;
+  --color-stage-elevated: #fbf9f5;
+  --color-nav-surface: rgba(10, 14, 12, 0.72);
+  --color-nav-border: rgba(236, 231, 218, 0.06);
   --shadow-stage:
-    0 1px 0 rgba(255, 255, 255, 0.55) inset,
-    0 24px 64px rgba(40, 48, 56, 0.1),
-    0 4px 16px rgba(40, 48, 56, 0.06);
+    0 -1px 0 rgba(236, 231, 218, 0.04) inset,
+    0 40px 110px rgba(0, 0, 0, 0.68);
   --shadow-nav:
-    0 1px 0 rgba(255, 255, 255, 0.7) inset,
-    0 10px 28px rgba(40, 48, 56, 0.12),
-    0 2px 6px rgba(40, 48, 56, 0.06);
+    0 1px 0 rgba(236, 231, 218, 0.06) inset,
+    0 10px 40px rgba(0, 0, 0, 0.45),
+    0 2px 8px rgba(0, 0, 0, 0.28);
 
-  /* Legacy aliases used by existing Hydrogen shells */
-  --color-dark: var(--color-black);
-  --color-light: var(--color-white);
+  --color-dark: var(--color-ink);
+  --color-light: var(--color-sand);
 
   /* ------------------------------------------------------------------ */
-  /* Typography                                                         */
+  /* Typography — Satoshi UI + Clash Display + Sentient editorial      */
   /* ------------------------------------------------------------------ */
   --font-sans:
-    'Neue Haas Grotesk', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    'Satoshi', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-display:
+    'Clash Display', 'Satoshi', 'Helvetica Neue', Helvetica, sans-serif;
+  --font-serif:
+    'Sentient', 'Times New Roman', 'Times', Georgia, serif;
   --font-mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
 
   --font-weight-regular: 400;
@@ -71,86 +100,88 @@
   --font-weight-semibold: 600;
   --font-weight-bold: 700;
 
-  /* Fluid-ish type scale (rem) */
-  --text-xs: 0.6875rem; /* 11px */
-  --text-sm: 0.8125rem; /* 13px */
-  --text-base: 1rem; /* 16px */
-  --text-md: 1.125rem; /* 18px */
-  --text-lg: 1.25rem; /* 20px */
-  --text-xl: 1.5rem; /* 24px */
-  --text-2xl: clamp(1.75rem, 1.5rem + 1vw, 2.25rem); /* ~28–36 */
-  --text-3xl: clamp(2.25rem, 1.75rem + 2vw, 3.25rem); /* ~36–52 */
-  --text-4xl: clamp(2.75rem, 2rem + 3vw, 4.5rem); /* ~44–72 */
-  --text-display: clamp(3rem, 2.25rem + 4vw, 5.5rem);
+  --text-xs: 0.6875rem;
+  --text-sm: 0.8125rem;
+  --text-base: 1rem;
+  --text-md: 1.125rem;
+  --text-lg: 1.25rem;
+  --text-xl: 1.5rem;
+  --text-2xl: clamp(1.6rem, 1.35rem + 0.85vw, 2.15rem);
+  --text-3xl: clamp(2rem, 1.55rem + 1.5vw, 2.9rem);
+  --text-4xl: clamp(2.5rem, 1.9rem + 2.2vw, 3.75rem);
+  --text-display: clamp(2.9rem, 2rem + 3.6vw, 5.5rem);
+  --text-hero: clamp(3.4rem, 2.2rem + 5.6vw, 7.5rem);
 
   --leading-none: 1;
-  --leading-tight: 1.15;
-  --leading-snug: 1.3;
+  --leading-tight: 1.12;
+  --leading-snug: 1.28;
   --leading-normal: 1.5;
   --leading-relaxed: 1.65;
 
-  --tracking-tight: -0.03em;
-  --tracking-snug: -0.015em;
+  --tracking-tight: -0.035em;
+  --tracking-snug: -0.018em;
   --tracking-normal: 0;
   --tracking-wide: 0.04em;
   --tracking-wider: 0.08em;
-  --tracking-caps: 0.12em;
+  --tracking-caps: 0.14em;
+
+  --measure-editorial: 40rem;
 
   /* ------------------------------------------------------------------ */
-  /* Spacing — 4/8 scale                                                */
+  /* Spacing                                                            */
   /* ------------------------------------------------------------------ */
   --space-0: 0;
-  --space-1: 0.25rem; /* 4 */
-  --space-2: 0.5rem; /* 8 */
-  --space-3: 0.75rem; /* 12 */
-  --space-4: 1rem; /* 16 */
-  --space-5: 1.5rem; /* 24 */
-  --space-6: 2rem; /* 32 */
-  --space-7: 2.5rem; /* 40 */
-  --space-8: 3rem; /* 48 */
-  --space-9: 4rem; /* 64 */
-  --space-10: 5rem; /* 80 */
-  --space-11: 6rem; /* 96 */
-  --space-12: 8rem; /* 128 */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 2.5rem;
+  --space-8: 3rem;
+  --space-9: 4rem;
+  --space-10: 5rem;
+  --space-11: 6rem;
+  --space-12: 8rem;
 
   /* ------------------------------------------------------------------ */
-  /* Layout widths & gaps                                               */
+  /* Layout                                                             */
   /* ------------------------------------------------------------------ */
-  --width-page: 72rem; /* 1152 */
-  --width-editorial: 40rem; /* 640 — reading measure */
-  --width-wide: 90rem; /* 1440 */
+  --width-page: 76rem;
+  --width-editorial: 40rem;
+  --width-wide: 92rem;
   --width-narrow: 28rem;
-  --width-stage: 68rem; /* centered content column */
-  --width-nav: 52rem;
+  --width-stage: 88rem;
+  --width-nav: 58rem;
 
   --grid-gap: var(--space-5);
   --grid-gap-lg: var(--space-8);
   --grid-gap-sm: var(--space-3);
 
   --page-gutter: var(--space-4);
-  --page-gutter-lg: var(--space-6);
+  --page-gutter-lg: var(--space-7);
 
   --aside-width: 24rem;
   --grid-item-width: 16rem;
 
   /* ------------------------------------------------------------------ */
-  /* Borders                                                            */
+  /* Borders — machined                                                 */
   /* ------------------------------------------------------------------ */
   --border-width: 1px;
   --border-width-thick: 2px;
   --radius-none: 0;
   --radius-sm: 2px;
-  --radius: 0.375rem;
-  --radius-md: 0.75rem;
-  --radius-lg: 1.25rem;
-  --radius-stage: 1.5rem;
+  --radius: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.85rem;
+  --radius-stage: 1.35rem;
 
   /* ------------------------------------------------------------------ */
-  /* Motion                                                             */
+  /* Motion — quiet                                                     */
   /* ------------------------------------------------------------------ */
   --duration-instant: 0ms;
-  --duration-fast: 120ms;
-  --duration-base: 200ms;
+  --duration-fast: 140ms;
+  --duration-base: 220ms;
   --duration-slow: 360ms;
   --duration-slower: 520ms;
 
@@ -173,11 +204,11 @@
   --z-skip: 100;
 
   /* ------------------------------------------------------------------ */
-  /* Chrome heights                                                     */
+  /* Chrome                                                             */
   /* ------------------------------------------------------------------ */
-  --header-height: 3.5rem; /* 56 */
-  --header-height-lg: 4rem; /* 64 */
-  --nav-float-offset: 1.25rem;
+  --header-height: 3.5rem;
+  --header-height-lg: 4rem;
+  --nav-float-offset: 1rem;
   --stage-margin-y: var(--space-8);
   --buy-bar-height: 4.5rem;
   --footer-pad-y: var(--space-8);

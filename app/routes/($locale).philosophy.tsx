@@ -1,8 +1,9 @@
 import type {Route} from './+types/($locale).philosophy';
-import {EditorialText} from '~/components/content/EditorialText';
-import {ManifestoBlock} from '~/components/content/ManifestoBlock';
-import {PageContainer} from '~/components/layout/PageContainer';
+import heroPhilosophy from '~/assets/mockups/campaign-look.jpg';
+import {PageHero} from '~/components/layout/PageHero';
+import {Reveal} from '~/components/motion/Reveal';
 import {buildMetaTags} from '~/components/seo';
+import styles from '~/components/content/QuietPage.module.css';
 
 export const meta: Route.MetaFunction = () => {
   return buildMetaTags({
@@ -18,28 +19,32 @@ export async function loader(_args: Route.LoaderArgs) {
 
 export default function PhilosophyPage() {
   return (
-    <PageContainer narrow>
-      <EditorialText eyebrow="Afterstate" title="Philosophy">
-        <p>
-          Afterstate is not about more. It is about enough — enough quality,
-          enough thought, enough time to live in what you wear.
-        </p>
-        <p>
-          We design for calm intent: pieces that do not shout for attention, and
-          do not need to be replaced when the calendar turns.
-        </p>
-      </EditorialText>
+    <div className={styles.world}>
+      <PageHero
+        eyebrow="Philosophy"
+        title="Enough"
+        support="Enough quality, enough thought, enough time to live in what you wear."
+        imageSrc={heroPhilosophy}
+        imageAlt="Afterstate campaign look — no rush"
+      />
 
-      <ManifestoBlock label="Meaning">
-        <p>
-          The name Afterstate points to what remains when urgency fades — a
-          steadier way of dressing, buying, and belonging to your wardrobe.
-        </p>
-        <p>
-          No Rush is the practice: slow the drop, respect the material, and leave
-          room for the garment to become yours.
-        </p>
-      </ManifestoBlock>
-    </PageContainer>
+      <Reveal>
+        <div className={styles.root}>
+          <header className={styles.intro}>
+            <p className={styles.eyebrow}>Meaning</p>
+            <p className={styles.lede}>
+              Afterstate is not about more. We design for calm intent — pieces
+              that do not shout, and do not need replacing when the calendar
+              turns.
+            </p>
+            <hr className={styles.rule} />
+            <p className={styles.note}>
+              No Rush is the practice: slow the drop, respect the material, and
+              leave room for the garment to become yours.
+            </p>
+          </header>
+        </div>
+      </Reveal>
+    </div>
   );
 }

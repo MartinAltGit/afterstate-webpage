@@ -1,4 +1,12 @@
 import type {ReactNode} from 'react';
+import campaignLook from '~/assets/mockups/campaign-look-new.jpg';
+import journalOnNoRush from '~/assets/mockups/campaign-look-alt.jpg';
+import journalBeyondRush from '~/assets/mockups/campaign-look.jpg';
+import journalQuietClothing from '~/assets/mockups/lookbook-01.jpg';
+import {Marquee} from '~/components/motion/Marquee';
+import {CampaignLook} from './CampaignLook';
+import {LandingHero} from './LandingHero';
+import {StreetwearMockups} from './StreetwearMockups';
 import {renderHomepageSection} from './registry';
 import type {HomepageSection, ProductRowSection} from './types';
 
@@ -10,9 +18,7 @@ export type HomepageSectionsProps = {
 };
 
 /**
- * Deliberate Afterstate wireframe homepage when CMS sections are empty.
- * Brand-first opening, campaign intro, product row, journal, closing —
- * not the Hydrogen featured-collection starter demo.
+ * Premium logo-led homepage when CMS sections are empty.
  */
 export function buildDefaultHomepageSections(
   products?: ReactNode,
@@ -20,30 +26,14 @@ export function buildDefaultHomepageSections(
   const productRow: ProductRowSection = {
     id: 'default-product-row',
     type: 'product_row',
-    eyebrow: 'Shop',
+    eyebrow: 'Limited collection',
     title: 'Afterstate 001 — No Rush',
-    ctaLabel: 'View collection',
+    ctaLabel: 'View limited drop',
     ctaTo: '/collections/afterstate-001',
     children: products,
   };
 
   return [
-    {
-      id: 'default-opening',
-      type: 'opening_statement',
-      brand: 'Afterstate',
-      tagline: 'Life beyond the rush.',
-    },
-    {
-      id: 'default-campaign',
-      type: 'campaign_hero',
-      eyebrow: 'Campaign',
-      title: 'Afterstate 001: No Rush',
-      subtitle:
-        'The first Afterstate collection — clothes for a slower, clearer pace.',
-      ctaLabel: 'Enter the campaign',
-      ctaTo: '/collections/afterstate-001',
-    },
     productRow,
     {
       id: 'default-journal',
@@ -53,18 +43,50 @@ export function buildDefaultHomepageSections(
       articles: [
         {
           id: 'journal-no-rush',
-          to: '/blogs/journal/no-rush',
+          to: '/journal/no-rush',
           title: 'On No Rush',
-          eyebrow: 'Campaign',
+          eyebrow: 'Origin',
           excerpt:
-            'Why Afterstate starts with fewer pieces and more room to live in them.',
+            'How Afterstate began — not with a drop calendar, but with a refusal to hurry clothes into the world.',
+          image: {
+            id: 'journal-no-rush-image',
+            url: journalOnNoRush,
+            altText:
+              'Model in Afterstate 001 No Rush campaign hoodie at dusk',
+            width: 1200,
+            height: 900,
+          },
         },
         {
           id: 'journal-beyond',
-          to: '/blogs/journal/life-beyond-the-rush',
+          to: '/journal/life-beyond-the-rush',
           title: 'Life beyond the rush',
           eyebrow: 'Notes',
-          excerpt: 'A short note on pace, wardrobe, and what lasts.',
+          excerpt:
+            'A longer note on pace, wardrobe, and the quiet decision to own less — and wear it harder.',
+          image: {
+            id: 'journal-beyond-image',
+            url: journalBeyondRush,
+            altText: 'Afterstate campaign look in quiet evening light',
+            width: 1200,
+            height: 900,
+          },
+        },
+        {
+          id: 'journal-quiet-clothing',
+          to: '/journal/the-weight-of-quiet-clothing',
+          title: 'The weight of quiet clothing',
+          eyebrow: 'Materials',
+          excerpt:
+            'Heavy cotton, brushed fleece, and the small decisions that decide how a piece ages on your body.',
+          image: {
+            id: 'journal-quiet-clothing-image',
+            url: journalQuietClothing,
+            altText:
+              'Close look at Afterstate muted teal outerwear fabric and AS mark',
+            width: 1200,
+            height: 900,
+          },
         },
       ],
     },
@@ -73,24 +95,40 @@ export function buildDefaultHomepageSections(
       type: 'closing_statement',
       brand: 'Afterstate',
       tagline: 'Life beyond the rush.',
-      body: 'Fewer drops. Clearer intent. Clothes made to stay.',
+      body: 'Every piece is limited edition. Short runs. No restocks.',
     },
   ];
 }
 
 /**
  * Renders a CMS-driven homepage section list, or the default Afterstate
- * wireframe composition when the array is empty / missing.
+ * composition when the array is empty / missing.
  */
 export function HomepageSections({
   sections,
   products,
   className,
 }: HomepageSectionsProps) {
-  const resolved =
-    sections && sections.length > 0
-      ? sections
-      : buildDefaultHomepageSections(products);
+  const hasCmsSections = Boolean(sections && sections.length > 0);
+  const resolved = hasCmsSections
+    ? sections!
+    : buildDefaultHomepageSections(products);
+
+  if (!hasCmsSections) {
+    return (
+      <div className={className}>
+        <LandingHero />
+        <Marquee />
+        <CampaignLook imageSrc={campaignLook} />
+        <StreetwearMockups />
+        {resolved.map((section) => (
+          <div key={section.id} data-section-type={section.type}>
+            {renderHomepageSection(section)}
+          </div>
+        ))}
+      </div>
+    );
+  }
 
   return (
     <div className={className}>

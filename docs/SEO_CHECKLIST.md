@@ -44,6 +44,7 @@ For each template family, spot-check 2–3 live URLs:
 - [ ] Locale URLs canonicalize to themselves (not always to default market)
 - [ ] `/collections/all` redirects to `/shop`
 - [ ] Legacy `/pages/*` and `/blogs/journal/*` redirect to Afterstate IA
+- [ ] Legacy `/blogs` and `/blogs/blog/*` redirect to `/blog`
 - [ ] Faceted/filter URLs do not create indexable thin duplicates (canonicalize or noindex)
 - [ ] Pagination: rel next/prev or clear canonical policy documented and implemented
 
@@ -62,7 +63,8 @@ For each template family, spot-check 2–3 live URLs:
 
 - [ ] PDP Product JSON-LD validates; price/availability/currency match visible offer
 - [ ] BreadcrumbList matches visible breadcrumbs
-- [ ] Article JSON-LD on journal posts
+- [ ] Article JSON-LD on journal and blog posts
+- [ ] Fashion Blog has published posts (or `/blog` noindexed until ready)
 - [ ] Organization / WebSite on home (SearchAction only if accurate)
 - [ ] No structured data for out-of-stock false “InStock” when sold out
 
@@ -85,6 +87,7 @@ For each template family, spot-check 2–3 live URLs:
 - [ ] PDP titles consistent; badges/metafields accurate
 - [ ] Policies pages live and linked from footer
 - [ ] Journal has at least the planned launch articles (or journal noindexed until ready)
+- [ ] Fashion Blog has published posts (or `/blog` noindexed until ready)
 
 ---
 

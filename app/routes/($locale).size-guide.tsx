@@ -1,7 +1,10 @@
 import type {Route} from './+types/($locale).size-guide';
-import {EditorialText} from '~/components/content/EditorialText';
-import {PageContainer} from '~/components/layout/PageContainer';
+import heroSize from '~/assets/mockups/hero-campaign-hoodies.jpg';
+import {LocaleAwareLink} from '~/components/navigation/LocaleAwareLink';
+import {PageHero} from '~/components/layout/PageHero';
+import {Reveal} from '~/components/motion/Reveal';
 import {buildMetaTags} from '~/components/seo';
+import styles from '~/components/content/QuietPage.module.css';
 
 export const meta: Route.MetaFunction = () => {
   return buildMetaTags({
@@ -17,21 +20,35 @@ export async function loader(_args: Route.LoaderArgs) {
 
 export default function SizeGuidePage() {
   return (
-    <PageContainer narrow>
-      <EditorialText eyebrow="Fit" title="Size guide">
-        <p>
-          Afterstate pieces are cut for ease without bulk. If you prefer a closer
-          fit, consider sizing down; for the intended drape, take your usual size.
-        </p>
-        <p>
-          Measurements for each style appear on the product page. Model
-          information and fit notes are listed there when available.
-        </p>
-        <p>
-          Between sizes? Choose the larger for movement and layering, or write us
-          at contact — we will help you decide.
-        </p>
-      </EditorialText>
-    </PageContainer>
+    <div className={styles.world}>
+      <PageHero
+        eyebrow="Fit"
+        title="Size guide"
+        support="Cut for ease without bulk — measured, considered, easy to live in."
+        imageSrc={heroSize}
+        imageAlt="Afterstate hoodies — fit and drape"
+      />
+
+      <Reveal>
+        <div className={styles.root}>
+          <header className={styles.intro}>
+            <p className={styles.eyebrow}>How to choose</p>
+            <p className={styles.lede}>
+              For the intended drape, take your usual size. For a closer fit,
+              consider sizing down.
+            </p>
+            <hr className={styles.rule} />
+            <p className={styles.note}>
+              Measurements and model notes live on each product page. Between
+              sizes? Choose the larger for movement and layering, or{' '}
+              <LocaleAwareLink prefetch="intent" to="/contact">
+                write us
+              </LocaleAwareLink>
+              .
+            </p>
+          </header>
+        </div>
+      </Reveal>
+    </div>
   );
 }
