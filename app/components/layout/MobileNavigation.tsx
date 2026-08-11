@@ -64,16 +64,6 @@ export function MobileNavigation({
       </ul>
 
       <div className={styles.bottom}>
-        <LocaleAwareLink
-          className={styles.logoLink}
-          prefetch="intent"
-          to="/"
-          onClick={onNavigate}
-          aria-label="Afterstate home"
-        >
-          <BrandLogo variant="wordmark" size="md" />
-        </LocaleAwareLink>
-
         <ul className={styles.socials} aria-label="Connect">
           <li>
             <a
@@ -109,6 +99,16 @@ export function MobileNavigation({
             </LocaleAwareLink>
           </li>
         </ul>
+
+        <LocaleAwareLink
+          className={styles.logoLink}
+          prefetch="intent"
+          to="/"
+          onClick={onNavigate}
+          aria-label="Afterstate home"
+        >
+          <BrandLogo variant="wordmark" size="md" />
+        </LocaleAwareLink>
       </div>
     </nav>
   );
