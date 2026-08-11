@@ -15,3 +15,4 @@ node_modules
 hydrogen-quickstart/
 .cursor/settings.json
 assets/printful-test/
+/screenshots/
