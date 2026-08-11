@@ -1,12 +1,12 @@
 .root {
-  padding: var(--space-11, 6rem) var(--page-gutter, 1rem);
+  padding: var(--space-9, 4rem) var(--page-gutter, 1.15rem);
   background: var(--color-night, #0b100e);
   border-top: 1px solid var(--color-hairline-dark-subtle, rgba(236, 231, 218, 0.08));
 }
 
 .header {
   max-width: 36rem;
-  margin: 0 auto var(--space-9, 4rem);
+  margin: 0 auto var(--space-7, 2.5rem);
   text-align: center;
   display: grid;
   gap: var(--space-3, 0.75rem);
@@ -144,7 +144,11 @@
 
 @media (min-width: 45em) {
   .root {
-    padding-inline: var(--page-gutter-lg, 2.5rem);
+    padding: var(--space-11, 6rem) var(--page-gutter-lg, 2.5rem);
+  }
+
+  .header {
+    margin-bottom: var(--space-9, 4rem);
   }
 
   .grid {

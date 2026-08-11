@@ -10,6 +10,7 @@ import {EditorialStage} from '~/components/layout/EditorialStage';
 import stageStyles from '~/components/layout/EditorialStage.module.css';
 import {EmptyState} from '~/components/feedback/EmptyState';
 import {LocaleAwareLink} from '~/components/navigation/LocaleAwareLink';
+import {Reveal} from '~/components/motion/Reveal';
 import {OpeningStatement} from '~/sections/OpeningStatement';
 import {getProductSubtitle} from '~/lib/metafields';
 import type {ProductCardFragment} from 'storefrontapi.generated';
@@ -80,69 +81,73 @@ export default function Collection() {
 
       <EditorialStage>
         <div className={stageStyles.section}>
-          <header className={stageStyles.header}>
+          <Reveal as="header" className={stageStyles.header}>
             <p className={stageStyles.eyebrow}>Manifesto</p>
             <h2 className={stageStyles.title}>{collection.title}</h2>
             <p className={stageStyles.lede}>{manifesto}</p>
-          </header>
+          </Reveal>
 
-          <CollectionToolbar productCount={productCount} />
+          <Reveal delayMs={70}>
+            <CollectionToolbar productCount={productCount} />
+          </Reveal>
 
-          <Pagination connection={collection.products}>
-            {({nodes, isLoading, PreviousLink, NextLink}) => (
-              <div>
-                <div className={stageStyles.pager}>
-                  <PreviousLink>
-                    {isLoading ? (
-                      'Loading...'
-                    ) : (
-                      <span>
-                        <span aria-hidden="true">↑</span> Load previous
-                      </span>
-                    )}
-                  </PreviousLink>
+          <Reveal delayMs={120}>
+            <Pagination connection={collection.products}>
+              {({nodes, isLoading, PreviousLink, NextLink}) => (
+                <div>
+                  <div className={stageStyles.pager}>
+                    <PreviousLink>
+                      {isLoading ? (
+                        'Loading...'
+                      ) : (
+                        <span>
+                          <span aria-hidden="true">↑</span> Load previous
+                        </span>
+                      )}
+                    </PreviousLink>
+                  </div>
+
+                  {nodes.length === 0 ? (
+                    <EmptyState
+                      title="Nothing in this collection"
+                      message="Check back when Afterstate adds pieces here."
+                      action={
+                        <LocaleAwareLink to="/shop" prefetch="intent">
+                          Shop all
+                        </LocaleAwareLink>
+                      }
+                    />
+                  ) : (
+                    <CollectionProductGrid
+                      products={(nodes as ProductCardFragment[]).map(
+                        (product) => ({
+                          id: product.id,
+                          handle: product.handle,
+                          title: product.title,
+                          subtitle: getProductSubtitle(product),
+                          featuredImage: product.featuredImage,
+                          priceRange: product.priceRange,
+                        }),
+                      )}
+                    />
+                  )}
+
+                  <div className={stageStyles.pager}>
+                    <span />
+                    <NextLink>
+                      {isLoading ? (
+                        'Loading...'
+                      ) : (
+                        <span>
+                          Load more <span aria-hidden="true">↓</span>
+                        </span>
+                      )}
+                    </NextLink>
+                  </div>
                 </div>
-
-                {nodes.length === 0 ? (
-                  <EmptyState
-                    title="Nothing in this collection"
-                    message="Check back when Afterstate adds pieces here."
-                    action={
-                      <LocaleAwareLink to="/shop" prefetch="intent">
-                        Shop all
-                      </LocaleAwareLink>
-                    }
-                  />
-                ) : (
-                  <CollectionProductGrid
-                    products={(nodes as ProductCardFragment[]).map(
-                      (product) => ({
-                        id: product.id,
-                        handle: product.handle,
-                        title: product.title,
-                        subtitle: getProductSubtitle(product),
-                        featuredImage: product.featuredImage,
-                        priceRange: product.priceRange,
-                      }),
-                    )}
-                  />
-                )}
-
-                <div className={stageStyles.pager}>
-                  <span />
-                  <NextLink>
-                    {isLoading ? (
-                      'Loading...'
-                    ) : (
-                      <span>
-                        Load more <span aria-hidden="true">↓</span>
-                      </span>
-                    )}
-                  </NextLink>
-                </div>
-              </div>
-            )}
-          </Pagination>
+              )}
+            </Pagination>
+          </Reveal>
         </div>
       </EditorialStage>
 

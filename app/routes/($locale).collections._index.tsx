@@ -9,6 +9,7 @@ import {OpeningStatement} from '~/sections/OpeningStatement';
 import {EditorialStage} from '~/components/layout/EditorialStage';
 import stageStyles from '~/components/layout/EditorialStage.module.css';
 import {PageHero} from '~/components/layout/PageHero';
+import {Reveal} from '~/components/motion/Reveal';
 import {LocaleAwareLink} from '~/components/navigation/LocaleAwareLink';
 import {EmptyState} from '~/components/feedback/EmptyState';
 import type {CollectionCardFragment} from 'storefrontapi.generated';
@@ -67,97 +68,104 @@ export default function Collections() {
 
       <EditorialStage>
         <div className={stageStyles.section}>
-          <header className={stageStyles.header}>
+          <Reveal as="header" className={stageStyles.header}>
             <p className={stageStyles.eyebrow}>Chapters</p>
             <h2 className={stageStyles.title}>Collections</h2>
             <p className={stageStyles.lede}>
               Each collection is a chapter — clothes for a slower pace.
             </p>
-          </header>
+          </Reveal>
 
-          <Pagination connection={collections}>
-            {({nodes, isLoading, PreviousLink, NextLink}) => (
-              <div>
-                <div className={stageStyles.pager}>
-                  <PreviousLink>
-                    {isLoading ? (
-                      'Loading...'
-                    ) : (
-                      <span>
-                        <span aria-hidden="true">↑</span> Load previous
-                      </span>
-                    )}
-                  </PreviousLink>
-                </div>
+          <Reveal delayMs={90}>
+            <Pagination connection={collections}>
+              {({nodes, isLoading, PreviousLink, NextLink}) => (
+                <div>
+                  <div className={stageStyles.pager}>
+                    <PreviousLink>
+                      {isLoading ? (
+                        'Loading...'
+                      ) : (
+                        <span>
+                          <span aria-hidden="true">↑</span> Load previous
+                        </span>
+                      )}
+                    </PreviousLink>
+                  </div>
 
-                {nodes.length === 0 ? (
-                  <EmptyState
-                    title="No collections yet"
-                    message="Afterstate limited drops will appear here."
-                    action={
-                      <LocaleAwareLink to="/shop" prefetch="intent">
-                        Shop all
-                      </LocaleAwareLink>
-                    }
-                  />
-                ) : (
-                  <ul className={styles.grid}>
-                    {(nodes as CollectionCardFragment[]).map(
-                      (collection, index) => (
-                        <li key={collection.id}>
-                          <LocaleAwareLink
-                            className={styles.card}
-                            to={`/collections/${collection.handle}`}
-                            prefetch="intent"
+                  {nodes.length === 0 ? (
+                    <EmptyState
+                      title="No collections yet"
+                      message="Afterstate limited drops will appear here."
+                      action={
+                        <LocaleAwareLink to="/shop" prefetch="intent">
+                          Shop all
+                        </LocaleAwareLink>
+                      }
+                    />
+                  ) : (
+                    <ul className={styles.grid}>
+                      {(nodes as CollectionCardFragment[]).map(
+                        (collection, index) => (
+                          <Reveal
+                            key={collection.id}
+                            as="li"
+                            delayMs={Math.min(index, 6) * 100}
                           >
-                            <div className={styles.media}>
-                              {collection.image ? (
-                                <Image
-                                  alt={
-                                    collection.image.altText || collection.title
-                                  }
-                                  data={collection.image}
-                                  className={styles.image}
-                                  loading={index < 2 ? 'eager' : 'lazy'}
-                                  sizes="(min-width: 45em) 50vw, 100vw"
-                                />
-                              ) : (
-                                <div className={styles.placeholder} />
-                              )}
-                            </div>
-                            <div className={styles.copy}>
-                              <p className={styles.cardEyebrow}>Collection</p>
-                              <h3 className={styles.cardTitle}>
-                                {collection.title}
-                              </h3>
-                              {collection.description ? (
-                                <p className={styles.cardBody}>
-                                  {collection.description}
-                                </p>
-                              ) : null}
-                            </div>
-                          </LocaleAwareLink>
-                        </li>
-                      ),
-                    )}
-                  </ul>
-                )}
+                            <LocaleAwareLink
+                              className={styles.card}
+                              to={`/collections/${collection.handle}`}
+                              prefetch="intent"
+                            >
+                              <div className={styles.media}>
+                                {collection.image ? (
+                                  <Image
+                                    alt={
+                                      collection.image.altText ||
+                                      collection.title
+                                    }
+                                    data={collection.image}
+                                    className={styles.image}
+                                    loading={index < 2 ? 'eager' : 'lazy'}
+                                    sizes="(min-width: 45em) 50vw, 100vw"
+                                  />
+                                ) : (
+                                  <div className={styles.placeholder} />
+                                )}
+                              </div>
+                              <div className={styles.copy}>
+                                <p className={styles.cardEyebrow}>Collection</p>
+                                <h3 className={styles.cardTitle}>
+                                  {collection.title}
+                                </h3>
+                                {collection.description ? (
+                                  <p className={styles.cardBody}>
+                                    {collection.description}
+                                  </p>
+                                ) : null}
+                              </div>
+                            </LocaleAwareLink>
+                          </Reveal>
+                        ),
+                      )}
+                    </ul>
+                  )}
 
-                <div className={stageStyles.pager}>
-                  <span />
-                  <NextLink>
-                    {isLoading ? (
-                      'Loading...'
-                    ) : (
-                      <span>
-                        Load more <span aria-hidden="true">↓</span>
-                      </span>
-                    )}
-                  </NextLink>
+                  <div className={stageStyles.pager}>
+                    <span />
+                    <NextLink>
+                      {isLoading ? (
+                        'Loading...'
+                      ) : (
+                        <span>
+                          Load more <span aria-hidden="true">↓</span>
+                        </span>
+                      )}
+                    </NextLink>
+                  </div>
                 </div>
-              </div>
-            )}
-          </Pagination>
+              )}
+            </Pagination>
+          </Reveal>
         </div>
       </EditorialStage>
 

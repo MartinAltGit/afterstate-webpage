@@ -1,47 +1,74 @@
 .root {
   overflow: hidden;
   margin-block: 0;
-  padding-block: 0.35rem;
+  padding-block: 0.15rem;
   background: var(--color-night, #0b100e);
   border: none;
 }
 
 .pending {
   opacity: 0;
-  transform: translateY(0.75rem);
+  transform: translateY(2.5rem) scale(0.97);
+  transition:
+    opacity 400ms cubic-bezier(0.4, 0, 1, 1),
+    transform 400ms cubic-bezier(0.4, 0, 1, 1);
 }
 
 .visible {
   opacity: 1;
-  transform: translateY(0);
+  transform: translateY(0) scale(1);
   transition:
-    opacity 850ms cubic-bezier(0.16, 1, 0.3, 1),
-    transform 850ms cubic-bezier(0.16, 1, 0.3, 1);
+    opacity 1000ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 1000ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .track {
   display: flex;
   width: max-content;
   gap: 0;
-  padding-block: 0.95rem;
+  padding-block: 0.65rem;
 }
 
 .trackScroll {
-  animation: marqueeX 32s linear infinite;
+  animation: marqueeX 22s linear infinite;
   will-change: transform;
 }
 
 .item {
   display: inline-flex;
   align-items: center;
-  gap: 2.75rem;
-  padding-inline-end: 2.75rem;
+  gap: 1.25rem;
+  padding-inline-end: 1.25rem;
   white-space: nowrap;
   font-family: var(--font-display);
-  font-size: clamp(0.9rem, 0.8rem + 0.35vw, 1.05rem);
+  font-size: 0.78rem;
   font-weight: var(--font-weight-medium, 500);
-  letter-spacing: 0.02em;
-  color: var(--color-bone, #ece7da);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-bone-muted, rgba(236, 231, 218, 0.72));
+}
+
+@media (min-width: 45em) {
+  .root {
+    padding-block: 0.35rem;
+  }
+
+  .track {
+    padding-block: 0.95rem;
+  }
+
+  .trackScroll {
+    animation-duration: 32s;
+  }
+
+  .item {
+    gap: 2.75rem;
+    padding-inline-end: 2.75rem;
+    font-size: clamp(0.9rem, 0.8rem + 0.35vw, 1.05rem);
+    letter-spacing: 0.02em;
+    text-transform: none;
+    color: var(--color-bone, #ece7da);
+  }
 }
 
 .sep {

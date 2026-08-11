@@ -1,4 +1,5 @@
 import {ProductCard} from '~/components/commerce/ProductCard';
+import {Reveal} from '~/components/motion/Reveal';
 import {useVariantUrl} from '~/lib/variants';
 import type {MoneyV2, Image as ImageType} from '@shopify/hydrogen/storefront-api-types';
 import styles from './CollectionProductGrid.module.css';
@@ -66,9 +67,13 @@ export function CollectionProductGrid({
   return (
     <ul className={[styles.grid, className].filter(Boolean).join(' ')}>
       {products.map((product, index) => (
-        <li key={product.id}>
+        <Reveal
+          key={product.id}
+          as="li"
+          delayMs={Math.min(index, 8) * 95}
+        >
           <GridCard product={product} index={index} />
-        </li>
+        </Reveal>
       ))}
     </ul>
   );

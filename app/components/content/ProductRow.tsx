@@ -1,5 +1,6 @@
 import type {ReactNode} from 'react';
 import {Link} from 'react-router';
+import {Reveal} from '~/components/motion/Reveal';
 import styles from './ProductRow.module.css';
 
 export type ProductRowProps = {
@@ -31,7 +32,7 @@ export function ProductRow({
       className={[styles.root, className].filter(Boolean).join(' ')}
       aria-labelledby="product-row-title"
     >
-      <header className={styles.header}>
+      <Reveal as="header" className={styles.header}>
         <div>
           {eyebrow ? <p className={styles.eyebrow}>{eyebrow}</p> : null}
           <h2 id="product-row-title" className={styles.title}>
@@ -43,14 +44,14 @@ export function ProductRow({
             {ctaLabel}
           </Link>
         ) : null}
-      </header>
-      <div className={styles.grid}>
+      </Reveal>
+      <Reveal delayMs={80} className={styles.grid}>
         {hasChildren ? (
           children
         ) : (
           <p className={styles.empty}>{emptyLabel}</p>
         )}
-      </div>
+      </Reveal>
     </section>
   );
 }

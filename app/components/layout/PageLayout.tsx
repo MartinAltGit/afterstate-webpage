@@ -38,7 +38,11 @@ export function PageLayout({
 }: PageLayoutProps) {
   return (
     <Aside.Provider>
-      <SiteDrawers cart={cart} />
+      <SiteDrawers
+        cart={cart}
+        isLoggedIn={isLoggedIn}
+        marketSelector={marketSelector ?? <MarketSelector variant="panel" />}
+      />
       <SkipToContent />
       <StageShell
         header={

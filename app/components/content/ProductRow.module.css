@@ -1,7 +1,8 @@
 .root {
-  padding: var(--space-10, 5rem) var(--page-gutter, 1rem);
+  padding: var(--space-8, 3.5rem) var(--page-gutter, 1.15rem);
   border-bottom: 1px solid var(--color-hairline-dark-subtle, rgba(236, 231, 218, 0.08));
   background: var(--color-night, #0b100e);
+  color: var(--color-bone, #ece7da);
 
   /* Scope the shared cards into the dark world */
   --color-fg: var(--color-bone, #ece7da);
@@ -37,7 +38,7 @@
 .title {
   margin: 0;
   font-family: var(--font-display);
-  font-size: var(--text-3xl);
+  font-size: clamp(1.75rem, 7vw, var(--text-3xl));
   font-weight: var(--font-weight-medium, 500);
   letter-spacing: var(--tracking-tight, -0.035em);
   line-height: var(--leading-tight, 1.12);
@@ -72,7 +73,7 @@
 .grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--grid-gap, 1.5rem);
+  gap: 1rem 0.75rem;
   max-width: var(--width-wide, 92rem);
   margin-inline: auto;
 }
@@ -87,7 +88,11 @@
 
 @media (min-width: 45em) {
   .root {
-    padding-inline: var(--page-gutter-lg, 2.5rem);
+    padding: var(--space-10, 5rem) var(--page-gutter-lg, 2.5rem);
+  }
+
+  .title {
+    font-size: var(--text-3xl);
   }
 
   .grid {

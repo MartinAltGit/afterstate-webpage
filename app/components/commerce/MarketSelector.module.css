@@ -97,3 +97,36 @@
   outline: 2px solid var(--color-focus, #0a0a0a);
   outline-offset: 1px;
 }
+
+/* Compact language control for mobile menu account row */
+.menuPanel {
+  display: block;
+}
+
+.menuPanel .menu {
+  position: absolute;
+  top: calc(100% + 0.35rem);
+  right: 0;
+  left: auto;
+  z-index: 20;
+  min-width: 3.25rem;
+  margin-top: 0;
+  display: none;
+  flex-direction: column;
+  gap: 0.15rem;
+  padding: 0.3rem;
+  background: var(--color-night-raised, #121814);
+  border: 1px solid var(--color-nav-border, rgba(236, 231, 218, 0.12));
+  border-radius: var(--radius-md, 0.75rem);
+  box-shadow: var(--shadow-nav);
+}
+
+.menuPanel[open] .menu {
+  display: flex;
+}
+
+.menuPanel .trigger {
+  padding: 0.4rem 0.45rem;
+  border-radius: 999px;
+  border: 1px solid rgba(236, 231, 218, 0.14);
+}

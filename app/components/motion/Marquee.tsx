@@ -16,7 +16,7 @@ const DEFAULT_ITEMS = [
 ];
 
 /**
- * Editorial ticker — fades in as you scroll to it, then loops horizontally.
+ * Editorial ticker — reveals whenever it enters view, then loops horizontally.
  */
 export function Marquee({items = DEFAULT_ITEMS, className}: MarqueeProps) {
   const rootRef = useRef<HTMLDivElement>(null);
@@ -35,10 +35,7 @@ export function Marquee({items = DEFAULT_ITEMS, className}: MarqueeProps) {
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry?.isIntersecting) {
-          setVisible(true);
-          observer.disconnect();
-        }
+        setVisible(Boolean(entry?.isIntersecting));
       },
       {threshold: 0.1, rootMargin: '0px 0px -4% 0px'},
     );

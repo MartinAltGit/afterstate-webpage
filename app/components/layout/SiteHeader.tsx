@@ -80,9 +80,15 @@ export function SiteHeader({
             {BLOG_NAV_ITEM.label}
           </NavLink>
           {marketSelector ? (
-            <div className={styles.market}>{marketSelector}</div>
+            <div className={[styles.market, styles.desktopOnly].join(' ')}>
+              {marketSelector}
+            </div>
           ) : null}
-          {isLoggedIn ? <AccountLink isLoggedIn={isLoggedIn} /> : null}
+          {isLoggedIn ? (
+            <span className={styles.desktopOnly}>
+              <AccountLink isLoggedIn={isLoggedIn} />
+            </span>
+          ) : null}
           <CartToggle cart={cart} />
         </div>
       </div>

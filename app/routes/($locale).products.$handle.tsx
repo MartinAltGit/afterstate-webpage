@@ -27,6 +27,7 @@ import {RelatedProducts} from '~/components/product/RelatedProducts';
 import {MobileStickyBuyBar} from '~/components/product/MobileStickyBuyBar';
 import {Breadcrumbs} from '~/components/navigation/Breadcrumbs';
 import {PageContainer} from '~/components/layout/PageContainer';
+import {Reveal} from '~/components/motion/Reveal';
 import {ProductJsonLd} from '~/components/seo';
 import {useAside} from '~/components/Aside';
 import type {
@@ -172,19 +173,23 @@ export default function Product() {
       />
 
       <PageContainer>
-        <Breadcrumbs
-          items={[
-            {label: 'Home', to: '/'},
-            {label: 'Shop', to: '/shop'},
-            {label: product.title},
-          ]}
-        />
+        <Reveal>
+          <Breadcrumbs
+            items={[
+              {label: 'Home', to: '/'},
+              {label: 'Shop', to: '/shop'},
+              {label: product.title},
+            ]}
+          />
+        </Reveal>
       </PageContainer>
 
       <PageContainer className="product-page-main">
-        <ProductGallery media={galleryMedia} />
+        <Reveal>
+          <ProductGallery media={galleryMedia} />
+        </Reveal>
 
-        <div className="product-page-info">
+        <Reveal delayMs={90} className="product-page-info">
           {metafields.collectionNumber ? (
             <p className="product-page-eyebrow">{metafields.collectionNumber}</p>
           ) : null}
@@ -201,55 +206,65 @@ export default function Product() {
             selectedVariant={selectedVariant}
             onAddToCart={onAddToCart}
           />
-        </div>
+        </Reveal>
       </PageContainer>
 
       <PageContainer>
-        <ProductDetails
-          fit={fitParts.length ? fitParts.join(' — ') : undefined}
-          fabric={fabricParts.length ? fabricParts.join(' · ') : undefined}
-          construction={metafields.construction ?? undefined}
-          care={metafields.careInstructions ?? undefined}
-          measurements={metafields.measurements ?? undefined}
-          modelInfo={metafields.modelInformation ?? undefined}
-        />
+        <Reveal delayMs={40}>
+          <ProductDetails
+            fit={fitParts.length ? fitParts.join(' — ') : undefined}
+            fabric={fabricParts.length ? fabricParts.join(' · ') : undefined}
+            construction={metafields.construction ?? undefined}
+            care={metafields.careInstructions ?? undefined}
+            measurements={metafields.measurements ?? undefined}
+            modelInfo={metafields.modelInformation ?? undefined}
+          />
+        </Reveal>
 
         {(metafields.designStory || product.descriptionHtml) && (
-          <ProductStory>
-            {metafields.designStory ? (
-              <p>{metafields.designStory}</p>
-            ) : (
-              <div dangerouslySetInnerHTML={{__html: product.descriptionHtml}} />
-            )}
-          </ProductStory>
+          <Reveal delayMs={70}>
+            <ProductStory>
+              {metafields.designStory ? (
+                <p>{metafields.designStory}</p>
+              ) : (
+                <div
+                  dangerouslySetInnerHTML={{__html: product.descriptionHtml}}
+                />
+              )}
+            </ProductStory>
+          </Reveal>
         )}
 
-        <CompleteTheLook products={lookProducts} />
+        <Reveal delayMs={90}>
+          <CompleteTheLook products={lookProducts} />
+        </Reveal>
 
-        {relatedFromMeta.length > 0 ? (
-          <RelatedProducts products={relatedFromMeta} />
-        ) : (
-          <Suspense fallback={null}>
-            <Await resolve={recommendations}>
-              {(response: ProductRecommendationsQuery | null) => {
-                const recs: RecommendedProduct[] =
-                  response?.productRecommendations
-                    ?.filter(
-                      (p): p is ProductCardFragment => Boolean(p),
-                    )
-                    .map((p) => ({
-                      id: p.id,
-                      handle: p.handle,
-                      title: p.title,
-                      featuredImage: p.featuredImage,
-                      priceRange: p.priceRange,
-                      subtitle: getProductMetafields(p).subtitle,
-                    })) ?? [];
-                return <RelatedProducts products={recs} />;
-              }}
-            </Await>
-          </Suspense>
-        )}
+        <Reveal delayMs={110}>
+          {relatedFromMeta.length > 0 ? (
+            <RelatedProducts products={relatedFromMeta} />
+          ) : (
+            <Suspense fallback={null}>
+              <Await resolve={recommendations}>
+                {(response: ProductRecommendationsQuery | null) => {
+                  const recs: RecommendedProduct[] =
+                    response?.productRecommendations
+                      ?.filter(
+                        (p): p is ProductCardFragment => Boolean(p),
+                      )
+                      .map((p) => ({
+                        id: p.id,
+                        handle: p.handle,
+                        title: p.title,
+                        featuredImage: p.featuredImage,
+                        priceRange: p.priceRange,
+                        subtitle: getProductMetafields(p).subtitle,
+                      })) ?? [];
+                  return <RelatedProducts products={recs} />;
+                }}
+              </Await>
+            </Suspense>
+          )}
+        </Reveal>
       </PageContainer>
 
       <MobileStickyBuyBar

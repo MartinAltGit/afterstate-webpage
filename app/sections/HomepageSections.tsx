@@ -3,6 +3,7 @@ import campaignLook from '~/assets/mockups/campaign-look-new.jpg';
 import journalOnNoRush from '~/assets/mockups/campaign-look-alt.jpg';
 import journalBeyondRush from '~/assets/mockups/campaign-look.jpg';
 import journalQuietClothing from '~/assets/mockups/lookbook-01.jpg';
+import {Reveal} from '~/components/motion/Reveal';
 import {Marquee} from '~/components/motion/Marquee';
 import {CampaignLook} from './CampaignLook';
 import {LandingHero} from './LandingHero';
@@ -16,6 +17,14 @@ export type HomepageSectionsProps = {
   products?: ReactNode;
   className?: string;
 };
+
+/** Heroes / blocks that already animate on their own */
+const SELF_ANIMATED = new Set<HomepageSection['type']>([
+  'campaign_hero',
+  'opening_statement',
+  'closing_statement',
+  'quote',
+]);
 
 /**
  * Premium logo-led homepage when CMS sections are empty.
@@ -100,6 +109,28 @@ export function buildDefaultHomepageSections(
   ];
 }
 
+function SectionReveal({
+  section,
+  index,
+}: {
+  section: HomepageSection;
+  index: number;
+}) {
+  const content = (
+    <div data-section-type={section.type}>{renderHomepageSection(section)}</div>
+  );
+
+  if (SELF_ANIMATED.has(section.type)) {
+    return <div key={section.id}>{content}</div>;
+  }
+
+  return (
+    <Reveal key={section.id} delayMs={Math.min(index, 6) * 90}>
+      {content}
+    </Reveal>
+  );
+}
+
 /**
  * Renders a CMS-driven homepage section list, or the default Afterstate
  * composition when the array is empty / missing.
@@ -121,10 +152,8 @@ export function HomepageSections({
         <Marquee />
         <CampaignLook imageSrc={campaignLook} />
         <StreetwearMockups />
-        {resolved.map((section) => (
-          <div key={section.id} data-section-type={section.type}>
-            {renderHomepageSection(section)}
-          </div>
+        {resolved.map((section, index) => (
+          <SectionReveal key={section.id} section={section} index={index} />
         ))}
       </div>
     );
@@ -132,10 +161,8 @@ export function HomepageSections({
 
   return (
     <div className={className}>
-      {resolved.map((section) => (
-        <div key={section.id} data-section-type={section.type}>
-          {renderHomepageSection(section)}
-        </div>
+      {resolved.map((section, index) => (
+        <SectionReveal key={section.id} section={section} index={index} />
       ))}
     </div>
   );

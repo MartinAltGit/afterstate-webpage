@@ -1,3 +1,4 @@
+import {Reveal} from '~/components/motion/Reveal';
 import styles from './QuoteBlock.module.css';
 
 export type QuoteBlockProps = {
@@ -15,13 +16,16 @@ export function QuoteBlock({
   className,
 }: QuoteBlockProps) {
   return (
-    <section className={[styles.root, className].filter(Boolean).join(' ')}>
+    <Reveal
+      as="section"
+      className={[styles.root, className].filter(Boolean).join(' ')}
+    >
       <blockquote className={styles.inner}>
         <p className={styles.quote}>{quote}</p>
         {attribution ? (
           <footer className={styles.attribution}>{attribution}</footer>
         ) : null}
       </blockquote>
-    </section>
+    </Reveal>
   );
 }

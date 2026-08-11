@@ -1,4 +1,5 @@
 import {JournalCard} from '~/components/content/JournalCard';
+import {Reveal} from '~/components/motion/Reveal';
 import styles from './JournalArticles.module.css';
 import type {JournalArticlesSection} from './types';
 
@@ -17,7 +18,7 @@ export function JournalArticles({section}: JournalArticlesProps) {
       className={styles.root}
       aria-labelledby={`journal-${section.id}-title`}
     >
-      <header className={styles.header}>
+      <Reveal as="header" className={styles.header}>
         <div>
           {section.eyebrow ? (
             <p className={styles.eyebrow}>{section.eyebrow}</p>
@@ -26,24 +27,27 @@ export function JournalArticles({section}: JournalArticlesProps) {
             {section.title ?? 'From the journal'}
           </h2>
         </div>
-      </header>
+      </Reveal>
       {articles.length > 0 ? (
         <div className={styles.grid}>
-          {articles.map((article) => (
-            <JournalCard
-              key={article.id}
-              to={article.to}
-              title={article.title}
-              eyebrow={article.eyebrow}
-              excerpt={article.excerpt}
-              image={article.image}
-            />
+          {articles.map((article, index) => (
+            <Reveal key={article.id} delayMs={Math.min(index, 6) * 100}>
+              <JournalCard
+                to={article.to}
+                title={article.title}
+                eyebrow={article.eyebrow}
+                excerpt={article.excerpt}
+                image={article.image}
+              />
+            </Reveal>
           ))}
         </div>
       ) : (
-        <p className={styles.empty}>
-          New Afterstate journal pieces will land here.
-        </p>
+        <Reveal delayMs={40}>
+          <p className={styles.empty}>
+            New Afterstate journal pieces will land here.
+          </p>
+        </Reveal>
       )}
     </section>
   );

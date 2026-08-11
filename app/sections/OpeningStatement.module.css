@@ -23,7 +23,6 @@
   width: min(16rem, 68vw);
   height: min(9.75rem, 42vw);
   color: var(--color-bone, #ece7da);
-  animation: brandIn var(--duration-slower, 520ms) var(--ease-out, ease) both;
 }
 
 .tagline {
@@ -34,8 +33,6 @@
   letter-spacing: var(--tracking-tight, -0.035em);
   line-height: var(--leading-tight, 1.12);
   color: var(--color-bone, #ece7da);
-  animation: brandIn var(--duration-slower, 520ms) var(--ease-out, ease) 60ms
-    both;
 }
 
 .body {
@@ -44,24 +41,6 @@
   font-size: var(--text-sm, 0.9375rem);
   line-height: var(--leading-relaxed, 1.65);
   color: var(--color-bone-muted, rgba(236, 231, 218, 0.64));
-}
-
-@keyframes brandIn {
-  from {
-    opacity: 0;
-    transform: translateY(0.7rem);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .logo,
-  .tagline {
-    animation: none;
-  }
 }
 
 @media (min-width: 45em) {

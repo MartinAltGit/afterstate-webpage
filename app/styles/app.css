@@ -640,8 +640,9 @@ textarea {
 }
 
 aside {
-  background: var(--color-bg);
-  border-left: var(--border-width) solid var(--color-border);
+  background: var(--color-night, #0b100e);
+  color: var(--color-bone, #ece7da);
+  border-left: 1px solid var(--color-hairline-dark-subtle, rgba(236, 231, 218, 0.08));
   height: 100vh;
   width: min(var(--aside-width), 100vw);
   position: fixed;
@@ -653,7 +654,7 @@ aside {
 
 aside header {
   align-items: center;
-  border-bottom: var(--border-width) solid var(--color-border);
+  border-bottom: 1px solid var(--color-hairline-dark-subtle, rgba(236, 231, 218, 0.08));
   display: flex;
   height: var(--header-height);
   justify-content: space-between;
@@ -665,26 +666,36 @@ aside header h3 {
   font-size: var(--text-sm);
   letter-spacing: var(--tracking-caps);
   text-transform: uppercase;
+  color: var(--color-brass, #c2a878);
 }
 
 aside header .close {
   font-weight: var(--font-weight-bold);
-  opacity: 0.7;
+  color: var(--color-bone-muted, rgba(236, 231, 218, 0.64));
+  opacity: 1;
   text-decoration: none;
-  transition: opacity var(--duration-fast) var(--ease-standard);
+  transition: color var(--duration-fast) var(--ease-standard);
   width: 1.25rem;
 }
 
 aside header .close:hover {
-  opacity: 1;
+  color: var(--color-bone, #ece7da);
 }
 
 aside main {
   margin: var(--space-4);
+  padding-bottom: max(1.25rem, env(safe-area-inset-bottom));
+  color: var(--color-bone, #ece7da);
+  display: flex;
+  flex-direction: column;
+  height: calc(100% - var(--header-height));
+  overflow-y: auto;
+  box-sizing: border-box;
 }
 
 aside p {
   margin: 0 0 var(--space-1);
+  color: var(--color-bone-muted, rgba(236, 231, 218, 0.64));
 }
 
 aside p:last-child {
@@ -696,7 +707,7 @@ aside li {
 }
 
 .overlay {
-  background: rgba(0, 0, 0, 0.28);
+  background: rgba(0, 0, 0, 0.62);
   bottom: 0;
   left: 0;
   opacity: 0;

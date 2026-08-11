@@ -79,6 +79,7 @@
   font-weight: var(--font-weight-medium, 500);
   line-height: 1.3;
   letter-spacing: var(--tracking-snug, -0.018em);
+  color: var(--color-fg, inherit);
 }
 
 .subtitle {
@@ -91,6 +92,7 @@
   margin-top: 0.2rem;
   font-size: 0.875rem;
   letter-spacing: 0.02em;
+  color: var(--color-fg-muted, #62706d);
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -1,4 +1,5 @@
 import {BrandLogo} from '~/components/brand/BrandLogo';
+import {Reveal} from '~/components/motion/Reveal';
 import styles from './OpeningStatement.module.css';
 import type {OpeningStatementSection, ClosingStatementSection} from './types';
 
@@ -14,7 +15,8 @@ export function OpeningStatement({section}: OpeningStatementProps) {
   const isClosing = section.type === 'closing_statement';
 
   return (
-    <section
+    <Reveal
+      as="section"
       className={styles.root}
       aria-label={isClosing ? 'Closing statement' : 'Opening statement'}
     >
@@ -23,6 +25,6 @@ export function OpeningStatement({section}: OpeningStatementProps) {
         <p className={styles.tagline}>{tagline}</p>
         {section.body ? <p className={styles.body}>{section.body}</p> : null}
       </div>
-    </section>
+    </Reveal>
   );
 }

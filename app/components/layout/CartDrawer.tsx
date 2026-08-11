@@ -116,15 +116,27 @@ export function SearchDrawer() {
   );
 }
 
+type MobileMenuDrawerProps = {
+  isLoggedIn?: Promise<boolean>;
+  marketSelector?: ReactNode;
+};
+
 /**
  * Mobile menu aside using MobileNavigation.
  */
-export function MobileMenuDrawer() {
+export function MobileMenuDrawer({
+  isLoggedIn,
+  marketSelector,
+}: MobileMenuDrawerProps) {
   const {close} = useAside();
 
   return (
     <Aside type="mobile" heading="Menu">
-      <MobileNavigation onNavigate={close} />
+      <MobileNavigation
+        onNavigate={close}
+        isLoggedIn={isLoggedIn}
+        marketSelector={marketSelector}
+      />
     </Aside>
   );
 }
@@ -132,16 +144,26 @@ export function MobileMenuDrawer() {
 type DrawersProps = {
   cart: Promise<CartApiQueryFragment | null>;
   children?: ReactNode;
+  isLoggedIn?: Promise<boolean>;
+  marketSelector?: ReactNode;
 };
 
 /**
  * Convenience wrapper that mounts cart and mobile drawers.
  */
-export function SiteDrawers({cart, children}: DrawersProps) {
+export function SiteDrawers({
+  cart,
+  children,
+  isLoggedIn,
+  marketSelector,
+}: DrawersProps) {
   return (
     <>
       <CartDrawer cart={cart} />
-      <MobileMenuDrawer />
+      <MobileMenuDrawer
+        isLoggedIn={isLoggedIn}
+        marketSelector={marketSelector}
+      />
       {children}
     </>
   );

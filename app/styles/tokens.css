@@ -69,8 +69,8 @@
   --color-glow-a: rgba(194, 168, 120, 0.07);
   --color-glow-b: rgba(120, 140, 128, 0.05);
   --color-glow-c: rgba(194, 168, 120, 0.04);
-  --color-stage: #f7f4ef;
-  --color-stage-elevated: #fbf9f5;
+  --color-stage: var(--color-night);
+  --color-stage-elevated: var(--color-night-raised);
   --color-nav-surface: rgba(10, 14, 12, 0.72);
   --color-nav-border: rgba(236, 231, 218, 0.06);
   --shadow-stage:

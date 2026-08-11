@@ -2,6 +2,7 @@ import type {ReactNode} from 'react';
 import {BrandLogo} from '~/components/brand/BrandLogo';
 import {LocaleAwareLink} from '~/components/navigation/LocaleAwareLink';
 import {PageContainer} from '~/components/layout/PageContainer';
+import {Reveal} from '~/components/motion/Reveal';
 import styles from './SiteFooter.module.css';
 
 export type FooterLink = {
@@ -39,7 +40,7 @@ export function SiteFooter({newsletter, className}: SiteFooterProps) {
     <footer className={[styles.root, className].filter(Boolean).join(' ')}>
       <PageContainer>
         <div className={styles.grid}>
-          <div className={styles.brand}>
+          <Reveal className={styles.brand}>
             <LocaleAwareLink
               className={styles.brandLink}
               prefetch="intent"
@@ -50,9 +51,9 @@ export function SiteFooter({newsletter, className}: SiteFooterProps) {
               <span className={styles.wordmark}>Afterstate</span>
             </LocaleAwareLink>
             <p className={styles.tagline}>Life beyond the rush.</p>
-          </div>
+          </Reveal>
 
-          <nav className={styles.column} aria-label="Shop">
+          <Reveal as="nav" className={styles.column} delayMs={70} aria-label="Shop">
             <p className={styles.heading}>Explore</p>
             <ul className={styles.list}>
               {SHOP_LINKS.map((link) => (
@@ -67,9 +68,14 @@ export function SiteFooter({newsletter, className}: SiteFooterProps) {
                 </li>
               ))}
             </ul>
-          </nav>
+          </Reveal>
 
-          <nav className={styles.column} aria-label="Support">
+          <Reveal
+            as="nav"
+            className={styles.column}
+            delayMs={120}
+            aria-label="Support"
+          >
             <p className={styles.heading}>Support</p>
             <ul className={styles.list}>
               {SUPPORT_LINKS.map((link) => (
@@ -84,23 +90,23 @@ export function SiteFooter({newsletter, className}: SiteFooterProps) {
                 </li>
               ))}
             </ul>
-          </nav>
+          </Reveal>
 
-          <div className={styles.column}>
+          <Reveal className={styles.column} delayMs={160}>
             <p className={styles.heading}>Newsletter</p>
             {newsletter ?? (
               <p className={styles.newsletterPlaceholder}>
                 Join for drops and journal notes.
               </p>
             )}
-          </div>
+          </Reveal>
         </div>
 
-        <div className={styles.meta}>
+        <Reveal delayMs={200} className={styles.meta}>
           <p className={styles.copyright}>
             © {new Date().getFullYear()} Afterstate
           </p>
-        </div>
+        </Reveal>
       </PageContainer>
     </footer>
   );

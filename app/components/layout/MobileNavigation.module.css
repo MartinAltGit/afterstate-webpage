@@ -1,48 +1,168 @@
 .root {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 100%;
+  color: var(--color-bone, #ece7da);
 }
 
-.brand {
+.top {
+  margin-bottom: 0.35rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--color-hairline-dark-subtle, rgba(236, 231, 218, 0.08));
+}
+
+.accountRow {
   display: flex;
   align-items: center;
-  gap: 0.85rem;
-  margin-bottom: 1.75rem;
+  justify-content: space-between;
+  gap: 1rem;
 }
 
-.brandName {
-  margin: 0;
-  font-size: 1.25rem;
-  font-weight: 500;
-  letter-spacing: -0.03em;
-  color: var(--color-fg, #1a2423);
+.account {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  min-width: 0;
+  color: var(--color-bone, #ece7da);
+  text-decoration: none;
+  transition: color var(--duration-fast, 140ms) var(--ease-out, ease);
+}
+
+.account:hover {
+  color: var(--color-brass, #c2a878);
+  text-decoration: none;
+}
+
+.accountIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 2.15rem;
+  height: 2.15rem;
+  border-radius: 999px;
+  border: 1px solid rgba(236, 231, 218, 0.14);
+  color: var(--color-bone-muted, rgba(236, 231, 218, 0.72));
+}
+
+.accountLabel {
+  font-family: var(--font-display);
+  font-size: 0.9375rem;
+  font-weight: var(--font-weight-medium, 500);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.languageControl {
+  position: relative;
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
 }
 
 .list {
   display: flex;
   flex-direction: column;
+  flex: 1 1 auto;
   gap: 0;
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
+.list > li {
+  margin: 0;
+}
+
 .link {
   display: block;
-  padding: 1rem 0;
-  border-bottom: 1px solid var(--color-border-subtle, rgba(26, 36, 35, 0.06));
-  color: var(--color-fg, #1a2423);
+  padding: 1.05rem 0;
+  border-bottom: 1px solid var(--color-hairline-dark-subtle, rgba(236, 231, 218, 0.08));
+  color: var(--color-bone-muted, rgba(236, 231, 218, 0.64));
+  font-family: var(--font-display);
   font-size: 1.125rem;
-  letter-spacing: 0.04em;
+  font-weight: var(--font-weight-medium, 500);
+  letter-spacing: 0.08em;
   text-decoration: none;
   text-transform: uppercase;
+  transition: color var(--duration-fast, 140ms) var(--ease-out, ease);
 }
 
 .link:hover {
-  color: var(--color-primary-strong, #4a757c);
+  color: var(--color-bone, #ece7da);
   text-decoration: none;
 }
 
 .active {
-  font-weight: 500;
-  color: var(--color-primary-strong, #4a757c);
+  color: var(--color-brass, #c2a878);
+}
+
+.bottom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.1rem;
+  margin-top: auto;
+  padding: 1.5rem 0 0.75rem;
+  border-top: 1px solid var(--color-hairline-dark-subtle, rgba(236, 231, 218, 0.08));
+}
+
+.logoLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 0;
+  text-decoration: none;
+  opacity: 0.94;
+  transition: opacity var(--duration-fast, 140ms) var(--ease-out, ease);
+}
+
+.logoLink img {
+  display: block;
+  height: 1.55rem;
+  width: auto;
+  max-width: 10.5rem;
+}
+
+.logoLink:hover {
+  opacity: 1;
+  text-decoration: none;
+}
+
+.socials {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.socials > li {
+  margin: 0;
+}
+
+.socialLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 999px;
+  border: 1px solid rgba(236, 231, 218, 0.14);
+  color: var(--color-bone-muted, rgba(236, 231, 218, 0.72));
+  text-decoration: none;
+  transition:
+    color var(--duration-fast, 140ms) var(--ease-out, ease),
+    border-color var(--duration-fast, 140ms) var(--ease-out, ease),
+    background var(--duration-fast, 140ms) var(--ease-out, ease);
+}
+
+.socialLink:hover {
+  color: var(--color-bone, #ece7da);
+  border-color: rgba(236, 231, 218, 0.3);
+  background: rgba(236, 231, 218, 0.06);
+  text-decoration: none;
 }

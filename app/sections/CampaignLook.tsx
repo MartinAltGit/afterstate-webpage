@@ -44,7 +44,7 @@ export function CampaignLook({
             decoding="async"
           />
           <div className={styles.scrim} aria-hidden="true" />
-          <Reveal className={styles.copy} delayMs={120}>
+          <div className={styles.copy}>
             {eyebrow ? <p className={styles.eyebrow}>{eyebrow}</p> : null}
             <h2 id="campaign-look-title" className={styles.title}>
               {title}
@@ -60,7 +60,7 @@ export function CampaignLook({
                 <span aria-hidden="true">→</span>
               </Link>
             ) : null}
-          </Reveal>
+          </div>
         </div>
       </Reveal>
     </section>

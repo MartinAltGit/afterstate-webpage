@@ -33,7 +33,7 @@
   width: 100%;
   max-width: var(--width-stage, 88rem);
   margin-inline: auto;
-  background: var(--color-stage, #f7f4ef);
+  background: var(--color-stage, #0b100e);
   border-radius: var(--radius-stage, 1.35rem);
   box-shadow: var(--shadow-stage);
   overflow: clip;
@@ -43,21 +43,24 @@
 .stage > main {
   flex: 1 0 auto;
   width: 100%;
-  background: var(--color-stage, #f7f4ef);
+  background: var(--color-stage, #0b100e);
 }
 
 @media (max-width: 640px) {
   .root {
-    padding-inline: 0.4rem;
-    padding-block: 0 1rem;
+    padding-inline: 0;
+    padding-block: 0 0;
   }
 
   .headerSlot {
-    padding-block: 0.65rem 0.55rem;
+    padding-block: 0.55rem 0.45rem;
+    padding-inline: 0.65rem;
+    max-width: none;
   }
 
   .stage {
-    border-radius: var(--radius-lg, 0.85rem);
-    min-height: calc(100vh - 4.5rem);
+    border-radius: 0;
+    box-shadow: none;
+    min-height: 100svh;
   }
 }

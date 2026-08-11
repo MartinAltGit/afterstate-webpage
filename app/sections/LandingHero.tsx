@@ -165,6 +165,7 @@ export function LandingHero({
       </div>
 
       <div className={styles.inner}>
+        <p className={styles.brand}>Afterstate</p>
         <h1 className={styles.tagline}>{tagline}</h1>
         <p className={styles.support}>{support}</p>
         {ctaLabel && ctaTo ? (

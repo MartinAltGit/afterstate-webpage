@@ -58,11 +58,6 @@
   transition: opacity var(--duration-fast, 140ms) var(--ease-out, ease);
 }
 
-.logoLink img {
-  /* Drop the baked-in black plate so only the white outline + letter forms sit on the nav. */
-  mix-blend-mode: lighten;
-}
-
 .logoLink:hover {
   text-decoration: none;
   opacity: 0.88;
@@ -159,6 +154,16 @@
   margin-right: 0.1rem;
 }
 
+.desktopOnly {
+  display: contents;
+}
+
+@media (max-width: 899px) {
+  .desktopOnly {
+    display: none;
+  }
+}
+
 .iconButton {
   appearance: none;
   position: relative;
@@ -223,6 +228,23 @@
 
 @media (max-width: 899px) {
   .float {
-    padding: 0.35rem 0.45rem 0.35rem 0.55rem;
+    width: 100%;
+    min-height: 2.7rem;
+    padding: 0.3rem 0.4rem 0.3rem 0.5rem;
+    gap: 0.55rem;
+  }
+
+  .logoLink :global(img),
+  .logoLink img {
+    height: 1.4rem;
+    max-width: 8.25rem;
+  }
+
+  .actions {
+    gap: 0.15rem;
+  }
+
+  .market {
+    margin-right: 0;
   }
 }

@@ -30,6 +30,8 @@ export type MarketSelectorProps = {
   markets?: MarketLocale[];
   currentPathPrefix?: string;
   className?: string;
+  /** `panel` = inline options for mobile menu */
+  variant?: 'dropdown' | 'panel';
 };
 
 /**
@@ -39,6 +41,7 @@ export function MarketSelector({
   markets = AFTERSTATE_LANGUAGES,
   currentPathPrefix,
   className,
+  variant = 'dropdown',
 }: MarketSelectorProps) {
   const {pathname, search} = useLocation();
   const activePrefix =
@@ -47,7 +50,13 @@ export function MarketSelector({
 
   return (
     <details
-      className={[styles.root, className].filter(Boolean).join(' ')}
+      className={[
+        styles.root,
+        variant === 'panel' ? styles.menuPanel : null,
+        className,
+      ]
+        .filter(Boolean)
+        .join(' ')}
     >
       <summary
         className={styles.trigger}
