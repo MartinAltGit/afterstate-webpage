@@ -10,11 +10,16 @@ import stageStyles from '~/components/layout/EditorialStage.module.css';
 import {PageHero} from '~/components/layout/PageHero';
 import {Reveal} from '~/components/motion/Reveal';
 import {OpeningStatement} from '~/sections/OpeningStatement';
+import {buildMetaTags} from '~/components/seo';
 import {getProductSubtitle} from '~/lib/metafields';
 import type {ProductCardFragment} from 'storefrontapi.generated';
 
 export const meta: Route.MetaFunction = () => {
-  return [{title: 'Afterstate | Shop'}];
+  return buildMetaTags({
+    title: 'Shop',
+    description:
+      'Shop Afterstate limited editions — short runs, no restocks, clothes made to stay.',
+  });
 };
 
 export async function loader(args: Route.LoaderArgs) {

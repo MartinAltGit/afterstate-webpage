@@ -1,5 +1,6 @@
 import {Link, useNavigate} from 'react-router';
 import type {MappedProductOptions} from '@shopify/hydrogen';
+import {LocaleAwareLink} from '~/components/navigation/LocaleAwareLink';
 import styles from './SizeSelector.module.css';
 
 export type SizeSelectorProps = {
@@ -20,7 +21,12 @@ export function SizeSelector({option, className}: SizeSelectorProps) {
     <fieldset
       className={[styles.root, className].filter(Boolean).join(' ')}
     >
-      <legend className={styles.legend}>{option.name}</legend>
+      <legend className={styles.legend}>
+        <span>{option.name}</span>
+        <LocaleAwareLink className={styles.guideLink} to="/size-guide">
+          Size guide
+        </LocaleAwareLink>
+      </legend>
       <div className={styles.grid}>
         {option.optionValues.map((value) => {
           const {

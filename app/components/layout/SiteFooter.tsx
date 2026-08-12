@@ -1,5 +1,6 @@
 import type {ReactNode} from 'react';
 import {BrandLogo} from '~/components/brand/BrandLogo';
+import {SocialLinks} from '~/components/brand/SocialLinks';
 import {LocaleAwareLink} from '~/components/navigation/LocaleAwareLink';
 import {PageContainer} from '~/components/layout/PageContainer';
 import {Reveal} from '~/components/motion/Reveal';
@@ -50,8 +51,7 @@ export function SiteFooter({newsletter, className}: SiteFooterProps) {
               to="/"
               aria-label="Afterstate home"
             >
-              <BrandLogo size="lg" />
-              <span className={styles.wordmark}>Afterstate</span>
+              <BrandLogo variant="wordmark" size="lg" />
             </LocaleAwareLink>
             <p className={styles.tagline}>Life beyond the rush.</p>
           </Reveal>
@@ -95,7 +95,7 @@ export function SiteFooter({newsletter, className}: SiteFooterProps) {
             </ul>
           </Reveal>
 
-          <Reveal className={styles.column} delayMs={160}>
+          <Reveal className={styles.newsletter} delayMs={160}>
             <p className={styles.heading}>Newsletter</p>
             {newsletter ?? (
               <p className={styles.newsletterPlaceholder}>
@@ -105,7 +105,19 @@ export function SiteFooter({newsletter, className}: SiteFooterProps) {
           </Reveal>
         </div>
 
-        <Reveal delayMs={200} className={styles.meta}>
+        <Reveal delayMs={200} className={styles.bar}>
+          <LocaleAwareLink
+            className={styles.barLogo}
+            prefetch="intent"
+            to="/"
+            aria-label="Afterstate home"
+          >
+            <BrandLogo variant="wordmark" size="md" />
+          </LocaleAwareLink>
+          <SocialLinks />
+        </Reveal>
+
+        <Reveal delayMs={240} className={styles.meta}>
           <p className={styles.copyright}>
             © {new Date().getFullYear()} Afterstate. All rights reserved.
             London, United Kingdom.

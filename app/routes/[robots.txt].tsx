@@ -80,6 +80,5 @@ Disallow: /blogs/*%2b*
 Disallow: /*/blogs/*+*
 Disallow: /*/blogs/*%2B*
 Disallow: /*/blogs/*%2b*
-Disallow: /policies/
 ${sitemapUrl ? `Sitemap: ${sitemapUrl}` : ''}`;
 }

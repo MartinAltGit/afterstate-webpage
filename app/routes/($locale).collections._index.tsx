@@ -61,6 +61,7 @@ export default function Collections() {
         imageSrc={campaignLook}
         eyebrow="Now shipping"
         title="001 — No Rush"
+        accent=""
         caption="The first Afterstate drop — fewer pieces, more room to live in them."
         ctaLabel="Shop Afterstate 001"
         ctaTo="/collections/afterstate-001"

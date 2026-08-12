@@ -19,22 +19,29 @@ const SLIDE_COUNT = HERO_SLIDES.length;
 const SLIDE_MS = 5000;
 
 export type LandingHeroProps = {
+  eyebrow?: string;
   tagline?: string;
+  accent?: string;
   support?: string;
   ctaLabel?: string;
   ctaTo?: string;
+  secondaryLabel?: string;
+  secondaryTo?: string;
   className?: string;
 };
 
 /**
- * Full-bleed cinematic opener — campaign media under line + CTA.
- * Punchy directional slide with scale depth between product looks.
+ * Full-bleed cinematic opener — campaign media, line, two clear CTAs.
  */
 export function LandingHero({
-  tagline = 'Life beyond the rush.',
+  eyebrow = 'Afterstate 001',
+  tagline = 'Life beyond the',
+  accent = 'rush.',
   support = 'Limited editions only — short runs, clear intent, clothes made to stay.',
   ctaLabel = 'Shop the drop',
-  ctaTo = '/collections',
+  ctaTo = '/collections/afterstate-001',
+  secondaryLabel = 'The journal',
+  secondaryTo = '/journal',
   className,
 }: LandingHeroProps) {
   const localePrefix = useLocalePathPrefix();
@@ -165,18 +172,32 @@ export function LandingHero({
       </div>
 
       <div className={styles.inner}>
-        <p className={styles.brand}>Afterstate</p>
-        <h1 className={styles.tagline}>{tagline}</h1>
+        {eyebrow ? <p className={styles.brand}>{eyebrow}</p> : null}
+        <h1 className={styles.tagline}>
+          {tagline}{' '}
+          {accent ? <span className={styles.accent}>{accent}</span> : null}
+        </h1>
         <p className={styles.support}>{support}</p>
-        {ctaLabel && ctaTo ? (
-          <MagneticLink
-            className={styles.cta}
-            variant="ghost"
-            to={prefixPathWithLocale(ctaTo, localePrefix)}
-          >
-            {ctaLabel}
-          </MagneticLink>
-        ) : null}
+        <div className={styles.actions}>
+          {ctaLabel && ctaTo ? (
+            <MagneticLink
+              className={styles.cta}
+              variant="bright"
+              to={prefixPathWithLocale(ctaTo, localePrefix)}
+            >
+              {ctaLabel}
+            </MagneticLink>
+          ) : null}
+          {secondaryLabel && secondaryTo ? (
+            <MagneticLink
+              className={styles.ctaSecondary}
+              variant="ghost"
+              to={prefixPathWithLocale(secondaryTo, localePrefix)}
+            >
+              {secondaryLabel}
+            </MagneticLink>
+          ) : null}
+        </div>
       </div>
 
       <div

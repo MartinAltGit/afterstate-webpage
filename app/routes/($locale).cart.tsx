@@ -5,7 +5,7 @@ import {
 } from 'react-router';
 import type {Route} from './+types/($locale).cart';
 import type {CartQueryDataReturn} from '@shopify/hydrogen';
-import {CartForm, useOptimisticCart} from '@shopify/hydrogen';
+import {CartForm} from '@shopify/hydrogen';
 import type {CartApiQueryFragment} from 'storefrontapi.generated';
 import {CartLine} from '~/components/commerce/CartLine';
 import {CartSummary} from '~/components/commerce/CartSummary';
@@ -14,6 +14,7 @@ import {LocaleAwareLink} from '~/components/navigation/LocaleAwareLink';
 import {PageContainer} from '~/components/layout/PageContainer';
 import {Breadcrumbs} from '~/components/navigation/Breadcrumbs';
 import {buildPageTitle} from '~/components/seo';
+import {useResolvedCart} from '~/hooks/useResolvedCart';
 
 export const meta: Route.MetaFunction = () => {
   return [{title: buildPageTitle('Cart')}];
@@ -81,9 +82,14 @@ export async function action({request, context}: Route.ActionArgs) {
       break;
     }
     case CartForm.ACTIONS.BuyerIdentityUpdate: {
-      result = await cart.updateBuyerIdentity({
-        ...inputs.buyerIdentity,
-      });
+      // Prefer explicit cartId from the client so a missing cookie cannot
+      // create a brand-new empty cart and wipe the just-added lines.
+      const rawCartId = (inputs as Record<string, unknown>).cartId;
+      const cartIdInput = typeof rawCartId === 'string' ? rawCartId : undefined;
+      result = await cart.updateBuyerIdentity(
+        {...inputs.buyerIdentity},
+        cartIdInput ? {cartId: cartIdInput} : undefined,
+      );
       break;
     }
     default:
@@ -120,7 +126,7 @@ export async function loader({context}: Route.LoaderArgs) {
 
 export default function Cart() {
   const originalCart = useLoaderData<typeof loader>();
-  const cart = useOptimisticCart(
+  const cart = useResolvedCart(
     (originalCart ?? null) as CartApiQueryFragment | null,
   );
   const lines = cart?.lines?.nodes ?? [];

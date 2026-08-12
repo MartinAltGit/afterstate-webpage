@@ -15,7 +15,11 @@ export function WelcomeOffer() {
 
   return (
     <p className={styles.root}>
-      New here? {WELCOME_DISCOUNT_LABEL} —{' '}
+      <span className={styles.kicker}>New here? </span>
+      <span className={styles.offer}>{WELCOME_DISCOUNT_LABEL}</span>
+      <span className={styles.sep} aria-hidden="true">
+        {' — '}
+      </span>
       <LocaleAwareLink
         className={styles.link}
         prefetch="intent"

@@ -5,36 +5,69 @@
   flex: 1 1 auto;
   min-height: 100%;
   min-width: 0;
+  font-family: var(--font-sans);
 }
 
 .empty {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  padding: 2rem 0;
-  font-size: 0.9375rem;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0.65rem;
+  flex: 1 1 auto;
+  min-height: 16rem;
+  padding: 2.5rem 0 3rem;
 }
 
-.empty p {
+.empty .emptyTitle {
   margin: 0;
+  font-family: var(--font-sans);
+  font-size: 1.25rem;
+  font-weight: var(--font-weight-medium, 500);
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  color: var(--color-bone, #ece7da);
+}
+
+.empty .emptyCopy {
+  margin: 0;
+  max-width: 18rem;
+  font-size: 0.875rem;
+  line-height: 1.5;
   color: var(--color-bone-muted, rgba(236, 231, 218, 0.64));
 }
 
 .continue {
-  font-size: 0.8125rem;
-  letter-spacing: 0.04em;
-  text-underline-offset: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0.85rem;
+  padding: 0.8rem 1.15rem;
+  min-height: 2.75rem;
+  border: 1px solid var(--color-hairline-dark, rgba(236, 231, 218, 0.22));
+  background: rgba(236, 231, 218, 0.06);
   color: var(--color-bone, #ece7da);
-  width: fit-content;
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+  transition:
+    background var(--duration-fast, 140ms) ease,
+    border-color var(--duration-fast, 140ms) ease,
+    color var(--duration-fast, 140ms) ease;
 }
 
 .continue:hover {
-  color: var(--color-brass, #c2a878);
+  background: var(--color-bone, #ece7da);
+  border-color: var(--color-bone, #ece7da);
+  color: var(--color-night, #0b100e);
+  text-decoration: none;
 }
 
 .lines {
   margin: 0;
-  padding: 0;
+  padding: 0.15rem 0 1rem;
   list-style: none;
   flex: 1 1 auto;
   min-width: 0;
@@ -43,40 +76,45 @@
 .summary {
   margin-top: auto;
   position: sticky;
-  bottom: calc(-1 * var(--aside-pad, 1rem));
+  bottom: 0;
   z-index: 1;
-  /* Raised night surface — same family as the drawer, clearly separated */
-  background: var(--color-night-raised, #121814);
+  background:
+    linear-gradient(
+      180deg,
+      rgba(18, 24, 20, 0.88) 0%,
+      var(--color-night-raised, #121814) 28%
+    );
   color: var(--color-bone, #ece7da);
-  border-top: 1px solid var(--color-hairline-dark, rgba(236, 231, 218, 0.14));
-  box-shadow:
-    0 -1px 0 rgba(236, 231, 218, 0.04) inset,
-    0 -18px 40px rgba(0, 0, 0, 0.35);
+  border-top: 1px solid var(--color-hairline-dark-subtle, rgba(236, 231, 218, 0.1));
+  box-shadow: 0 -24px 48px rgba(0, 0, 0, 0.38);
   margin-left: calc(-1 * var(--aside-pad, 1rem));
   margin-right: calc(-1 * var(--aside-pad, 1rem));
-  margin-bottom: calc(-1 * var(--aside-pad, 1rem));
-  padding: var(--space-5) var(--aside-pad, 1rem);
+  padding: 1.15rem var(--aside-pad, 1rem);
   padding-bottom: max(
-    var(--space-5),
-    calc(env(safe-area-inset-bottom, 0px) + var(--space-4))
+    1.15rem,
+    calc(env(safe-area-inset-bottom, 0px) + 0.85rem)
   );
 }
 
 @media (min-width: 48em) {
-  .root {
-    gap: 0.25rem;
+  .empty {
+    min-height: 20rem;
+    padding: 3.5rem 0;
+  }
+
+  .emptyTitle {
+    font-size: 1.45rem;
+  }
+
+  .emptyCopy {
+    font-size: 0.9375rem;
   }
 
   .summary {
-    padding-top: var(--space-6);
+    padding-top: 1.35rem;
     padding-bottom: max(
-      var(--space-6),
-      calc(env(safe-area-inset-bottom, 0px) + var(--space-5))
+      1.35rem,
+      calc(env(safe-area-inset-bottom, 0px) + 1rem)
     );
-  }
-
-  .empty {
-    padding: 3rem 0;
-    font-size: 1rem;
   }
 }

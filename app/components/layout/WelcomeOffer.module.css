@@ -1,15 +1,55 @@
 .root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
   margin: 0;
+  font-size: inherit;
+  letter-spacing: inherit;
+  line-height: inherit;
   color: inherit;
+}
+
+.kicker {
+  display: none;
+}
+
+.sep {
+  display: none;
+}
+
+.offer {
+  white-space: nowrap;
 }
 
 .link {
   color: var(--color-bone, #ece7da);
-  text-decoration: underline;
-  text-underline-offset: 0.2em;
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+  padding-bottom: 0.08em;
 }
 
 .link:hover {
   color: var(--color-brass, #c2a878);
-  text-decoration: underline;
+  text-decoration: none;
+}
+
+.link:focus-visible {
+  outline: 2px solid var(--color-brass, #c2a878);
+  outline-offset: 3px;
+}
+
+@media (min-width: 48em) {
+  .root {
+    display: inline;
+  }
+
+  .kicker,
+  .sep {
+    display: inline;
+  }
+
+  .offer {
+    white-space: normal;
+  }
 }

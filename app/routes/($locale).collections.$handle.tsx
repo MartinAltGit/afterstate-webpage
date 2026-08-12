@@ -13,14 +13,16 @@ import {LocaleAwareLink} from '~/components/navigation/LocaleAwareLink';
 import {Reveal} from '~/components/motion/Reveal';
 import {OpeningStatement} from '~/sections/OpeningStatement';
 import {getProductSubtitle} from '~/lib/metafields';
+import {buildMetaTags} from '~/components/seo';
 import type {ProductCardFragment} from 'storefrontapi.generated';
 
 export const meta: Route.MetaFunction = ({data}) => {
-  return [
-    {
-      title: `Afterstate | ${data?.collection.title ?? 'Collection'}`,
-    },
-  ];
+  return buildMetaTags({
+    title: data?.collection.title ?? 'Collection',
+    description:
+      data?.collection.description?.trim() ||
+      'Clothes for life beyond the rush — fewer pieces, clearer intent.',
+  });
 };
 
 export async function loader(args: Route.LoaderArgs) {

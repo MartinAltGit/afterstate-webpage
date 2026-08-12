@@ -57,6 +57,24 @@
   outline-offset: 3px;
 }
 
+.bright {
+  --magnetic-bg: var(--color-bone, #ece7da);
+  --magnetic-fg: var(--color-night, #0b100e);
+  background: var(--color-bone, #ece7da);
+  color: var(--color-night, #0b100e);
+  border-color: transparent;
+}
+
+.bright:hover {
+  background: var(--color-brass, #c2a878);
+  color: var(--color-night, #0b100e);
+}
+
+.bright:focus-visible {
+  outline: 2px solid var(--color-brass, #c2a878);
+  outline-offset: 3px;
+}
+
 .outline {
   --magnetic-bg: transparent;
   --magnetic-fg: var(--color-ink, #15201f);

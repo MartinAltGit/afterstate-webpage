@@ -1,5 +1,4 @@
 import type {ReactNode} from 'react';
-import {PageContainer} from '~/components/layout/PageContainer';
 import styles from './AnnouncementBar.module.css';
 
 type AnnouncementBarProps = {
@@ -25,9 +24,7 @@ export function AnnouncementBar({
       role="region"
       aria-label="Announcement"
     >
-      <PageContainer>
-        <div className={styles.inner}>{content}</div>
-      </PageContainer>
+      <div className={styles.inner}>{content}</div>
     </div>
   );
 }

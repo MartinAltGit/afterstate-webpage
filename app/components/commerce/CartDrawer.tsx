@@ -1,4 +1,4 @@
-import {useOptimisticCart} from '@shopify/hydrogen';
+import {useResolvedCart} from '~/hooks/useResolvedCart';
 import {useAside} from '~/components/Aside';
 import {LocaleAwareLink} from '~/components/navigation/LocaleAwareLink';
 import type {CartApiQueryFragment} from 'storefrontapi.generated';
@@ -15,7 +15,7 @@ export type CartDrawerProps = {
  * Cart drawer body — lines + summary. Pair with Aside type="cart".
  */
 export function CartDrawer({cart: originalCart, className}: CartDrawerProps) {
-  const cart = useOptimisticCart(originalCart);
+  const cart = useResolvedCart(originalCart);
   const {close} = useAside();
   const lines = cart?.lines?.nodes ?? [];
   const hasItems = Boolean(cart?.totalQuantity && cart.totalQuantity > 0);
@@ -35,7 +35,10 @@ export function CartDrawer({cart: originalCart, className}: CartDrawerProps) {
     >
       {!hasItems ? (
         <div className={styles.empty}>
-          <p>Your cart is empty.</p>
+          <p className={styles.emptyTitle}>Your cart is empty</p>
+          <p className={styles.emptyCopy}>
+            When something fits the pace, it lands here.
+          </p>
           <LocaleAwareLink
             to="/shop"
             onClick={close}

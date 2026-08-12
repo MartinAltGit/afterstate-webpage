@@ -1,6 +1,5 @@
 import {Money, type OptimisticCart} from '@shopify/hydrogen';
 import type {MoneyV2} from '@shopify/hydrogen/storefront-api-types';
-import {useId} from 'react';
 import type {CartApiQueryFragment} from 'storefrontapi.generated';
 import {LocaleAwareLink} from '~/components/navigation/LocaleAwareLink';
 import {
@@ -17,7 +16,6 @@ export type CartSummaryProps = {
 };
 
 export function CartSummary({cart, className}: CartSummaryProps) {
-  const headingId = useId();
   const discountCodes = cart?.discountCodes ?? [];
   const subtotal = cart?.cost?.subtotalAmount;
   const total = cart?.cost?.totalAmount;
@@ -26,12 +24,10 @@ export function CartSummary({cart, className}: CartSummaryProps) {
   return (
     <div
       className={[styles.root, className].filter(Boolean).join(' ')}
-      aria-labelledby={headingId}
+      role="region"
+      aria-label="Summary"
     >
       <div className={styles.ledger}>
-        <h2 id={headingId} className={styles.heading}>
-          Summary
-        </h2>
         <dl className={styles.total}>
           <dt>Subtotal</dt>
           <dd>
@@ -53,6 +49,8 @@ export function CartSummary({cart, className}: CartSummaryProps) {
 
       <DiscountForm discountCodes={discountCodes} />
 
+      <CheckoutButton checkoutUrl={cart?.checkoutUrl} />
+
       <p className={styles.policyNote}>
         By checking out you agree to our{' '}
         <LocaleAwareLink className={styles.policyLink} to="/policies/terms-of-service">
@@ -64,13 +62,11 @@ export function CartSummary({cart, className}: CartSummaryProps) {
           Details
         </LocaleAwareLink>
       </p>
-
-      <CheckoutButton checkoutUrl={cart?.checkoutUrl} />
     </div>
   );
 }
 
-type MoneyPiece = Pick<MoneyV2, 'amount' | 'currencyCode'>;
+type MoneyPiece = Partial<Pick<MoneyV2, 'amount' | 'currencyCode'>>;
 
 function getVisiblePrice(
   subtotal: MoneyPiece | null | undefined,

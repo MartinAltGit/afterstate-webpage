@@ -40,7 +40,10 @@ export function DemandCapture({
 
   if (succeeded) {
     return (
-      <div className={[styles.root, className].filter(Boolean).join(' ')}>
+      <div
+        id="demand-capture"
+        className={[styles.root, className].filter(Boolean).join(' ')}
+      >
         <p className={styles.success} role="status">
           Demand noted. We&apos;ll reach out if this returns or a related drop
           lands.
@@ -50,7 +53,10 @@ export function DemandCapture({
   }
 
   return (
-    <div className={[styles.root, className].filter(Boolean).join(' ')}>
+    <div
+      id="demand-capture"
+      className={[styles.root, className].filter(Boolean).join(' ')}
+    >
       <p className={styles.lead}>
         Want this? Leave your email — we register demand for restocks and related
         drops.

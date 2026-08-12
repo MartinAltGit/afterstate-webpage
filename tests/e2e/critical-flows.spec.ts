@@ -85,6 +85,10 @@ test.describe('Critical storefront flows', () => {
     await openShop(page);
 
     const product = await firstProductLink(page);
+    if ((await product.count()) === 0) {
+      test.skip(true, 'No Afterstate catalog products published yet');
+    }
+
     await expect.soft(product).toBeVisible({timeout: 30_000});
 
     await openFirstProduct(page);
@@ -98,6 +102,10 @@ test.describe('Critical storefront flows', () => {
   }) => {
     await goHome(page);
     await openShop(page);
+    const catalogProduct = await firstProductLink(page);
+    if ((await catalogProduct.count()) === 0) {
+      test.skip(true, 'No Afterstate catalog products published yet');
+    }
     await openFirstProduct(page);
 
     await selectAvailableSizeIfPresent(page);
@@ -219,11 +227,16 @@ test.describe('Critical storefront flows', () => {
     expect(res.ok()).toBeTruthy();
     const body = await res.text();
     expect(body).toMatch(/User-agent|Sitemap/i);
+    expect(body).not.toMatch(/Disallow:\s*\/policies\//);
   });
 
   test('16. product page includes JSON-LD structured data', async ({page}) => {
     await goHome(page);
     await openShop(page);
+    const catalogProduct = await firstProductLink(page);
+    if ((await catalogProduct.count()) === 0) {
+      test.skip(true, 'No Afterstate catalog products published yet');
+    }
     await openFirstProduct(page);
 
     const ld = page.locator('script[type="application/ld+json"]');

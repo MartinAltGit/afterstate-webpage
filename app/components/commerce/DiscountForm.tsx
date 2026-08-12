@@ -50,7 +50,7 @@ export function DiscountForm({
 
     if (!match) {
       setError(
-        'That code wasn’t accepted. For local testing, create Welcome20 in Shopify Admin → Discounts.',
+        'That code wasn’t accepted. Check the spelling and try again.',
       );
       return;
     }
@@ -126,8 +126,8 @@ export function DiscountForm({
 
           return (
             <div className={styles.field}>
-              <label htmlFor={inputId} className={styles.label}>
-                Promo code
+              <label htmlFor={inputId} className={styles.srOnly}>
+                Discount code
               </label>
               <div
                 className={[styles.control, error ? styles.controlError : '']
@@ -144,7 +144,7 @@ export function DiscountForm({
                     if (error) setError(null);
                     if (submittedCode) setSubmittedCode(null);
                   }}
-                  placeholder="Enter code"
+                  placeholder="Promo code"
                   className={styles.input}
                   autoComplete="off"
                   spellCheck={false}
@@ -164,13 +164,11 @@ export function DiscountForm({
                   {busy ? '…' : 'Apply'}
                 </button>
               </div>
-              <p
-                id={errorId}
-                className={error ? styles.error : styles.hint}
-                role={error ? 'alert' : undefined}
-              >
-                {error ?? '\u00a0'}
-              </p>
+              {error ? (
+                <p id={errorId} className={styles.error} role="alert">
+                  {error}
+                </p>
+              ) : null}
             </div>
           );
         }}

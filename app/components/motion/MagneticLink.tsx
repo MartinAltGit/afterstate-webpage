@@ -9,7 +9,7 @@ export type MagneticLinkProps = {
   className?: string;
   prefetch?: 'intent' | 'render' | 'none' | 'viewport';
   strength?: number;
-  variant?: 'solid' | 'ghost' | 'outline';
+  variant?: 'solid' | 'ghost' | 'outline' | 'bright';
 };
 
 /**
@@ -48,6 +48,7 @@ export function MagneticLink({
         styles.root,
         variant === 'ghost' ? styles.ghost : null,
         variant === 'outline' ? styles.outline : null,
+        variant === 'bright' ? styles.bright : null,
         className,
       ]
         .filter(Boolean)

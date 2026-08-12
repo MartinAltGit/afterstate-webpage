@@ -12,23 +12,16 @@ export const MAIN_NAV_ITEMS: MainNavItem[] = [
   {label: 'Shop', to: '/shop'},
   {label: 'Limited', to: '/collections'},
   {label: 'Journal', to: '/journal'},
-  {label: 'About', to: '/about'},
-  {label: 'Blog', to: '/blog'},
 ];
 
-/** Desktop left cluster — About and Blog sit with the utility chrome. */
+/** Desktop left cluster — Journal sits with the utility chrome beside the market selector. */
 export const PRIMARY_NAV_ITEMS: MainNavItem[] = MAIN_NAV_ITEMS.filter(
-  (item) => item.label !== 'About' && item.label !== 'Blog',
+  (item) => item.label !== 'Journal',
 );
 
-export const ABOUT_NAV_ITEM: MainNavItem = {
-  label: 'About',
-  to: '/about',
-};
-
-export const BLOG_NAV_ITEM: MainNavItem = {
-  label: 'Blog',
-  to: '/blog',
+export const JOURNAL_NAV_ITEM: MainNavItem = {
+  label: 'Journal',
+  to: '/journal',
 };
 
 type MainNavigationProps = {
@@ -61,7 +54,7 @@ export function MainNavigation({
                   .filter(Boolean)
                   .join(' ')
               }
-              end
+              end={item.to === '/'}
               onClick={onNavigate}
               prefetch="intent"
               to={prefixPathWithLocale(item.to, localePrefix)}

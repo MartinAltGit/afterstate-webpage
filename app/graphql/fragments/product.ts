@@ -9,6 +9,7 @@ export const PRODUCT_CARD_FRAGMENT = `#graphql
     id
     title
     handle
+    vendor
     featuredImage {
       id
       url

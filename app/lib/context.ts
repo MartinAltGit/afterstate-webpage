@@ -1,6 +1,6 @@
 import {createHydrogenContext} from '@shopify/hydrogen';
 import {AppSession} from '~/lib/session';
-import {CART_QUERY_FRAGMENT} from '~/lib/fragments';
+import {CART_MUTATE_FRAGMENT, CART_QUERY_FRAGMENT} from '~/lib/fragments';
 import type {CartApiQueryFragment} from 'storefrontapi.generated';
 import {getLocaleFromRequest} from '~/lib/i18n';
 
@@ -63,6 +63,8 @@ export async function createHydrogenRouterContext(
       },
       cart: {
         queryFragment: CART_QUERY_FRAGMENT,
+        // Full line payload on mutations (no `$numCartLines` — undeclared there).
+        mutateFragment: CART_MUTATE_FRAGMENT,
       },
     },
     additionalContext,

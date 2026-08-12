@@ -15,6 +15,8 @@ export type MobileStickyBuyBarProps = {
   className?: string;
   /** When false, bar is hidden (e.g. desktop). Defaults to true — CSS hides on large screens. */
   visible?: boolean;
+  productHandle?: string;
+  productTitle?: string;
 };
 
 /**
@@ -30,8 +32,11 @@ export function MobileStickyBuyBar({
   analytics,
   className,
   visible = true,
+  productHandle,
 }: MobileStickyBuyBarProps) {
   if (!visible) return null;
+
+  const showDemand = !availableForSale && Boolean(productHandle);
 
   return (
     <div
@@ -43,15 +48,21 @@ export function MobileStickyBuyBar({
         <p className={styles.title}>{title}</p>
         <ProductPrice price={price} compareAtPrice={compareAtPrice} />
       </div>
-      <AddToCartButton
-        disabled={!availableForSale || lines.length === 0}
-        lines={lines}
-        onClick={onAddToCart}
-        analytics={analytics}
-        className={styles.cta}
-      >
-        {availableForSale ? 'Add to cart' : 'Sold out'}
-      </AddToCartButton>
+      {showDemand ? (
+        <a className={styles.notify} href="#demand-capture">
+          Notify me
+        </a>
+      ) : (
+        <AddToCartButton
+          disabled={!availableForSale || lines.length === 0}
+          lines={lines}
+          onClick={onAddToCart}
+          analytics={analytics}
+          className={styles.cta}
+        >
+          {availableForSale ? 'Add to cart' : 'Sold out'}
+        </AddToCartButton>
+      )}
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import {useLoaderData} from 'react-router';
+import {redirect, useLoaderData} from 'react-router';
 import type {Route} from './+types/($locale).journal.$articleHandle';
 import {Image} from '@shopify/hydrogen';
 import {FallbackJournalArticleView} from '~/components/journal/FallbackJournalArticle';
@@ -6,7 +6,12 @@ import {Breadcrumbs} from '~/components/navigation/Breadcrumbs';
 import {PageContainer} from '~/components/layout/PageContainer';
 import {ArticleJsonLd, buildMetaTags} from '~/components/seo';
 import {JOURNAL_ARTICLE_QUERY} from '~/graphql/queries/journal';
+import {
+  JOURNAL_ESSAYS_PATH,
+  isReservedJournalHandle,
+} from '~/lib/content-paths';
 import {getFallbackJournalArticle} from '~/lib/journal/fallback';
+import type {I18nLocale} from '~/lib/i18n';
 import {redirectIfHandleIsLocalized} from '~/lib/redirect';
 import {useAbsoluteSeoUrl} from '~/lib/seo/useAbsoluteSeoUrl';
 
@@ -39,6 +44,11 @@ export async function loader({context, params, request}: Route.LoaderArgs) {
 
   if (!articleHandle) {
     throw new Response('Not found', {status: 404});
+  }
+
+  if (isReservedJournalHandle(articleHandle)) {
+    const pathPrefix = (context.storefront.i18n as I18nLocale).pathPrefix || '';
+    throw redirect(`${pathPrefix}${JOURNAL_ESSAYS_PATH}`);
   }
 
   const {storefront} = context;

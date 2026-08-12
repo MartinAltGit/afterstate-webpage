@@ -14,7 +14,13 @@ export function CheckoutButton({
   children = 'Checkout',
   className,
 }: CheckoutButtonProps) {
-  if (!checkoutUrl) return null;
+  if (!checkoutUrl) {
+    return (
+      <p className={[styles.unavailable, className].filter(Boolean).join(' ')} role="status">
+        Checkout isn’t available right now. Refresh the page and try again.
+      </p>
+    );
+  }
 
   return (
     <a

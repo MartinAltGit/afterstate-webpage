@@ -24,7 +24,7 @@ export type CollectionDetailFragment = Pick<
 
 export type ProductCardFragment = Pick<
   StorefrontAPI.Product,
-  'id' | 'title' | 'handle'
+  'id' | 'title' | 'handle' | 'vendor'
 > & {
   featuredImage?: StorefrontAPI.Maybe<
     Pick<StorefrontAPI.Image, 'id' | 'url' | 'altText' | 'width' | 'height'>
@@ -1077,7 +1077,7 @@ export type CollectionQuery = {
     > & {
       products: {
         nodes: Array<
-          Pick<StorefrontAPI.Product, 'id' | 'title' | 'handle'> & {
+          Pick<StorefrontAPI.Product, 'id' | 'title' | 'handle' | 'vendor'> & {
             featuredImage?: StorefrontAPI.Maybe<
               Pick<
                 StorefrontAPI.Image,
@@ -1128,7 +1128,7 @@ export type CatalogQueryVariables = StorefrontAPI.Exact<{
 export type CatalogQuery = {
   products: {
     nodes: Array<
-      Pick<StorefrontAPI.Product, 'id' | 'title' | 'handle'> & {
+      Pick<StorefrontAPI.Product, 'id' | 'title' | 'handle' | 'vendor'> & {
         featuredImage?: StorefrontAPI.Maybe<
           Pick<
             StorefrontAPI.Image,
@@ -1240,7 +1240,7 @@ export type RecommendedProductsQueryVariables = StorefrontAPI.Exact<{
 export type RecommendedProductsQuery = {
   products: {
     nodes: Array<
-      Pick<StorefrontAPI.Product, 'id' | 'title' | 'handle'> & {
+      Pick<StorefrontAPI.Product, 'id' | 'title' | 'handle' | 'vendor'> & {
         featuredImage?: StorefrontAPI.Maybe<
           Pick<
             StorefrontAPI.Image,
@@ -1377,6 +1377,7 @@ export type ProductQuery = {
       | 'handle'
       | 'descriptionHtml'
       | 'description'
+      | 'tags'
       | 'encodedVariantExistence'
       | 'encodedVariantAvailability'
     > & {
@@ -1604,7 +1605,7 @@ export type ProductRecommendationsQueryVariables = StorefrontAPI.Exact<{
 export type ProductRecommendationsQuery = {
   productRecommendations?: StorefrontAPI.Maybe<
     Array<
-      Pick<StorefrontAPI.Product, 'id' | 'title' | 'handle'> & {
+      Pick<StorefrontAPI.Product, 'id' | 'title' | 'handle' | 'vendor'> & {
         featuredImage?: StorefrontAPI.Maybe<
           Pick<
             StorefrontAPI.Image,
@@ -2080,7 +2081,7 @@ export type CampaignProductsQuery = {
     Pick<StorefrontAPI.Collection, 'id' | 'handle'> & {
       products: {
         nodes: Array<
-          Pick<StorefrontAPI.Product, 'id' | 'title' | 'handle'> & {
+          Pick<StorefrontAPI.Product, 'id' | 'title' | 'handle' | 'vendor'> & {
             featuredImage?: StorefrontAPI.Maybe<
               Pick<
                 StorefrontAPI.Image,
@@ -2107,7 +2108,7 @@ export type CampaignProductsQuery = {
   >;
   products: {
     nodes: Array<
-      Pick<StorefrontAPI.Product, 'id' | 'title' | 'handle'> & {
+      Pick<StorefrontAPI.Product, 'id' | 'title' | 'handle' | 'vendor'> & {
         featuredImage?: StorefrontAPI.Maybe<
           Pick<
             StorefrontAPI.Image,
@@ -2488,7 +2489,7 @@ interface GeneratedQueryTypes {
     return: JournalArticleQuery;
     variables: JournalArticleQueryVariables;
   };
-  '#graphql\n  query Product(\n    $country: CountryCode\n    $handle: String!\n    $language: LanguageCode\n    $selectedOptions: [SelectedOptionInput!]!\n  ) @inContext(country: $country, language: $language) {\n    product(handle: $handle) {\n      ...ProductDetail\n    }\n  }\n  #graphql\n  fragment ProductDetail on Product {\n    id\n    title\n    vendor\n    handle\n    descriptionHtml\n    description\n    encodedVariantExistence\n    encodedVariantAvailability\n    featuredImage {\n      id\n      url\n      altText\n      width\n      height\n    }\n    priceRange {\n      minVariantPrice {\n        amount\n        currencyCode\n      }\n      maxVariantPrice {\n        amount\n        currencyCode\n      }\n    }\n    options {\n      name\n      optionValues {\n        name\n        firstSelectableVariant {\n          ...ProductVariant\n        }\n        swatch {\n          color\n          image {\n            previewImage {\n              url\n            }\n          }\n        }\n      }\n    }\n    selectedOrFirstAvailableVariant(\n      selectedOptions: $selectedOptions\n      ignoreUnknownOptions: true\n      caseInsensitiveMatch: true\n    ) {\n      ...ProductVariant\n    }\n    adjacentVariants(selectedOptions: $selectedOptions) {\n      ...ProductVariant\n    }\n    seo {\n      description\n      title\n    }\n    ...ProductMetafields\n  }\n  #graphql\n  fragment ProductVariant on ProductVariant {\n    availableForSale\n    compareAtPrice {\n      amount\n      currencyCode\n    }\n    id\n    image {\n      __typename\n      id\n      url\n      altText\n      width\n      height\n    }\n    price {\n      amount\n      currencyCode\n    }\n    product {\n      title\n      handle\n    }\n    selectedOptions {\n      name\n      value\n    }\n    sku\n    title\n    unitPrice {\n      amount\n      currencyCode\n    }\n  }\n\n  #graphql\n  fragment ProductMetafields on Product {\n    subtitle: metafield(namespace: "custom", key: "subtitle") {\n      value\n      type\n    }\n    collectionNumber: metafield(namespace: "custom", key: "collection_number") {\n      value\n      type\n    }\n    fit: metafield(namespace: "custom", key: "fit") {\n      value\n      type\n    }\n    fitNotes: metafield(namespace: "custom", key: "fit_notes") {\n      value\n      type\n    }\n    fabric: metafield(namespace: "custom", key: "fabric") {\n      value\n      type\n    }\n    fabricComposition: metafield(namespace: "custom", key: "fabric_composition") {\n      value\n      type\n    }\n    fabricWeightGsm: metafield(namespace: "custom", key: "fabric_weight_gsm") {\n      value\n      type\n    }\n    construction: metafield(namespace: "custom", key: "construction") {\n      value\n      type\n    }\n    measurements: metafield(namespace: "custom", key: "measurements") {\n      value\n      type\n    }\n    modelInformation: metafield(namespace: "custom", key: "model_information") {\n      value\n      type\n    }\n    designStory: metafield(namespace: "custom", key: "design_story") {\n      value\n      type\n    }\n    careInstructions: metafield(namespace: "custom", key: "care_instructions") {\n      value\n      type\n    }\n    sizeGuide: metafield(namespace: "custom", key: "size_guide") {\n      value\n      type\n    }\n    shippingNote: metafield(namespace: "custom", key: "shipping_note") {\n      value\n      type\n    }\n    productBadge: metafield(namespace: "custom", key: "product_badge") {\n      value\n      type\n    }\n    editorialMedia: metafield(namespace: "custom", key: "editorial_media") {\n      value\n      type\n      reference {\n        ... on MediaImage {\n          image {\n            url\n            altText\n            width\n            height\n          }\n        }\n      }\n      references(first: 20) {\n        nodes {\n          ... on MediaImage {\n            image {\n              url\n              altText\n              width\n              height\n            }\n          }\n        }\n      }\n    }\n    relatedProducts: metafield(namespace: "custom", key: "related_products") {\n      value\n      type\n      references(first: 12) {\n        nodes {\n          ... on Product {\n            id\n            handle\n            title\n            featuredImage {\n              url\n              altText\n              width\n              height\n            }\n            priceRange {\n              minVariantPrice {\n                amount\n                currencyCode\n              }\n            }\n          }\n        }\n      }\n    }\n    completeTheLook: metafield(namespace: "custom", key: "complete_the_look") {\n      value\n      type\n      references(first: 12) {\n        nodes {\n          ... on Product {\n            id\n            handle\n            title\n            featuredImage {\n              url\n              altText\n              width\n              height\n            }\n            priceRange {\n              minVariantPrice {\n                amount\n                currencyCode\n              }\n            }\n          }\n        }\n      }\n    }\n    seoTitleOverride: metafield(namespace: "custom", key: "seo_title_override") {\n      value\n      type\n    }\n    seoDescriptionOverride: metafield(namespace: "custom", key: "seo_description_override") {\n      value\n      type\n    }\n  }\n\n\n': {
+  '#graphql\n  query Product(\n    $country: CountryCode\n    $handle: String!\n    $language: LanguageCode\n    $selectedOptions: [SelectedOptionInput!]!\n  ) @inContext(country: $country, language: $language) {\n    product(handle: $handle) {\n      ...ProductDetail\n    }\n  }\n  #graphql\n  fragment ProductDetail on Product {\n    id\n    title\n    vendor\n    handle\n    descriptionHtml\n    description\n    tags\n    encodedVariantExistence\n    encodedVariantAvailability\n    featuredImage {\n      id\n      url\n      altText\n      width\n      height\n    }\n    priceRange {\n      minVariantPrice {\n        amount\n        currencyCode\n      }\n      maxVariantPrice {\n        amount\n        currencyCode\n      }\n    }\n    options {\n      name\n      optionValues {\n        name\n        firstSelectableVariant {\n          ...ProductVariant\n        }\n        swatch {\n          color\n          image {\n            previewImage {\n              url\n            }\n          }\n        }\n      }\n    }\n    selectedOrFirstAvailableVariant(\n      selectedOptions: $selectedOptions\n      ignoreUnknownOptions: true\n      caseInsensitiveMatch: true\n    ) {\n      ...ProductVariant\n    }\n    adjacentVariants(selectedOptions: $selectedOptions) {\n      ...ProductVariant\n    }\n    seo {\n      description\n      title\n    }\n    ...ProductMetafields\n  }\n  #graphql\n  fragment ProductVariant on ProductVariant {\n    availableForSale\n    compareAtPrice {\n      amount\n      currencyCode\n    }\n    id\n    image {\n      __typename\n      id\n      url\n      altText\n      width\n      height\n    }\n    price {\n      amount\n      currencyCode\n    }\n    product {\n      title\n      handle\n    }\n    selectedOptions {\n      name\n      value\n    }\n    sku\n    title\n    unitPrice {\n      amount\n      currencyCode\n    }\n  }\n\n  #graphql\n  fragment ProductMetafields on Product {\n    subtitle: metafield(namespace: "custom", key: "subtitle") {\n      value\n      type\n    }\n    collectionNumber: metafield(namespace: "custom", key: "collection_number") {\n      value\n      type\n    }\n    fit: metafield(namespace: "custom", key: "fit") {\n      value\n      type\n    }\n    fitNotes: metafield(namespace: "custom", key: "fit_notes") {\n      value\n      type\n    }\n    fabric: metafield(namespace: "custom", key: "fabric") {\n      value\n      type\n    }\n    fabricComposition: metafield(namespace: "custom", key: "fabric_composition") {\n      value\n      type\n    }\n    fabricWeightGsm: metafield(namespace: "custom", key: "fabric_weight_gsm") {\n      value\n      type\n    }\n    construction: metafield(namespace: "custom", key: "construction") {\n      value\n      type\n    }\n    measurements: metafield(namespace: "custom", key: "measurements") {\n      value\n      type\n    }\n    modelInformation: metafield(namespace: "custom", key: "model_information") {\n      value\n      type\n    }\n    designStory: metafield(namespace: "custom", key: "design_story") {\n      value\n      type\n    }\n    careInstructions: metafield(namespace: "custom", key: "care_instructions") {\n      value\n      type\n    }\n    sizeGuide: metafield(namespace: "custom", key: "size_guide") {\n      value\n      type\n    }\n    shippingNote: metafield(namespace: "custom", key: "shipping_note") {\n      value\n      type\n    }\n    productBadge: metafield(namespace: "custom", key: "product_badge") {\n      value\n      type\n    }\n    editorialMedia: metafield(namespace: "custom", key: "editorial_media") {\n      value\n      type\n      reference {\n        ... on MediaImage {\n          image {\n            url\n            altText\n            width\n            height\n          }\n        }\n      }\n      references(first: 20) {\n        nodes {\n          ... on MediaImage {\n            image {\n              url\n              altText\n              width\n              height\n            }\n          }\n        }\n      }\n    }\n    relatedProducts: metafield(namespace: "custom", key: "related_products") {\n      value\n      type\n      references(first: 12) {\n        nodes {\n          ... on Product {\n            id\n            handle\n            title\n            featuredImage {\n              url\n              altText\n              width\n              height\n            }\n            priceRange {\n              minVariantPrice {\n                amount\n                currencyCode\n              }\n            }\n          }\n        }\n      }\n    }\n    completeTheLook: metafield(namespace: "custom", key: "complete_the_look") {\n      value\n      type\n      references(first: 12) {\n        nodes {\n          ... on Product {\n            id\n            handle\n            title\n            featuredImage {\n              url\n              altText\n              width\n              height\n            }\n            priceRange {\n              minVariantPrice {\n                amount\n                currencyCode\n              }\n            }\n          }\n        }\n      }\n    }\n    seoTitleOverride: metafield(namespace: "custom", key: "seo_title_override") {\n      value\n      type\n    }\n    seoDescriptionOverride: metafield(namespace: "custom", key: "seo_description_override") {\n      value\n      type\n    }\n  }\n\n\n': {
     return: ProductQuery;
     variables: ProductQueryVariables;
   };

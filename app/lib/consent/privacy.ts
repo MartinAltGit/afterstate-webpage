@@ -1,7 +1,8 @@
 /**
  * Customer privacy / consent stubs.
- * Compatible shape for later Shopify Customer Privacy API wiring
- * (`window.Shopify.customerPrivacy`).
+ * Compatible shape for Shopify Customer Privacy API
+ * (`window.Shopify.customerPrivacy`). Hydrogen shows the cookie banner when
+ * `withPrivacyBanner: true` on the root Analytics consent config.
  */
 
 export type ConsentCategory =

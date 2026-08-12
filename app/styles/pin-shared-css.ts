@@ -25,4 +25,5 @@ import '~/components/feedback/NotFoundState.module.css';
 import '~/components/commerce/ProductCard.module.css';
 import '~/components/commerce/CartSummary.module.css';
 import '~/components/commerce/CartLine.module.css';
+import '~/components/commerce/LanguageSelector.module.css';
 import '~/components/brand/BrandLogo.module.css';

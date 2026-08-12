@@ -49,6 +49,25 @@
   text-decoration: none;
 }
 
+:global(.cart-page) .title {
+  font-family: var(--font-sans);
+  color: var(--color-bone, #ece7da);
+}
+
+:global(.cart-page) .message {
+  color: var(--color-bone-muted, rgba(236, 231, 218, 0.64));
+}
+
+:global(.cart-page) .action a {
+  color: var(--color-bone, #ece7da);
+  border-bottom-color: var(--color-hairline-dark, rgba(236, 231, 218, 0.28));
+}
+
+:global(.cart-page) .action a:hover {
+  color: var(--color-brass-strong, #d3bc8f);
+  border-color: var(--color-brass-strong, #d3bc8f);
+}
+
 .formError {
   margin: 0.75rem 0;
   padding: 0.75rem 1rem;

@@ -9,6 +9,7 @@ import {PageContainer} from '~/components/layout/PageContainer';
 import {buildMetaTags} from '~/components/seo';
 import {CAMPAIGN_BY_HANDLE_QUERY} from '~/graphql/queries/campaign';
 import {PRODUCT_CARD_FRAGMENT} from '~/graphql/fragments/product';
+import type {ProductCardFragment} from 'storefrontapi.generated';
 
 const CAMPAIGN_HANDLE = 'afterstate-001-no-rush';
 const COLLECTION_HANDLE = 'afterstate-001';
@@ -83,7 +84,7 @@ export default function Afterstate001NoRush() {
           ctaTo={`/collections/${COLLECTION_HANDLE}`}
         >
           {products.length
-            ? products.map((product) => (
+            ? products.map((product: ProductCardFragment) => (
                 <ProductCard
                   key={product.id}
                   to={`/products/${product.handle}`}

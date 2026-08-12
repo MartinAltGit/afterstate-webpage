@@ -201,6 +201,16 @@ export const CART_QUERY_FRAGMENT = `#graphql
   }
 ` as const;
 
+/**
+ * Cart mutations use `...CartApiMutation` and do **not** declare `$numCartLines`.
+ * Reusing the query fragment as-is makes every add-to-cart GraphQL call invalid:
+ * optimistic lines flash, then the cart comes back empty.
+ */
+export const CART_MUTATE_FRAGMENT = CART_QUERY_FRAGMENT.replace(
+  'fragment CartApiQuery on Cart',
+  'fragment CartApiMutation on Cart',
+).replace('lines(first: $numCartLines)', 'lines(first: 100)');
+
 const MENU_FRAGMENT = `#graphql
   fragment MenuItem on MenuItem {
     id

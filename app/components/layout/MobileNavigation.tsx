@@ -1,6 +1,13 @@
 import type {ReactNode} from 'react';
 import {NavLink} from 'react-router';
+import homeImage from '~/assets/mockups/hero-campaign.jpg';
+import shopImage from '~/assets/mockups/hero-campaign-hoodies.jpg';
+import limitedImage from '~/assets/mockups/campaign-look-new.jpg';
+import journalImage from '~/assets/mockups/campaign-look-alt.jpg';
+import {useAside} from '~/components/Aside';
 import {BrandLogo} from '~/components/brand/BrandLogo';
+import {SocialLinks} from '~/components/brand/SocialLinks';
+import {LanguageSelector} from '~/components/commerce/LanguageSelector';
 import {LocaleAwareLink} from '~/components/navigation/LocaleAwareLink';
 import {
   MAIN_NAV_ITEMS,
@@ -9,96 +16,142 @@ import {
 import {prefixPathWithLocale, useLocalePathPrefix} from '~/lib/locale';
 import styles from './MobileNavigation.module.css';
 
+type DestinationMeta = {
+  kicker: string;
+  support: string;
+  imageSrc: string;
+};
+
+const DESTINATION_META: Record<string, DestinationMeta> = {
+  '/': {
+    kicker: '01',
+    support: 'Life beyond the rush.',
+    imageSrc: homeImage,
+  },
+  '/shop': {
+    kicker: '02',
+    support: 'Clothes made to stay.',
+    imageSrc: shopImage,
+  },
+  '/collections': {
+    kicker: '03',
+    support: 'Short runs. Clear intent.',
+    imageSrc: limitedImage,
+  },
+  '/journal': {
+    kicker: '04',
+    support: 'Notes from the quieter side.',
+    imageSrc: journalImage,
+  },
+};
+
+const UTILITY_LINKS = [
+  {label: 'Size guide', to: '/size-guide'},
+  {label: 'Care', to: '/care'},
+  {label: 'Contact', to: '/contact'},
+] as const;
+
 type MobileNavigationProps = {
   items?: MainNavItem[];
   onNavigate?: () => void;
   className?: string;
   /** Kept for callers; sign-in row is hidden while accounts stay optional. */
   isLoggedIn?: Promise<boolean>;
+  /** @deprecated Markets live in the header; mobile uses LanguageSelector. */
   marketSelector?: ReactNode;
 };
 
 /**
- * Full-height mobile navigation — language, links, then socials + mark.
+ * Full-height mobile navigation — destination tiles, then socials.
  */
 export function MobileNavigation({
   items = MAIN_NAV_ITEMS,
   onNavigate,
   className,
-  marketSelector,
 }: MobileNavigationProps) {
   const localePrefix = useLocalePathPrefix();
+  const {type} = useAside();
+  const revealed = type === 'mobile';
 
   return (
     <nav
       className={[styles.root, className].filter(Boolean).join(' ')}
       aria-label="Mobile"
     >
-      {marketSelector ? (
-        <div className={styles.top}>
-          <div className={styles.accountRow}>
-            <div className={styles.languageControl}>{marketSelector}</div>
-          </div>
-        </div>
-      ) : null}
+      <div className={styles.top}>
+        <LanguageSelector />
+      </div>
 
-      <ul className={styles.list}>
-        {items.map((item) => (
-          <li key={item.to}>
-            <NavLink
-              className={({isActive}) =>
-                [styles.link, isActive ? styles.active : null]
-                  .filter(Boolean)
-                  .join(' ')
-              }
-              end
-              onClick={onNavigate}
+      <ul className={styles.grid}>
+        {items.map((item, index) => {
+          const meta = DESTINATION_META[item.to];
+          const kicker =
+            meta?.kicker ?? String(index + 1).padStart(2, '0');
+
+          return (
+            <li key={item.to}>
+              <NavLink
+                className={({isActive}) =>
+                  [
+                    styles.tile,
+                    meta ? null : styles.tilePlain,
+                    isActive ? styles.active : null,
+                  ]
+                    .filter(Boolean)
+                    .join(' ')
+                }
+                end={item.to === '/'}
+                onClick={onNavigate}
+                prefetch="intent"
+                to={prefixPathWithLocale(item.to, localePrefix)}
+              >
+                {meta && revealed ? (
+                  <div className={styles.media} aria-hidden="true">
+                    <img
+                      className={styles.image}
+                      src={meta.imageSrc}
+                      alt=""
+                      width={800}
+                      height={1000}
+                      decoding="async"
+                    />
+                    <span className={styles.veil} />
+                    <span className={styles.grain} />
+                  </div>
+                ) : null}
+                <span className={styles.copy}>
+                  <span className={styles.kicker}>{kicker}</span>
+                  <span className={styles.title}>{item.label}</span>
+                  {meta ? (
+                    <span className={styles.support}>{meta.support}</span>
+                  ) : null}
+                </span>
+              </NavLink>
+            </li>
+          );
+        })}
+      </ul>
+
+      <div className={styles.socialBar}>
+        <SocialLinks onNavigate={onNavigate} />
+      </div>
+
+      <ul className={styles.utilities}>
+        {UTILITY_LINKS.map((link) => (
+          <li key={link.to}>
+            <LocaleAwareLink
+              className={styles.utility}
               prefetch="intent"
-              to={prefixPathWithLocale(item.to, localePrefix)}
+              to={link.to}
+              onClick={onNavigate}
             >
-              {item.label}
-            </NavLink>
+              {link.label}
+            </LocaleAwareLink>
           </li>
         ))}
       </ul>
 
       <div className={styles.bottom}>
-        <ul className={styles.socials} aria-label="Connect">
-          <li>
-            <a
-              className={styles.socialLink}
-              href="https://www.instagram.com/"
-              target="_blank"
-              rel="noreferrer"
-              aria-label="Instagram"
-            >
-              <InstagramIcon />
-            </a>
-          </li>
-          <li>
-            <a
-              className={styles.socialLink}
-              href="https://www.facebook.com/"
-              target="_blank"
-              rel="noreferrer"
-              aria-label="Facebook"
-            >
-              <FacebookIcon />
-            </a>
-          </li>
-          <li>
-            <LocaleAwareLink
-              className={styles.socialLink}
-              prefetch="intent"
-              to="/contact"
-              onClick={onNavigate}
-              aria-label="Contact"
-            >
-              <MailIcon />
-            </LocaleAwareLink>
-          </li>
-        </ul>
-
         <LocaleAwareLink
           className={styles.logoLink}
           prefetch="intent"
@@ -106,70 +159,9 @@ export function MobileNavigation({
           onClick={onNavigate}
           aria-label="Afterstate home"
         >
-          <BrandLogo variant="wordmark" size="md" />
+          <BrandLogo variant="mark" size="md" />
         </LocaleAwareLink>
       </div>
     </nav>
-  );
-}
-
-function InstagramIcon() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <rect
-        x="3.5"
-        y="3.5"
-        width="17"
-        height="17"
-        rx="4.5"
-        stroke="currentColor"
-        strokeWidth="1.5"
-      />
-      <circle cx="12" cy="12" r="3.75" stroke="currentColor" strokeWidth="1.5" />
-      <circle cx="17.25" cy="6.75" r="1" fill="currentColor" />
-    </svg>
-  );
-}
-
-function FacebookIcon() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path
-        d="M14.5 8.5H16.5V5.5H14.5C12.57 5.5 11 7.07 11 9V11H9V14H11V20.5H14V14H16.2L16.7 11H14V9C14 8.72 14.22 8.5 14.5 8.5Z"
-        fill="currentColor"
-      />
-      <rect
-        x="3.5"
-        y="3.5"
-        width="17"
-        height="17"
-        rx="3.5"
-        stroke="currentColor"
-        strokeWidth="1.5"
-      />
-    </svg>
-  );
-}
-
-function MailIcon() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <rect
-        x="3.5"
-        y="5.5"
-        width="17"
-        height="13"
-        rx="2"
-        stroke="currentColor"
-        strokeWidth="1.5"
-      />
-      <path
-        d="M4.5 7.5 12 13l7.5-5.5"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
   );
 }

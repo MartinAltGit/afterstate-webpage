@@ -288,6 +288,8 @@ export default function Product() {
         availableForSale={Boolean(selectedVariant?.availableForSale)}
         lines={lines}
         onAddToCart={onAddToCart}
+        productHandle={product.handle}
+        productTitle={product.title}
       />
 
       <Analytics.ProductView

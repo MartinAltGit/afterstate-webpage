@@ -4,10 +4,11 @@ import journalOnNoRush from '~/assets/mockups/campaign-look-alt.jpg';
 import journalBeyondRush from '~/assets/mockups/campaign-look.jpg';
 import journalQuietClothing from '~/assets/mockups/lookbook-01.jpg';
 import {Reveal} from '~/components/motion/Reveal';
-import {Marquee} from '~/components/motion/Marquee';
 import {CampaignLook} from './CampaignLook';
 import {LandingHero} from './LandingHero';
 import {StreetwearMockups} from './StreetwearMockups';
+import {TrustStrip} from './TrustStrip';
+import {WelcomeBand} from './WelcomeBand';
 import {renderHomepageSection} from './registry';
 import type {HomepageSection, ProductRowSection} from './types';
 
@@ -146,13 +147,24 @@ export function HomepageSections({
     : buildDefaultHomepageSections(products);
 
   if (!hasCmsSections) {
+    const story = resolved.filter(
+      (section) => section.type !== 'closing_statement',
+    );
+    const closing = resolved.filter(
+      (section) => section.type === 'closing_statement',
+    );
+
     return (
       <div className={className}>
         <LandingHero />
-        <Marquee />
-        <CampaignLook imageSrc={campaignLook} />
+        <TrustStrip />
         <StreetwearMockups />
-        {resolved.map((section, index) => (
+        <CampaignLook imageSrc={campaignLook} />
+        {story.map((section, index) => (
+          <SectionReveal key={section.id} section={section} index={index} />
+        ))}
+        <WelcomeBand />
+        {closing.map((section, index) => (
           <SectionReveal key={section.id} section={section} index={index} />
         ))}
       </div>

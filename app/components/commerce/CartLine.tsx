@@ -37,11 +37,11 @@ export function CartLine({line, onNavigate, className}: CartLineProps) {
             alt={title}
             aspectRatio="1/1"
             data={image}
-            height={112}
+            height={144}
             loading="lazy"
-            width={112}
+            width={144}
             className={styles.image}
-            sizes="112px"
+            sizes="(min-width: 48em) 128px, 104px"
           />
         </Link>
       ) : (

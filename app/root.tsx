@@ -9,6 +9,7 @@ import {
   Scripts,
   ScrollRestoration,
   useRouteLoaderData,
+  useLocation,
   Link,
   Await,
 } from 'react-router';
@@ -23,6 +24,7 @@ import '~/styles/pin-shared-css';
 import {PageLayout} from '~/components/layout/PageLayout';
 import {PersistStylesheets} from '~/components/layout/PersistStylesheets';
 import {WelcomeOffer} from '~/components/layout/WelcomeOffer';
+import {isWelcomeOfferPath} from '~/lib/welcomeOffer';
 import {NewsletterForm} from '~/components/content/NewsletterForm';
 import {NotFoundState} from '~/components/feedback/NotFoundState';
 import {ErrorState} from '~/components/feedback/ErrorState';
@@ -142,7 +144,7 @@ export async function loader(args: Route.LoaderArgs) {
     consent: {
       checkoutDomain: env.PUBLIC_CHECKOUT_DOMAIN,
       storefrontAccessToken: env.PUBLIC_STOREFRONT_API_TOKEN,
-      withPrivacyBanner: false,
+      withPrivacyBanner: true,
       // localize the privacy banner
       country: i18n.country,
       language: i18n.language,
@@ -225,6 +227,10 @@ export function Layout({children}: {children?: React.ReactNode}) {
 
 export default function App() {
   const data = useRouteLoaderData<RootLoader>('root');
+  const {pathname} = useLocation();
+  const announcement = isWelcomeOfferPath(pathname) ? (
+    <WelcomeOffer />
+  ) : undefined;
 
   if (!data) {
     return <Outlet />;
@@ -240,6 +246,7 @@ export default function App() {
         <Await resolve={data.cart}>
           {(cart) => (
             <CartBuyerIdentitySync
+              cartId={cart?.id}
               countryCode={data.i18n.country}
               cartCountryCode={cart?.buyerIdentity?.countryCode}
               hasCart={Boolean(cart?.id)}
@@ -249,7 +256,7 @@ export default function App() {
       </Suspense>
       <PageLayout
         {...data}
-        announcement={<WelcomeOffer />}
+        announcement={announcement}
         newsletter={
           <NewsletterForm
             variant="footer"
@@ -268,6 +275,10 @@ export default function App() {
 export function ErrorBoundary() {
   const error = useRouteError();
   const data = useRouteLoaderData<RootLoader>('root');
+  const {pathname} = useLocation();
+  const announcement = isWelcomeOfferPath(pathname) ? (
+    <WelcomeOffer />
+  ) : undefined;
   let errorMessage: string | undefined;
   let errorStatus = 500;
 
@@ -307,7 +318,7 @@ export function ErrorBoundary() {
   return (
     <PageLayout
       {...data}
-      announcement={<WelcomeOffer />}
+      announcement={announcement}
       newsletter={
         <NewsletterForm
           variant="footer"

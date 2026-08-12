@@ -20,13 +20,39 @@ type CartDrawerProps = {
  */
 export function CartDrawer({cart}: CartDrawerProps) {
   return (
-    <Aside type="cart" heading="Cart">
-      <Suspense fallback={<p>Loading cart…</p>}>
+    <Aside type="cart" heading={<CartAsideHeading cart={cart} />}>
+      <Suspense fallback={null}>
         <Await resolve={cart}>
           {(resolved) => <CartDrawerBody cart={resolved} />}
         </Await>
       </Suspense>
     </Aside>
+  );
+}
+
+function CartAsideHeading({cart}: CartDrawerProps) {
+  return (
+    <Suspense
+      fallback={
+        <span className="cart-aside-heading">
+          <span className="cart-aside-heading__title">Cart</span>
+        </span>
+      }
+    >
+      <Await resolve={cart}>
+        {(resolved) => {
+          const count = resolved?.totalQuantity ?? 0;
+          return (
+            <span className="cart-aside-heading">
+              <span className="cart-aside-heading__title">Cart</span>
+              {count > 0 ? (
+                <span className="cart-aside-heading__count">{count}</span>
+              ) : null}
+            </span>
+          );
+        }}
+      </Await>
+    </Suspense>
   );
 }
 
@@ -131,7 +157,17 @@ export function MobileMenuDrawer({
   const {close} = useAside();
 
   return (
-    <Aside type="mobile" heading="Menu">
+    <Aside
+      type="mobile"
+      heading={
+        <span className="mobile-menu-heading">
+          <span className="mobile-menu-heading__index" aria-hidden="true">
+            00
+          </span>
+          <span className="mobile-menu-heading__title">Index</span>
+        </span>
+      }
+    >
       <MobileNavigation
         onNavigate={close}
         isLoggedIn={isLoggedIn}
@@ -149,7 +185,7 @@ type DrawersProps = {
 };
 
 /**
- * Convenience wrapper that mounts cart and mobile drawers.
+ * Convenience wrapper that mounts cart, search, and mobile drawers.
  */
 export function SiteDrawers({
   cart,
@@ -160,6 +196,7 @@ export function SiteDrawers({
   return (
     <>
       <CartDrawer cart={cart} />
+      <SearchDrawer />
       <MobileMenuDrawer
         isLoggedIn={isLoggedIn}
         marketSelector={marketSelector}

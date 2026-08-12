@@ -15,11 +15,15 @@ import styles from '~/components/content/JournalIndexGrid.module.css';
 import indexStyles from '~/components/content/JournalIndexPage.module.css';
 
 export const meta: Route.MetaFunction = ({data}) => {
+  const articles = data?.blog?.articles?.nodes ?? [];
+  const empty = articles.length === 0;
+
   return buildMetaTags({
     title: data?.blog?.seo?.title || data?.blog?.title || 'Blog',
     description:
       data?.blog?.seo?.description ||
       'Fashion trends, stories, and culture from Afterstate — notes for the wider fashion world.',
+    noindex: empty,
   });
 };
 

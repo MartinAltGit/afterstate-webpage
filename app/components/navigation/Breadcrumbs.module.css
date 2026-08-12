@@ -39,3 +39,16 @@
 .current {
   color: #0a0a0a;
 }
+
+:global(.cart-page) .root {
+  color: var(--color-bone-muted, rgba(236, 231, 218, 0.64));
+}
+
+:global(.cart-page) .separator {
+  color: var(--color-bone-subtle, rgba(236, 231, 218, 0.4));
+}
+
+:global(.cart-page) .link:hover,
+:global(.cart-page) .current {
+  color: var(--color-bone, #ece7da);
+}

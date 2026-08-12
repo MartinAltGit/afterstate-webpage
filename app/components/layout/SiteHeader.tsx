@@ -3,20 +3,20 @@ import {Await, NavLink, useAsyncValue} from 'react-router';
 import {
   type CartViewPayload,
   useAnalytics,
-  useOptimisticCart,
 } from '@shopify/hydrogen';
 import type {CartApiQueryFragment} from 'storefrontapi.generated';
 import {useAside} from '~/components/Aside';
 import {BrandLogo} from '~/components/brand/BrandLogo';
 import {LocaleAwareLink} from '~/components/navigation/LocaleAwareLink';
+import {HeaderSearch} from '~/components/layout/HeaderSearch';
 import {
-  ABOUT_NAV_ITEM,
-  BLOG_NAV_ITEM,
+  JOURNAL_NAV_ITEM,
   MainNavigation,
   PRIMARY_NAV_ITEMS,
 } from '~/components/layout/MainNavigation';
 import {VisuallyHidden} from '~/components/primitives/VisuallyHidden';
 import {prefixPathWithLocale, useLocalePathPrefix} from '~/lib/locale';
+import {useResolvedCart} from '~/hooks/useResolvedCart';
 import styles from './SiteHeader.module.css';
 
 type SiteHeaderProps = {
@@ -30,6 +30,7 @@ type SiteHeaderProps = {
 /**
  * Floating nav — logo centered, chrome on the sides.
  * Sign-in is omitted: email capture covers newsletter / demand without Customer Accounts.
+ * About and Blog live inside Journal; Journal sits beside the market selector.
  */
 export function SiteHeader({
   cart,
@@ -64,27 +65,16 @@ export function SiteHeader({
             }
             end
             prefetch="intent"
-            to={prefixPathWithLocale(ABOUT_NAV_ITEM.to, localePrefix)}
+            to={prefixPathWithLocale(JOURNAL_NAV_ITEM.to, localePrefix)}
           >
-            {ABOUT_NAV_ITEM.label}
-          </NavLink>
-          <NavLink
-            className={({isActive}) =>
-              [styles.utilityLink, isActive ? styles.utilityActive : null]
-                .filter(Boolean)
-                .join(' ')
-            }
-            end
-            prefetch="intent"
-            to={prefixPathWithLocale(BLOG_NAV_ITEM.to, localePrefix)}
-          >
-            {BLOG_NAV_ITEM.label}
+            {JOURNAL_NAV_ITEM.label}
           </NavLink>
           {marketSelector ? (
             <div className={[styles.market, styles.desktopOnly].join(' ')}>
               {marketSelector}
             </div>
           ) : null}
+          <HeaderSearch />
           <CartToggle cart={cart} />
         </div>
       </div>
@@ -119,7 +109,7 @@ function CartToggle({cart}: Pick<SiteHeaderProps, 'cart'>) {
 
 function CartBanner() {
   const originalCart = useAsyncValue() as CartApiQueryFragment | null;
-  const cart = useOptimisticCart(originalCart);
+  const cart = useResolvedCart(originalCart);
   return <CartBadge count={cart?.totalQuantity ?? 0} />;
 }
 

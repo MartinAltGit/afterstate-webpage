@@ -1,4 +1,4 @@
-import {Link} from 'react-router';
+import {MagneticLink} from '~/components/motion/MagneticLink';
 import {Reveal} from '~/components/motion/Reveal';
 import {prefixPathWithLocale, useLocalePathPrefix} from '~/lib/locale';
 import styles from './CampaignLook.module.css';
@@ -7,6 +7,7 @@ export type CampaignLookProps = {
   imageSrc: string;
   eyebrow?: string;
   title?: string;
+  accent?: string;
   caption?: string;
   ctaLabel?: string;
   ctaTo?: string;
@@ -14,12 +15,13 @@ export type CampaignLookProps = {
 };
 
 /**
- * Immersive campaign look — bridges the opener and the shop.
+ * Immersive campaign band — large type, one clear CTA, full-bleed look.
  */
 export function CampaignLook({
   imageSrc,
   eyebrow = 'Limited edition',
-  title = '001 — No Rush',
+  title = 'No rush.',
+  accent = 'Wear it longer.',
   caption = 'A short run. When it’s gone, it’s gone.',
   ctaLabel = 'Explore the collection',
   ctaTo = '/collections/afterstate-001',
@@ -48,17 +50,22 @@ export function CampaignLook({
             {eyebrow ? <p className={styles.eyebrow}>{eyebrow}</p> : null}
             <h2 id="campaign-look-title" className={styles.title}>
               {title}
+              {accent ? (
+                <>
+                  <br />
+                  <span className={styles.accent}>{accent}</span>
+                </>
+              ) : null}
             </h2>
             {caption ? <p className={styles.caption}>{caption}</p> : null}
             {ctaLabel && ctaTo ? (
-              <Link
+              <MagneticLink
                 className={styles.cta}
-                prefetch="intent"
+                variant="bright"
                 to={prefixPathWithLocale(ctaTo, localePrefix)}
               >
                 {ctaLabel}
-                <span aria-hidden="true">→</span>
-              </Link>
+              </MagneticLink>
             ) : null}
           </div>
         </div>
@@ -66,3 +73,4 @@ export function CampaignLook({
     </section>
   );
 }
+

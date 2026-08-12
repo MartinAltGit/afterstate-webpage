@@ -1,0 +1,94 @@
+.root {
+  background: var(--color-brass, #c2a878);
+  color: var(--color-night, #0b100e);
+}
+
+.inner {
+  max-width: var(--width-stage, 88rem);
+  margin: 0 auto;
+  padding: 0.95rem var(--page-gutter, 1.15rem);
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-areas:
+    'mark copy'
+    'cta cta';
+  gap: 0.65rem 0.85rem;
+  align-items: center;
+}
+
+.mark {
+  grid-area: mark;
+  width: 2.65rem;
+  height: 2.65rem;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(11, 16, 14, 0.28);
+  border-radius: 999px;
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  font-weight: var(--font-weight-medium, 500);
+  letter-spacing: 0.04em;
+}
+
+.copy {
+  grid-area: copy;
+  display: grid;
+  gap: 0.1rem;
+  min-width: 0;
+}
+
+.eyebrow {
+  margin: 0;
+  font-size: 0.5625rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(11, 16, 14, 0.62);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1rem, 3.8vw, 1.25rem);
+  font-weight: var(--font-weight-medium, 500);
+  letter-spacing: var(--tracking-snug, -0.018em);
+  line-height: 1.15;
+  color: var(--color-night, #0b100e);
+}
+
+.cta {
+  grid-area: cta;
+  justify-self: stretch;
+  min-height: 2.35rem;
+  padding: 0.5rem 0.85rem;
+  font-size: 0.75rem;
+}
+
+@media (min-width: 52em) {
+  .inner {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-areas: 'mark copy cta';
+    gap: 1.5rem;
+    padding: 1.5rem var(--page-gutter-lg, 2.5rem);
+  }
+
+  .mark {
+    width: 3.25rem;
+    height: 3.25rem;
+    font-size: 0.8rem;
+  }
+
+  .eyebrow {
+    font-size: 0.625rem;
+  }
+
+  .title {
+    font-size: clamp(1.15rem, 3vw, 1.55rem);
+  }
+
+  .cta {
+    justify-self: auto;
+    min-height: 2.6rem;
+    padding: 0.65rem 1.15rem;
+    font-size: inherit;
+  }
+}
