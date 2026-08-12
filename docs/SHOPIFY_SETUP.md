@@ -345,8 +345,33 @@ Checkout email + marketing consent still collect buyers automatically — this p
 
 ---
 
+## 8. Legal policies (required before launch)
+
+**Path:** Settings → Policies
+
+Paste the HTML drafts from [LEGAL_POLICIES.md](./LEGAL_POLICIES.md) into:
+
+| Shopify field | Storefront URL |
+| --- | --- |
+| Privacy policy | `/policies/privacy-policy` |
+| Terms of service | `/policies/terms-of-service` |
+| Shipping policy | `/policies/shipping-policy` |
+| Refund policy | `/policies/refund-policy` |
+
+Also on the Hydrogen site (no Shopify paste required):
+
+- `/shipping-returns` — plain-language shipping & returns
+- `/copyright` — copyright & IP
+
+**Final sale products:** add the product tag `Final Sale` (or badge text containing “Final Sale”). The PDP will show a non-returnable note under add to cart.
+
+Replace company number / registered address placeholders in the legal pack before publishing.
+
+---
+
 ## Related docs
 
+- [LEGAL_POLICIES.md](./LEGAL_POLICIES.md) — paste-ready policy copy
 - [CONTENT_MODEL.md](./CONTENT_MODEL.md) — field semantics and ownership
 - [ARCHITECTURE.md](./ARCHITECTURE.md) — system overview
 - GraphQL: `app/graphql/fragments/*`, `app/graphql/queries/*`

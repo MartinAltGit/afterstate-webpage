@@ -1,40 +1,91 @@
-import {Link, useLoaderData} from 'react-router';
+import {useLoaderData} from 'react-router';
 import type {Route} from './+types/($locale).policies.$handle';
 import {type Shop} from '@shopify/hydrogen/storefront-api-types';
+import {LocaleAwareLink} from '~/components/navigation/LocaleAwareLink';
+import {buildMetaTags} from '~/components/seo';
+import {
+  isPolicyHandle,
+  resolvePolicyContent,
+  type PolicyHandle,
+} from '~/lib/policies/fallback';
+import styles from '~/components/content/QuietPage.module.css';
+import policyStyles from '~/components/content/PolicyBody.module.css';
 
 type SelectedPolicies = keyof Pick<
   Shop,
   'privacyPolicy' | 'shippingPolicy' | 'termsOfService' | 'refundPolicy'
 >;
 
+const HANDLE_TO_FIELD: Record<PolicyHandle, SelectedPolicies> = {
+  'privacy-policy': 'privacyPolicy',
+  'shipping-policy': 'shippingPolicy',
+  'terms-of-service': 'termsOfService',
+  'refund-policy': 'refundPolicy',
+};
+
 export const meta: Route.MetaFunction = ({data}) => {
-  return [{title: `Hydrogen | ${data?.policy.title ?? ''}`}];
+  return buildMetaTags({
+    title: data?.policy.title ?? 'Policy',
+    description: `Afterstate ${data?.policy.title ?? 'store'} policy.`,
+  });
 };
 
 export async function loader({params, context}: Route.LoaderArgs) {
-  if (!params.handle) {
+  const handle = params.handle;
+  if (!handle) {
     throw new Response('No handle was passed in', {status: 404});
   }
 
-  const policyName = params.handle.replace(
-    /-([a-z])/g,
-    (_: unknown, m1: string) => m1.toUpperCase(),
-  ) as SelectedPolicies;
+  let shopifyPolicy: {
+    id?: string | null;
+    title?: string | null;
+    body?: string | null;
+    handle?: string | null;
+  } | null = null;
 
-  const data = await context.storefront.query(POLICY_CONTENT_QUERY, {
-    variables: {
-      privacyPolicy: false,
-      shippingPolicy: false,
-      termsOfService: false,
-      refundPolicy: false,
-      [policyName]: true,
-      language: context.storefront.i18n?.language,
-    },
-  });
+  if (isPolicyHandle(handle)) {
+    const policyName = HANDLE_TO_FIELD[handle];
+    const data = await context.storefront.query(POLICY_CONTENT_QUERY, {
+      variables: {
+        privacyPolicy: false,
+        shippingPolicy: false,
+        termsOfService: false,
+        refundPolicy: false,
+        [policyName]: true,
+        language: context.storefront.i18n?.language,
+      },
+    });
+    shopifyPolicy = data.shop?.[policyName] ?? null;
+  } else {
+    // Unknown handle — try Shopify camelCase mapping for custom policies
+    const policyName = handle.replace(
+      /-([a-z])/g,
+      (_: unknown, m1: string) => m1.toUpperCase(),
+    ) as SelectedPolicies;
 
-  const policy = data.shop?.[policyName];
+    if (
+      policyName === 'privacyPolicy' ||
+      policyName === 'shippingPolicy' ||
+      policyName === 'termsOfService' ||
+      policyName === 'refundPolicy'
+    ) {
+      const data = await context.storefront.query(POLICY_CONTENT_QUERY, {
+        variables: {
+          privacyPolicy: false,
+          shippingPolicy: false,
+          termsOfService: false,
+          refundPolicy: false,
+          [policyName]: true,
+          language: context.storefront.i18n?.language,
+        },
+      });
+      shopifyPolicy = data.shop?.[policyName] ?? null;
+    }
+  }
 
-  if (!policy) {
+  const policy = resolvePolicyContent(handle, shopifyPolicy);
+
+  if (!policy || !policy.body) {
     throw new Response('Could not find the policy', {status: 404});
   }
 
@@ -45,20 +96,27 @@ export default function Policy() {
   const {policy} = useLoaderData<typeof loader>();
 
   return (
-    <div className="policy">
-      <br />
-      <br />
-      <div>
-        <Link to="/policies">← Back to Policies</Link>
+    <div className={styles.world}>
+      <div className={styles.root}>
+        <header className={styles.intro}>
+          <p className={styles.eyebrow}>
+            <LocaleAwareLink prefetch="intent" to="/policies">
+              ← Policies
+            </LocaleAwareLink>
+          </p>
+          <h1 className={styles.legalTitle}>{policy.title}</h1>
+          <hr className={styles.rule} />
+        </header>
+
+        <div
+          className={policyStyles.body}
+          dangerouslySetInnerHTML={{__html: policy.body}}
+        />
       </div>
-      <br />
-      <h1>{policy.title}</h1>
-      <div dangerouslySetInnerHTML={{__html: policy.body}} />
     </div>
   );
 }
 
-// NOTE: https://shopify.dev/docs/api/storefront/latest/objects/Shop
 const POLICY_CONTENT_QUERY = `#graphql
   fragment Policy on ShopPolicy {
     body

@@ -22,6 +22,7 @@ export function CartLine({line, onNavigate, className}: CartLineProps) {
   const {product, title, image, selectedOptions} = merchandise;
   const lineItemUrl = useVariantUrl(product.handle, selectedOptions);
   const optionSummary = formatSelectedOptions(selectedOptions);
+  const linePrice = getLinePrice(line);
 
   return (
     <li className={[styles.root, className].filter(Boolean).join(' ')}>
@@ -57,8 +58,15 @@ export function CartLine({line, onNavigate, className}: CartLineProps) {
           >
             {product.title}
           </Link>
-          {line?.cost?.totalAmount ? (
-            <Money data={line.cost.totalAmount} className={styles.price} />
+          {linePrice ? (
+            <span className={styles.pricePair}>
+              <Money data={linePrice.current} className={styles.price} />
+              {linePrice.compare ? (
+                <s className={styles.compare}>
+                  <Money data={linePrice.compare} />
+                </s>
+              ) : null}
+            </span>
           ) : null}
         </div>
 
@@ -73,6 +81,46 @@ export function CartLine({line, onNavigate, className}: CartLineProps) {
       </div>
     </li>
   );
+}
+
+function getLinePrice(line: CartLineType) {
+  const current = line?.cost?.totalAmount;
+  if (!current?.amount) return null;
+
+  const discountAmount = (line.discountAllocations ?? []).reduce(
+    (sum, allocation) => sum + Number(allocation.discountedAmount?.amount ?? 0),
+    0,
+  );
+
+  const subtotal = line.cost?.subtotalAmount;
+  const compareFromSubtotal =
+    subtotal?.amount && Number(subtotal.amount) > Number(current.amount)
+      ? subtotal
+      : null;
+
+  const compareFromUnit =
+    line.cost?.amountPerQuantity?.amount && line.quantity
+      ? {
+          amount: (
+            Number(line.cost.amountPerQuantity.amount) * line.quantity
+          ).toFixed(2),
+          currencyCode: line.cost.amountPerQuantity.currencyCode,
+        }
+      : null;
+
+  const compareCandidate =
+    compareFromSubtotal ||
+    (compareFromUnit &&
+    Number(compareFromUnit.amount) > Number(current.amount)
+      ? compareFromUnit
+      : null);
+
+  // Prefer Shopify line totals; also strike through when an allocation reduced the line.
+  const compare =
+    compareCandidate ||
+    (discountAmount > 0 && compareFromUnit ? compareFromUnit : null);
+
+  return {current, compare};
 }
 
 function formatSelectedOptions(

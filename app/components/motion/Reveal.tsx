@@ -1,7 +1,7 @@
 import {
   Children,
   isValidElement,
-  useEffect,
+  useLayoutEffect,
   useRef,
   useState,
   type CSSProperties,
@@ -31,9 +31,26 @@ export type RevealProps = {
   'aria-labelledby'?: string;
 };
 
+function isNodeInRevealZone(node: HTMLElement, narrow: boolean) {
+  const rect = node.getBoundingClientRect();
+  const vh = window.innerHeight || 1;
+  const margin = narrow ? 0.06 : 0.12;
+  const topBound = vh * (1 - margin);
+  const height = Math.max(rect.height, 1);
+  const visiblePx = Math.min(rect.bottom, vh) - Math.max(rect.top, 0);
+  const ratio = visiblePx / height;
+  const threshold = narrow ? 0.08 : 0.18;
+
+  if (ratio >= threshold) return true;
+  // Tall blocks: any overlap with the reveal zone counts
+  return rect.top < topBound && rect.bottom > 0;
+}
+
 /**
- * Scroll-triggered fade/rise that replays every time the block
- * enters the viewport. SSR stays visible; motion arms after mount.
+ * Scroll-triggered fade/rise. SSR stays visible; after mount we only hide
+ * content that is actually below the fold. Back/remount uses a sync
+ * intersection check in useLayoutEffect so in-view blocks never flash blank
+ * when IntersectionObserver is late (common after history POP).
  */
 export function Reveal({
   children,
@@ -45,19 +62,27 @@ export function Reveal({
 }: RevealProps) {
   const ref = useRef<HTMLElement | null>(null);
   const [mounted, setMounted] = useState(false);
-  const [visible, setVisible] = useState(false);
+  const [visible, setVisible] = useState(true);
   const reduced = usePrefersReducedMotion();
 
-  useEffect(() => {
-    setMounted(true);
+  useLayoutEffect(() => {
     if (reduced) {
+      setMounted(true);
       setVisible(true);
       return;
     }
+
     const node = ref.current;
-    if (!node) return;
+    if (!node) {
+      setMounted(true);
+      return;
+    }
 
     const narrow = window.matchMedia('(max-width: 44.99em)').matches;
+    const inView = isNodeInRevealZone(node, narrow);
+    setVisible(inView);
+    setMounted(true);
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         setVisible(Boolean(entry?.isIntersecting));

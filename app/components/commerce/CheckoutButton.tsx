@@ -22,7 +22,10 @@ export function CheckoutButton({
       target="_self"
       className={[styles.button, className].filter(Boolean).join(' ')}
     >
-      {children}
+      <span className={styles.label}>{children}</span>
+      <span className={styles.arrow} aria-hidden="true">
+        →
+      </span>
     </a>
   );
 }

@@ -7,7 +7,7 @@ import {Reveal} from '~/components/motion/Reveal';
 import {buildMetaTags} from '~/components/seo';
 import styles from '~/components/content/QuietPage.module.css';
 
-const CONTACT_EMAIL = 'hello@afterstate.com';
+const CONTACT_EMAIL = 'info@upvision.uk';
 
 export const meta: Route.MetaFunction = () => {
   return buildMetaTags({

@@ -1,0 +1,51 @@
+.root {
+  display: grid;
+  gap: 0.45rem;
+  margin: 0;
+}
+
+.text,
+.alert {
+  margin: 0;
+  font-size: 0.75rem;
+  line-height: 1.55;
+  letter-spacing: 0.02em;
+}
+
+.text {
+  color: var(--color-fg-muted, rgba(21, 32, 31, 0.62));
+}
+
+.alert {
+  color: var(--color-ink, #15201f);
+  font-weight: 500;
+}
+
+.link {
+  color: inherit;
+  text-underline-offset: 0.16em;
+  text-decoration-color: currentColor;
+  text-decoration-thickness: 1px;
+}
+
+.link:hover {
+  opacity: 0.75;
+}
+
+/* Dark PDP surfaces (night theme tokens when present) */
+:global(.product-page) .text {
+  color: var(--color-bone-subtle, rgba(236, 231, 218, 0.45));
+}
+
+:global(.product-page) .alert {
+  color: var(--color-brass, #c2a878);
+}
+
+:global(.product-page) .link {
+  color: var(--color-bone-muted, rgba(236, 231, 218, 0.72));
+}
+
+:global(.product-page) .link:hover {
+  color: var(--color-brass-strong, #d3bc8f);
+  opacity: 1;
+}

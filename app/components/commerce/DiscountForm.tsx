@@ -1,7 +1,7 @@
 import {CartForm} from '@shopify/hydrogen';
 import {useEffect, useId, useState} from 'react';
 import {useCartRoute} from '~/lib/cart-route';
-import {WELCOME_DISCOUNT_CODE} from '~/lib/welcomeOffer';
+import {isWelcomeDiscountCode} from '~/lib/welcomeOffer';
 import styles from './DiscountForm.module.css';
 
 export type CartDiscountCode = {
@@ -56,13 +56,16 @@ export function DiscountForm({
     }
 
     if (!match.applicable) {
-      const isWelcome =
-        match.code.toLowerCase() === WELCOME_DISCOUNT_CODE.toLowerCase();
+      const isWelcome = isWelcomeDiscountCode(match.code);
       setError(
         isWelcome
-          ? 'Code saved — the % off applies once the cart qualifies (items in cart; first-order rules at checkout).'
+          ? null
           : 'Code saved, but it isn’t active on this cart yet. It may apply at checkout.',
       );
+      if (isWelcome) {
+        setSubmittedCode(null);
+        setDraft('');
+      }
       return;
     }
 
@@ -72,7 +75,8 @@ export function DiscountForm({
   }, [discountCodes, submittedCode]);
 
   if (codesOnCart.length > 0) {
-    const allApplicable = pendingCodes.length === 0;
+    const hasWelcome = codesOnCart.some(isWelcomeDiscountCode);
+    const allApplicable = pendingCodes.length === 0 || hasWelcome;
 
     return (
       <section

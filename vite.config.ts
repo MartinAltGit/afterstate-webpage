@@ -18,6 +18,10 @@ export default defineConfig({
     // Allow a strict Content-Security-Policy
     // without inlining assets as base64:
     assetsInlineLimit: 0,
+    // One CSS bundle — stops React Router from unloading per-route
+    // stylesheets on navigation (Back often left pages unstyled until reload).
+    // Supported by React Router 7.7+ (#13943).
+    cssCodeSplit: false,
   },
   ssr: {
     optimizeDeps: {

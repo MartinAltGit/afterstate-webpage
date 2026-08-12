@@ -11,6 +11,8 @@ const STATIC_PAGE_REDIRECTS: Record<string, string> = {
   philosophy: '/philosophy',
   'size-guide': '/size-guide',
   'shipping-returns': '/shipping-returns',
+  copyright: '/copyright',
+  legal: '/copyright',
 };
 
 export const meta: Route.MetaFunction = ({data}) => {

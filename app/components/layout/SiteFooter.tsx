@@ -24,7 +24,10 @@ const SUPPORT_LINKS: FooterLink[] = [
   {label: 'Care', to: '/care'},
   {label: 'Shipping & returns', to: '/shipping-returns'},
   {label: 'Contact', to: '/contact'},
-  {label: 'Policies', to: '/policies'},
+  {label: 'Privacy', to: '/policies/privacy-policy'},
+  {label: 'Terms', to: '/policies/terms-of-service'},
+  {label: 'Refunds', to: '/policies/refund-policy'},
+  {label: 'Copyright', to: '/copyright'},
 ];
 
 type SiteFooterProps = {
@@ -104,8 +107,39 @@ export function SiteFooter({newsletter, className}: SiteFooterProps) {
 
         <Reveal delayMs={200} className={styles.meta}>
           <p className={styles.copyright}>
-            © {new Date().getFullYear()} Afterstate
+            © {new Date().getFullYear()} Afterstate. All rights reserved.
+            London, United Kingdom.
           </p>
+          <nav className={styles.legalNav} aria-label="Legal">
+            <LocaleAwareLink
+              className={styles.legalLink}
+              prefetch="intent"
+              to="/policies/privacy-policy"
+            >
+              Privacy
+            </LocaleAwareLink>
+            <LocaleAwareLink
+              className={styles.legalLink}
+              prefetch="intent"
+              to="/policies/terms-of-service"
+            >
+              Terms
+            </LocaleAwareLink>
+            <LocaleAwareLink
+              className={styles.legalLink}
+              prefetch="intent"
+              to="/policies/shipping-policy"
+            >
+              Shipping
+            </LocaleAwareLink>
+            <LocaleAwareLink
+              className={styles.legalLink}
+              prefetch="intent"
+              to="/copyright"
+            >
+              Copyright
+            </LocaleAwareLink>
+          </nav>
         </Reveal>
       </PageContainer>
     </footer>

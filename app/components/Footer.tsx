@@ -112,6 +112,15 @@ const FALLBACK_FOOTER_MENU = {
       url: '/policies/terms-of-service',
       items: [],
     },
+    {
+      id: 'gid://shopify/MenuItem/461633159225',
+      resourceId: null,
+      tags: [],
+      title: 'Copyright',
+      type: 'HTTP',
+      url: '/copyright',
+      items: [],
+    },
   ],
 };
 

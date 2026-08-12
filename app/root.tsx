@@ -19,6 +19,7 @@ import logoPng from '~/assets/logo-afterstate.png';
 import {FOOTER_QUERY, HEADER_QUERY} from '~/lib/fragments';
 import resetStyles from '~/styles/reset.css?url';
 import appStyles from '~/styles/app.css?url';
+import '~/styles/pin-shared-css';
 import {PageLayout} from '~/components/layout/PageLayout';
 import {PersistStylesheets} from '~/components/layout/PersistStylesheets';
 import {WelcomeOffer} from '~/components/layout/WelcomeOffer';
@@ -266,6 +267,7 @@ export default function App() {
 
 export function ErrorBoundary() {
   const error = useRouteError();
+  const data = useRouteLoaderData<RootLoader>('root');
   let errorMessage: string | undefined;
   let errorStatus = 500;
 
@@ -279,9 +281,16 @@ export function ErrorBoundary() {
     errorMessage = error.message;
   }
 
-  if (errorStatus === 404) {
-    return (
-      <NotFoundState
+  const body =
+    errorStatus === 404 ? (
+      <NotFoundState />
+    ) : (
+      <ErrorState
+        title="Something went wrong"
+        message={
+          errorMessage ||
+          'We could not complete that request. Try again in a moment.'
+        }
         action={
           <Link to="/" prefetch="intent">
             Back home
@@ -289,20 +298,26 @@ export function ErrorBoundary() {
         }
       />
     );
+
+  // Keep site chrome when root data loaded (typical child-route 404).
+  if (!data) {
+    return body;
   }
 
   return (
-    <ErrorState
-      title="Something went wrong"
-      message={
-        errorMessage ||
-        'We could not complete that request. Try again in a moment.'
+    <PageLayout
+      {...data}
+      announcement={<WelcomeOffer />}
+      newsletter={
+        <NewsletterForm
+          variant="footer"
+          submitLabel="Join"
+          note="No spam — drops and journal notes only."
+          source="footer"
+        />
       }
-      action={
-        <Link to="/" prefetch="intent">
-          Back home
-        </Link>
-      }
-    />
+    >
+      {body}
+    </PageLayout>
   );
 }

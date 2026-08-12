@@ -48,6 +48,37 @@
   font-variant-numeric: tabular-nums;
 }
 
+.pricePair {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.55rem;
+}
+
+.compare {
+  font-size: 0.875rem;
+  font-weight: 400;
+  letter-spacing: 0;
+  color: var(--color-bone-subtle, rgba(236, 231, 218, 0.4));
+  text-decoration: line-through;
+}
+
+.policyNote {
+  margin: 0;
+  font-size: 0.6875rem;
+  line-height: 1.55;
+  letter-spacing: 0.02em;
+  color: var(--color-bone-subtle, rgba(236, 231, 218, 0.45));
+}
+
+.policyLink {
+  color: var(--color-bone-muted, rgba(236, 231, 218, 0.72));
+  text-underline-offset: 0.14em;
+}
+
+.policyLink:hover {
+  color: var(--color-brass-strong, #d3bc8f);
+}
+
 /* Dedicated cart page stays on the light surface */
 :global(.cart-page) .root {
   margin-top: 0.5rem;
@@ -70,6 +101,22 @@
 
 :global(.cart-page) .total dd {
   color: var(--color-ink, #15201f);
+}
+
+:global(.cart-page) .compare {
+  color: var(--color-fg-muted, #62706d);
+}
+
+:global(.cart-page) .policyNote {
+  color: var(--color-fg-muted, #62706d);
+}
+
+:global(.cart-page) .policyLink {
+  color: var(--color-ink, #15201f);
+}
+
+:global(.cart-page) .policyLink:hover {
+  color: var(--color-ink-soft, #334240);
 }
 
 @media (min-width: 48em) {

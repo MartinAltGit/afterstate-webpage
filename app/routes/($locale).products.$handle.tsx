@@ -20,6 +20,7 @@ import {ProductPrice} from '~/components/commerce/ProductPrice';
 import {ProductGallery} from '~/components/commerce/ProductGallery';
 import type {ProductMediaItem} from '~/components/commerce/ProductMedia';
 import {BuyControls} from '~/components/commerce/BuyControls';
+import {isFinalSaleProduct} from '~/components/commerce/PurchaseNote';
 import {ProductDetails} from '~/components/product/ProductDetails';
 import {ProductStory} from '~/components/product/ProductStory';
 import {CompleteTheLook} from '~/components/product/CompleteTheLook';
@@ -213,6 +214,11 @@ export default function Product() {
             onAddToCart={onAddToCart}
             productHandle={product.handle}
             productTitle={product.title}
+            finalSale={isFinalSaleProduct({
+              tags: product.tags,
+              productBadge: metafields.productBadge,
+            })}
+            shippingNote={metafields.shippingNote}
           />
         </Reveal>
       </PageContainer>

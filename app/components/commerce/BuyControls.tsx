@@ -6,6 +6,7 @@ import {AddToCartButton} from './AddToCartButton';
 import {SizeSelector, isSizeOptionName} from './SizeSelector';
 import {VariantSelector} from './VariantSelector';
 import {DemandCapture} from '~/components/content/DemandCapture';
+import {PurchaseNote} from './PurchaseNote';
 import styles from './BuyControls.module.css';
 
 export type BuyControlsSelectedVariant = {
@@ -26,6 +27,9 @@ export type BuyControlsProps = {
   /** Used for demand capture when the selected variant is unavailable. */
   productHandle?: string;
   productTitle?: string;
+  /** Show final-sale / returns note under the CTA. */
+  finalSale?: boolean;
+  shippingNote?: string | null;
 };
 
 /**
@@ -41,6 +45,8 @@ export function BuyControls({
   soldOutLabel = 'Sold out',
   productHandle,
   productTitle,
+  finalSale = false,
+  shippingNote,
 }: BuyControlsProps) {
   const available = Boolean(selectedVariant?.availableForSale);
   const lines: OptimisticCartLineInput[] = selectedVariant
@@ -94,6 +100,8 @@ export function BuyControls({
           {available ? addToCartLabel : soldOutLabel}
         </AddToCartButton>
       )}
+
+      <PurchaseNote finalSale={finalSale} shippingNote={shippingNote} />
     </div>
   );
 }

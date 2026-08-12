@@ -66,8 +66,15 @@
   color: var(--color-brass-strong, #d3bc8f);
 }
 
-.price {
+.pricePair {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.15rem;
   flex-shrink: 0;
+}
+
+.price {
   font-family: var(--font-display, inherit);
   font-size: 0.9375rem;
   font-weight: 500;
@@ -75,6 +82,14 @@
   line-height: 1.2;
   font-variant-numeric: tabular-nums;
   color: var(--color-bone, #ece7da);
+}
+
+.compare {
+  font-size: 0.75rem;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-bone-subtle, rgba(236, 231, 218, 0.4));
+  text-decoration: line-through;
 }
 
 .options {
@@ -267,6 +282,10 @@
 
 :global(.cart-page) .price {
   color: var(--color-ink, #15201f);
+}
+
+:global(.cart-page) .compare {
+  color: var(--color-fg-muted, #62706d);
 }
 
 :global(.cart-page) .options {

@@ -23,7 +23,7 @@ Canonical content model for products, collections, journal, and editorial metaob
 | Menu | Header / footer |
 | Page | Static pages (about, care, etc.) when not metaobject-driven |
 | Blog `journal` + articles | Journal index + article detail |
-| Policy | Legal pages |
+| Policy | Legal pages (`/policies/*`) — paste from [LEGAL_POLICIES.md](./LEGAL_POLICIES.md) |
 | Market | Locale / currency context |
 | Customer / Order | Account (Customer Account API — never cached) |
 

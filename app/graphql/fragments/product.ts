@@ -232,6 +232,7 @@ export const PRODUCT_DETAIL_FRAGMENT = `#graphql
     handle
     descriptionHtml
     description
+    tags
     encodedVariantExistence
     encodedVariantAvailability
     featuredImage {

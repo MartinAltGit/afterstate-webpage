@@ -7,3 +7,10 @@
 export const WELCOME_DISCOUNT_CODE = 'Welcome20';
 
 export const WELCOME_DISCOUNT_LABEL = '20% off your first order';
+
+/** Fraction used for cart UI preview when Shopify hasn’t allocated the code yet. */
+export const WELCOME_DISCOUNT_PERCENT = 0.2;
+
+export function isWelcomeDiscountCode(code: string) {
+  return code.toLowerCase() === WELCOME_DISCOUNT_CODE.toLowerCase();
+}
