@@ -3,24 +3,51 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  min-height: 2.75rem;
-  padding: 0.75rem 1.25rem;
-  border: 1px solid var(--color-dark, #000);
-  background: var(--color-dark, #000);
-  color: var(--color-light, #fff);
+  min-height: 3rem;
+  margin-top: 0.15rem;
+  padding: 0.85rem 1.25rem;
+  border: 1px solid var(--color-bone, #ece7da);
+  background: var(--color-bone, #ece7da);
+  color: var(--color-night, #0b100e);
   font-size: 0.8125rem;
   font-weight: 500;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   text-decoration: none;
+  transition:
+    background 160ms ease,
+    color 160ms ease;
 }
 
 .button:hover {
-  background: var(--color-light, #fff);
-  color: var(--color-dark, #000);
+  background: transparent;
+  color: var(--color-bone, #ece7da);
 }
 
 .button:focus-visible {
-  outline: 2px solid var(--color-dark, #000);
+  outline: 2px solid var(--color-brass, #c2a878);
   outline-offset: 2px;
+}
+
+/* Light cart page */
+:global(.cart-page) .button {
+  border-color: var(--color-ink, #15201f);
+  background: var(--color-ink, #15201f);
+  color: var(--color-sand, #f6f3ee);
+}
+
+:global(.cart-page) .button:hover {
+  background: transparent;
+  color: var(--color-ink, #15201f);
+}
+
+:global(.cart-page) .button:focus-visible {
+  outline-color: var(--color-ink, #15201f);
+}
+
+@media (min-width: 48em) {
+  .button {
+    min-height: 3.25rem;
+    font-size: 0.875rem;
+  }
 }

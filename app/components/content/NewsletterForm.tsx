@@ -1,4 +1,8 @@
-import type {FormEvent} from 'react';
+import {useEffect, useId} from 'react';
+import {useFetcher} from 'react-router';
+import {prefixPathWithLocale, useLocalePathPrefix} from '~/lib/locale';
+import {AnalyticsEvents, track} from '~/lib/analytics/events';
+import type {SubscribeIntent} from '~/lib/subscribe';
 import styles from './NewsletterForm.module.css';
 
 export type NewsletterFormProps = {
@@ -8,13 +12,17 @@ export type NewsletterFormProps = {
   placeholder?: string;
   submitLabel?: string;
   note?: string;
-  onSubmit?: (email: string) => void | Promise<void>;
+  /** `full` = homepage/journal block; `footer` = compact dark footer column */
+  variant?: 'full' | 'footer';
+  intent?: SubscribeIntent;
+  source?: string;
   className?: string;
 };
 
+type SubscribeActionData = {ok: true} | {ok: false; error: string};
+
 /**
- * Newsletter signup — wireframe form for Afterstate updates.
- * Consent-aware tracking can be wired via analytics later.
+ * Newsletter / list signup — posts to /subscribe (no customer login).
  */
 export function NewsletterForm({
   eyebrow = 'Stay close',
@@ -22,50 +30,95 @@ export function NewsletterForm({
   description = 'Campaign drops, journal pieces, and quiet updates — no noise.',
   placeholder = 'Email address',
   submitLabel = 'Subscribe',
-  note = 'By subscribing you agree to Afterstate privacy terms.',
-  onSubmit,
+  note = 'By subscribing you agree to hear from Afterstate. Unsubscribe anytime.',
+  variant = 'full',
+  intent = 'newsletter',
+  source = 'newsletter',
   className,
 }: NewsletterFormProps) {
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    const form = event.currentTarget;
-    const data = new FormData(form);
-    const email = String(data.get('email') || '').trim();
-    if (!email) return;
-    void onSubmit?.(email);
-  }
+  const fetcher = useFetcher<SubscribeActionData>();
+  const localePrefix = useLocalePathPrefix();
+  const fieldId = useId();
+  const busy = fetcher.state !== 'idle';
+  const succeeded = fetcher.data?.ok === true;
+  const error =
+    fetcher.data && fetcher.data.ok === false ? fetcher.data.error : null;
+
+  useEffect(() => {
+    if (succeeded) {
+      track(AnalyticsEvents.NEWSLETTER_SUBSCRIBE, {source, intent});
+    }
+  }, [succeeded, source, intent]);
+
+  const headingId = `${fieldId}-title`;
 
   return (
     <section
-      className={[styles.root, className].filter(Boolean).join(' ')}
-      aria-labelledby="newsletter-title"
+      className={[
+        styles.root,
+        variant === 'footer' ? styles.footer : null,
+        className,
+      ]
+        .filter(Boolean)
+        .join(' ')}
+      aria-labelledby={variant === 'full' ? headingId : undefined}
+      aria-label={variant === 'footer' ? 'Newsletter' : undefined}
     >
       <div className={styles.inner}>
-        {eyebrow ? <p className={styles.eyebrow}>{eyebrow}</p> : null}
-        <h2 id="newsletter-title" className={styles.title}>
-          {title}
-        </h2>
-        {description ? (
+        {variant === 'full' && eyebrow ? (
+          <p className={styles.eyebrow}>{eyebrow}</p>
+        ) : null}
+        {variant === 'full' ? (
+          <h2 id={headingId} className={styles.title}>
+            {title}
+          </h2>
+        ) : (
+          <p className={styles.footerLead}>
+            Drops, journal notes, and first looks — no noise.
+          </p>
+        )}
+        {variant === 'full' && description ? (
           <p className={styles.description}>{description}</p>
         ) : null}
-        <form className={styles.form} onSubmit={handleSubmit} noValidate>
-          <label className={styles.label} htmlFor="afterstate-newsletter-email">
-            Email
-          </label>
-          <input
-            id="afterstate-newsletter-email"
-            className={styles.input}
-            type="email"
-            name="email"
-            autoComplete="email"
-            required
-            placeholder={placeholder}
-          />
-          <button type="submit" className={styles.submit}>
-            {submitLabel}
-          </button>
-        </form>
-        {note ? <p className={styles.note}>{note}</p> : null}
+
+        {succeeded ? (
+          <p className={styles.success} role="status">
+            You&apos;re in. We&apos;ll be in touch.
+          </p>
+        ) : (
+          <fetcher.Form
+            className={styles.form}
+            method="post"
+            action={prefixPathWithLocale('/subscribe', localePrefix)}
+            noValidate
+          >
+            <input type="hidden" name="intent" value={intent} />
+            <input type="hidden" name="source" value={source} />
+            <label className={styles.label} htmlFor={fieldId}>
+              Email
+            </label>
+            <input
+              id={fieldId}
+              className={styles.input}
+              type="email"
+              name="email"
+              autoComplete="email"
+              required
+              placeholder={placeholder}
+              disabled={busy}
+            />
+            <button type="submit" className={styles.submit} disabled={busy}>
+              {busy ? '…' : submitLabel}
+            </button>
+          </fetcher.Form>
+        )}
+
+        {error ? (
+          <p className={styles.error} role="alert">
+            {error}
+          </p>
+        ) : null}
+        {!succeeded && note ? <p className={styles.note}>{note}</p> : null}
       </div>
     </section>
   );

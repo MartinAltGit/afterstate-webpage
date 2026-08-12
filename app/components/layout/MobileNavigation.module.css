@@ -15,43 +15,8 @@
 .accountRow {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   gap: 1rem;
-}
-
-.account {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.7rem;
-  min-width: 0;
-  color: var(--color-bone, #ece7da);
-  text-decoration: none;
-  transition: color var(--duration-fast, 140ms) var(--ease-out, ease);
-}
-
-.account:hover {
-  color: var(--color-brass, #c2a878);
-  text-decoration: none;
-}
-
-.accountIcon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  width: 2.15rem;
-  height: 2.15rem;
-  border-radius: 999px;
-  border: 1px solid rgba(236, 231, 218, 0.14);
-  color: var(--color-bone-muted, rgba(236, 231, 218, 0.72));
-}
-
-.accountLabel {
-  font-family: var(--font-display);
-  font-size: 0.9375rem;
-  font-weight: var(--font-weight-medium, 500);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
 }
 
 .languageControl {

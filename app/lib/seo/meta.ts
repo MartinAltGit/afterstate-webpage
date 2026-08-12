@@ -19,6 +19,7 @@ export type MetaDescriptor = {
   tagName?: 'meta' | 'link';
   rel?: string;
   href?: string;
+  hrefLang?: string;
 };
 
 const DEFAULT_SITE_NAME = 'Afterstate';
@@ -41,6 +42,7 @@ export function buildPageTitle(
 
 /**
  * Build React Router / Hydrogen-compatible meta descriptors.
+ * Document-level canonical / hreflang are owned by root `buildDocumentSeoMeta`.
  */
 export function buildMetaTags(input: SeoMetaInput = {}): MetaDescriptor[] {
   const siteName = input.siteName ?? DEFAULT_SITE_NAME;
@@ -57,7 +59,10 @@ export function buildMetaTags(input: SeoMetaInput = {}): MetaDescriptor[] {
     {property: 'og:title', content: title},
     {property: 'og:description', content: description},
     {property: 'og:type', content: type},
-    {name: 'twitter:card', content: input.imageUrl ? 'summary_large_image' : 'summary'},
+    {
+      name: 'twitter:card',
+      content: input.imageUrl ? 'summary_large_image' : 'summary',
+    },
     {name: 'twitter:title', content: title},
     {name: 'twitter:description', content: description},
   ];

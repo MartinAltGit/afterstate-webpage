@@ -46,6 +46,8 @@ export async function createHydrogenRouterContext(
     AppSession.init(request, [env.SESSION_SECRET]),
   ]);
 
+  const i18n = getLocaleFromRequest(request);
+
   const hydrogenContext = createHydrogenContext(
     {
       env,
@@ -53,8 +55,12 @@ export async function createHydrogenRouterContext(
       cache,
       waitUntil,
       session,
-      // Or detect from URL path based on locale subpath, cookies, or any other strategy
-      i18n: getLocaleFromRequest(request),
+      // Locale from URL → Storefront @inContext (currency / catalog / language)
+      i18n,
+      // New carts inherit market country so prices match (e.g. NL → EUR)
+      buyerIdentity: {
+        countryCode: i18n.country,
+      },
       cart: {
         queryFragment: CART_QUERY_FRAGMENT,
       },

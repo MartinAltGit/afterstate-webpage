@@ -82,10 +82,12 @@ Helpers: `CanonicalUrl` component / SEO meta builders.
 
 ## hreflang / Markets
 
-- Emit alternate links for **published** market locales only
-- `x-default` → default market (EN-US unprefixed)
-- Invalid locale prefixes 404 (`($locale).tsx`) — do not soft-200 alternate junk
-- English-first content is fine at launch; still emit alternates when Markets are live so currency/context URLs are distinct
+- Emit alternate links for **published** Europe markets only (`en`, `en-GB`, `de-DE`, `fr-FR`)
+- `x-default` → default EN-EU market (unprefixed `/`)
+- Invalid locale prefixes 404; `/en-eu` and `/en-nl` 301 to unprefixed URLs
+- English-first content is fine at launch; still emit alternates so currency/context URLs are distinct
+
+Implementation: `buildDocumentSeoMeta` from root `meta` (`app/lib/seo/document.ts`). Set `PUBLIC_SITE_URL` in production.
 
 See [`MARKETS.md`](./MARKETS.md).
 

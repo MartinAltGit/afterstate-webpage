@@ -203,6 +203,7 @@ function renderNewsletter({section}: SectionRendererProps) {
       eyebrow={section.eyebrow}
       title={section.title}
       description={section.description}
+      source="homepage"
     />
   );
 }

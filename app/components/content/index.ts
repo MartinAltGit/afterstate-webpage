@@ -18,3 +18,4 @@ export {
   type QualityPoint,
 } from './QualityPoints';
 export {NewsletterForm, type NewsletterFormProps} from './NewsletterForm';
+export {DemandCapture, type DemandCaptureProps} from './DemandCapture';

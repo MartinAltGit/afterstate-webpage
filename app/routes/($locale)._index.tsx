@@ -5,9 +5,15 @@ import {HomepageSections} from '~/sections';
 import {ProductItem} from '~/components/ProductItem';
 import {RECOMMENDED_PRODUCTS_QUERY} from '~/graphql/queries/homepage';
 import type {ProductCardFragment} from 'storefrontapi.generated';
+import {OrganizationJsonLd, buildMetaTags} from '~/components/seo';
+import {useAbsoluteSeoUrl} from '~/lib/seo/useAbsoluteSeoUrl';
 
 export const meta: Route.MetaFunction = () => {
-  return [{title: 'Afterstate | Life beyond the rush.'}];
+  return buildMetaTags({
+    title: 'Life beyond the rush.',
+    description:
+      'Afterstate — life beyond the rush. Clothes made for a slower, clearer pace.',
+  });
 };
 
 export async function loader(args: Route.LoaderArgs) {
@@ -36,22 +42,28 @@ function loadDeferredData({context}: Route.LoaderArgs) {
 
 export default function Homepage() {
   const data = useLoaderData<typeof loader>();
+  const siteUrl = useAbsoluteSeoUrl('/');
 
   return (
-    <Suspense fallback={<HomepageSections />}>
-      <Await resolve={data.recommendedProducts}>
-        {(response) => (
-          <HomepageSections
-            products={
-              response
-                ? response.products.nodes.map((product: ProductCardFragment) => (
-                    <ProductItem key={product.id} product={product} />
-                  ))
-                : null
-            }
-          />
-        )}
-      </Await>
-    </Suspense>
+    <>
+      <OrganizationJsonLd url={siteUrl} />
+      <Suspense fallback={<HomepageSections />}>
+        <Await resolve={data.recommendedProducts}>
+          {(response) => (
+            <HomepageSections
+              products={
+                response
+                  ? response.products.nodes.map(
+                      (product: ProductCardFragment) => (
+                        <ProductItem key={product.id} product={product} />
+                      ),
+                    )
+                  : null
+              }
+            />
+          )}
+        </Await>
+      </Suspense>
+    </>
   );
 }

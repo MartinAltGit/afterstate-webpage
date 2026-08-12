@@ -50,17 +50,61 @@ export function buildRobotsDirective(opts: {
 
 /**
  * Paths that should typically be noindexed on an Afterstate storefront.
+ * Compare against locale-agnostic paths (no `/en-gb` prefix).
  */
 export const DEFAULT_NOINDEX_PATH_PREFIXES = [
   '/cart',
   '/account',
   '/discount',
   '/search',
+  '/orders',
+  '/subscribe',
 ] as const;
 
 export function pathSuggestsNoIndex(pathname: string): boolean {
-  const path = pathname.toLowerCase();
-  return DEFAULT_NOINDEX_PATH_PREFIXES.some(
-    (prefix) => path === prefix || path.startsWith(`${prefix}/`),
-  );
+  return robotsPolicyForPath(pathname).noindex;
+}
+
+export type PathRobotsPolicy = {
+  noindex: boolean;
+  nofollow: boolean;
+};
+
+/**
+ * Robots policy for a locale-agnostic pathname.
+ * Cart/account/discount: noindex,nofollow
+ * Search: noindex,follow (allow equity to flow to results targets)
+ */
+export function robotsPolicyForPath(pathname: string): PathRobotsPolicy {
+  const path = normalizeAgnosticPath(pathname);
+
+  if (
+    path === '/cart' ||
+    path.startsWith('/cart/') ||
+    path === '/account' ||
+    path.startsWith('/account/') ||
+    path === '/discount' ||
+    path.startsWith('/discount/') ||
+    path === '/orders' ||
+    path.startsWith('/orders/') ||
+    path === '/subscribe' ||
+    path.startsWith('/subscribe/')
+  ) {
+    return {noindex: true, nofollow: true};
+  }
+
+  if (path === '/search' || path.startsWith('/search/')) {
+    return {noindex: true, nofollow: false};
+  }
+
+  return {noindex: false, nofollow: false};
+}
+
+function normalizeAgnosticPath(pathname: string): string {
+  const raw = pathname.toLowerCase();
+  const match = raw.match(/^\/([a-z]{2}-[a-z]{2})(?=\/|$)/);
+  if (!match) return raw.startsWith('/') ? raw : `/${raw}`;
+  const rest = raw.slice(match[0].length);
+  if (!rest) return '/';
+  return rest.startsWith('/') ? rest : `/${rest}`;
 }

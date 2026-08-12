@@ -1,6 +1,7 @@
 import type {CartLineUpdateInput} from '@shopify/hydrogen/storefront-api-types';
 import type {CartLayout, LineItemChildrenMap} from '~/components/CartMain';
 import {CartForm, Image, type OptimisticCartLine} from '@shopify/hydrogen';
+import {useCartRoute} from '~/lib/cart-route';
 import {useVariantUrl} from '~/lib/variants';
 import {Link} from 'react-router';
 import {ProductPrice} from './ProductPrice';
@@ -150,10 +151,12 @@ function CartLineRemoveButton({
   lineIds: string[];
   disabled: boolean;
 }) {
+  const cartRoute = useCartRoute();
+
   return (
     <CartForm
       fetcherKey={getUpdateKey(lineIds)}
-      route="/cart"
+      route={cartRoute}
       action={CartForm.ACTIONS.LinesRemove}
       inputs={{lineIds}}
     >
@@ -171,12 +174,13 @@ function CartLineUpdateButton({
   children: React.ReactNode;
   lines: CartLineUpdateInput[];
 }) {
+  const cartRoute = useCartRoute();
   const lineIds = lines.map((line) => line.id);
 
   return (
     <CartForm
       fetcherKey={getUpdateKey(lineIds)}
-      route="/cart"
+      route={cartRoute}
       action={CartForm.ACTIONS.LinesUpdate}
       inputs={{lines}}
     >

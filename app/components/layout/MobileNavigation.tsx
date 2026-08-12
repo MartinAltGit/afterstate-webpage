@@ -1,5 +1,5 @@
-import {Suspense, type ReactNode} from 'react';
-import {Await, NavLink} from 'react-router';
+import type {ReactNode} from 'react';
+import {NavLink} from 'react-router';
 import {BrandLogo} from '~/components/brand/BrandLogo';
 import {LocaleAwareLink} from '~/components/navigation/LocaleAwareLink';
 import {
@@ -13,18 +13,18 @@ type MobileNavigationProps = {
   items?: MainNavItem[];
   onNavigate?: () => void;
   className?: string;
+  /** Kept for callers; sign-in row is hidden while accounts stay optional. */
   isLoggedIn?: Promise<boolean>;
   marketSelector?: ReactNode;
 };
 
 /**
- * Full-height mobile navigation — account + language, links, then socials + mark.
+ * Full-height mobile navigation — language, links, then socials + mark.
  */
 export function MobileNavigation({
   items = MAIN_NAV_ITEMS,
   onNavigate,
   className,
-  isLoggedIn,
   marketSelector,
 }: MobileNavigationProps) {
   const localePrefix = useLocalePathPrefix();
@@ -34,14 +34,13 @@ export function MobileNavigation({
       className={[styles.root, className].filter(Boolean).join(' ')}
       aria-label="Mobile"
     >
-      <div className={styles.top}>
-        <div className={styles.accountRow}>
-          <AccountRow isLoggedIn={isLoggedIn} onNavigate={onNavigate} />
-          {marketSelector ? (
+      {marketSelector ? (
+        <div className={styles.top}>
+          <div className={styles.accountRow}>
             <div className={styles.languageControl}>{marketSelector}</div>
-          ) : null}
+          </div>
         </div>
-      </div>
+      ) : null}
 
       <ul className={styles.list}>
         {items.map((item) => (
@@ -111,57 +110,6 @@ export function MobileNavigation({
         </LocaleAwareLink>
       </div>
     </nav>
-  );
-}
-
-function AccountRow({
-  isLoggedIn,
-  onNavigate,
-}: {
-  isLoggedIn?: Promise<boolean>;
-  onNavigate?: () => void;
-}) {
-  return (
-    <LocaleAwareLink
-      className={styles.account}
-      prefetch="intent"
-      to="/account"
-      onClick={onNavigate}
-    >
-      <span className={styles.accountIcon} aria-hidden="true">
-        <ProfileIcon />
-      </span>
-      {isLoggedIn ? (
-        <Suspense fallback={<span className={styles.accountLabel}>Account</span>}>
-          <Await
-            resolve={isLoggedIn}
-            errorElement={<span className={styles.accountLabel}>Account</span>}
-          >
-            {(loggedIn) => (
-              <span className={styles.accountLabel}>
-                {loggedIn ? 'Account' : 'Sign in'}
-              </span>
-            )}
-          </Await>
-        </Suspense>
-      ) : (
-        <span className={styles.accountLabel}>Account</span>
-      )}
-    </LocaleAwareLink>
-  );
-}
-
-function ProfileIcon() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <circle cx="12" cy="8" r="3.25" stroke="currentColor" strokeWidth="1.5" />
-      <path
-        d="M5.5 19.25c1.6-3.1 3.9-4.5 6.5-4.5s4.9 1.4 6.5 4.5"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-      />
-    </svg>
   );
 }
 

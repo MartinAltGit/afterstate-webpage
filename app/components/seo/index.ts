@@ -34,4 +34,10 @@ export {
   shouldNoIndex,
   buildRobotsDirective,
   pathSuggestsNoIndex,
+  buildDocumentSeoMeta,
+  getSiteOrigin,
+  SEO_MARKETS,
+  preferredPathPrefix,
+  buildMarketPath,
+  htmlLangFromLanguage,
 } from '~/lib/seo';

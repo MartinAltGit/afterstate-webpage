@@ -13,9 +13,10 @@ import {EmptyState} from '~/components/feedback/EmptyState';
 import {LocaleAwareLink} from '~/components/navigation/LocaleAwareLink';
 import {PageContainer} from '~/components/layout/PageContainer';
 import {Breadcrumbs} from '~/components/navigation/Breadcrumbs';
+import {buildPageTitle} from '~/components/seo';
 
 export const meta: Route.MetaFunction = () => {
-  return [{title: 'Afterstate | Cart'}];
+  return [{title: buildPageTitle('Cart')}];
 };
 
 export const headers: HeadersFunction = ({actionHeaders}) => actionHeaders;
@@ -45,15 +46,21 @@ export async function action({request, context}: Route.ActionArgs) {
       result = await cart.removeLines(inputs.lineIds);
       break;
     case CartForm.ACTIONS.DiscountCodesUpdate: {
-      const formDiscountCode = inputs.discountCode;
+      const rawCode = inputs.discountCode;
+      const formDiscountCode =
+        typeof rawCode === 'string' ? rawCode.trim() : '';
 
-      // User inputted discount code
-      const discountCodes = (
-        formDiscountCode ? [formDiscountCode] : []
-      ) as string[];
+      const existingCodes = Array.isArray(inputs.discountCodes)
+        ? inputs.discountCodes.filter(
+            (code): code is string => typeof code === 'string',
+          )
+        : [];
 
-      // Combine discount codes already applied on cart
-      discountCodes.push(...inputs.discountCodes);
+      // User inputted discount code + codes already applied on cart
+      const discountCodes = [
+        ...(formDiscountCode ? [formDiscountCode] : []),
+        ...existingCodes,
+      ];
 
       result = await cart.updateDiscountCodes(discountCodes);
       break;

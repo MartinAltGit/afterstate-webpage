@@ -8,6 +8,7 @@ import {ArticleJsonLd, buildMetaTags} from '~/components/seo';
 import {JOURNAL_ARTICLE_QUERY} from '~/graphql/queries/journal';
 import {getFallbackJournalArticle} from '~/lib/journal/fallback';
 import {redirectIfHandleIsLocalized} from '~/lib/redirect';
+import {useAbsoluteSeoUrl} from '~/lib/seo/useAbsoluteSeoUrl';
 
 export const meta: Route.MetaFunction = ({data}) => {
   if (data?.source === 'fallback' && data.fallback) {
@@ -83,41 +84,63 @@ export default function JournalArticle() {
   if (data.source === 'fallback' && data.fallback) {
     const article = data.fallback;
     return (
-      <>
-        <ArticleJsonLd
-          headline={article.title}
-          description={article.excerpt}
-          url={`/journal/${article.handle}`}
-          image={article.hero.url}
-          datePublished={article.publishedAt}
-          authorName={article.authorName}
-        />
-        <FallbackJournalArticleView article={article} />
-      </>
+      <FallbackJournalArticleWithSeo article={article} />
     );
   }
 
-  const {article, relatedProducts} = data;
+  const {article, relatedProducts: _relatedProducts} = data;
   if (!article) {
     throw new Response('Not found', {status: 404});
   }
 
+  return <ShopifyJournalArticle article={article} />;
+}
+
+function FallbackJournalArticleWithSeo({
+  article,
+}: {
+  article: NonNullable<ReturnType<typeof getFallbackJournalArticle>>;
+}) {
+  const url = useAbsoluteSeoUrl(`/journal/${article.handle}`);
+
+  return (
+    <>
+      <ArticleJsonLd
+        headline={article.title}
+        description={article.excerpt}
+        url={url}
+        image={article.hero.url}
+        datePublished={article.publishedAt}
+        authorName={article.authorName}
+      />
+      <FallbackJournalArticleView article={article} />
+    </>
+  );
+}
+
+function ShopifyJournalArticle({
+  article,
+}: {
+  article: NonNullable<
+    Extract<Awaited<ReturnType<typeof loader>>, {source: 'shopify'}>['article']
+  >;
+}) {
   const {title, image, contentHtml, author, publishedAt, excerpt} = article;
 
-  const publishedDate = new Intl.DateTimeFormat('en-US', {
+  const publishedDate = new Intl.DateTimeFormat('en-GB', {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
   }).format(new Date(publishedAt));
 
-  const canonicalPath = `/journal/${article.handle}`;
+  const url = useAbsoluteSeoUrl(`/journal/${article.handle}`);
 
   return (
     <PageContainer narrow>
       <ArticleJsonLd
         headline={title}
         description={excerpt ?? undefined}
-        url={canonicalPath}
+        url={url}
         image={image?.url}
         datePublished={publishedAt}
         authorName={author?.name ?? 'Afterstate'}
@@ -153,8 +176,6 @@ export default function JournalArticle() {
           dangerouslySetInnerHTML={{__html: contentHtml}}
           style={{marginBlock: '2rem'}}
         />
-
-        {relatedProducts ? null : null}
       </article>
     </PageContainer>
   );

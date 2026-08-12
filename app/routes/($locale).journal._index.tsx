@@ -183,6 +183,7 @@ export default function JournalIndex() {
           title="Journal + drop notes"
           description="New essays, limited runs, and quiet updates — never a rush of noise."
           submitLabel="Join"
+          source="journal"
         />
       </Reveal>
 

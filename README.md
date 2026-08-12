@@ -71,7 +71,8 @@ Do not commit `.env`. Pull from Oxygen after linking, or set locally:
 | `PUBLIC_CHECKOUT_DOMAIN` | Checkout / consent | Checkout host for Customer Privacy |
 | `PUBLIC_CUSTOMER_ACCOUNT_API_CLIENT_ID` | Account | Customer Account API client |
 | `PUBLIC_CUSTOMER_ACCOUNT_API_URL` | Account | Customer Account API URL |
-| `PUBLIC_SITE_URL` | Production SEO | Absolute site origin for canonicals (e.g. `https://afterstate.com`) |
+| `PUBLIC_SITE_URL` | Production SEO | Absolute site origin for canonicals (`https://afterstate.store`) |
+| `NEWSLETTER_WEBHOOK_URL` | Required for subscribe/demand | Zapier / Make / Klaviyo webhook for newsletter + demand emails |
 
 \*Injected / optional when running against Mock.shop via Hydrogen CLI defaults.
 

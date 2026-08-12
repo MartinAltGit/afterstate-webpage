@@ -12,30 +12,31 @@ export type CartSummaryProps = {
 
 export function CartSummary({cart, className}: CartSummaryProps) {
   const headingId = useId();
-  const codes =
-    cart?.discountCodes
-      ?.filter((d) => d.applicable)
-      ?.map(({code}) => code) ?? [];
+  const discountCodes = cart?.discountCodes ?? [];
 
   return (
     <div
       className={[styles.root, className].filter(Boolean).join(' ')}
       aria-labelledby={headingId}
     >
-      <h2 id={headingId} className={styles.heading}>
-        Summary
-      </h2>
-      <dl className={styles.row}>
-        <dt>Subtotal</dt>
-        <dd>
-          {cart?.cost?.subtotalAmount?.amount ? (
-            <Money data={cart.cost.subtotalAmount} />
-          ) : (
-            '—'
-          )}
-        </dd>
-      </dl>
-      <DiscountForm appliedCodes={codes} />
+      <div className={styles.ledger}>
+        <h2 id={headingId} className={styles.heading}>
+          Summary
+        </h2>
+        <dl className={styles.total}>
+          <dt>Subtotal</dt>
+          <dd>
+            {cart?.cost?.subtotalAmount?.amount ? (
+              <Money data={cart.cost.subtotalAmount} />
+            ) : (
+              '—'
+            )}
+          </dd>
+        </dl>
+      </div>
+
+      <DiscountForm discountCodes={discountCodes} />
+
       <CheckoutButton checkoutUrl={cart?.checkoutUrl} />
     </div>
   );

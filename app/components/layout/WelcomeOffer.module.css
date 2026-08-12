@@ -1,0 +1,15 @@
+.root {
+  margin: 0;
+  color: inherit;
+}
+
+.link {
+  color: var(--color-bone, #ece7da);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.link:hover {
+  color: var(--color-brass, #c2a878);
+  text-decoration: underline;
+}

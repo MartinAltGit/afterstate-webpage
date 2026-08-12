@@ -173,9 +173,16 @@ test.describe('Critical storefront flows', () => {
 
   test('12. market selector present', async ({page}) => {
     await goHome(page);
-    const market = page.getByRole('navigation', {name: 'Market'});
-    await expect(market).toBeVisible();
-    await expect.soft(market.getByRole('link', {name: /EN-US/i})).toBeVisible();
+    const trigger = page.getByRole('button', {name: /Market:/i}).or(
+      page.locator('summary[aria-label^="Market:"]'),
+    );
+    await expect(trigger.first()).toBeVisible();
+    await trigger.first().click();
+    const menu = page.getByRole('listbox', {name: 'Market'});
+    await expect(menu).toBeVisible();
+    await expect.soft(menu.getByRole('link', {name: 'EU'})).toBeVisible();
+    await expect.soft(menu.getByRole('link', {name: 'GB'})).toBeVisible();
+    await expect.soft(menu.getByRole('link', {name: 'DE'})).toBeVisible();
   });
 
   test('13. invalid product returns 404', async ({page}) => {

@@ -1,0 +1,86 @@
+.root {
+  display: grid;
+  gap: 0.75rem;
+  margin-top: 0.25rem;
+}
+
+.lead {
+  margin: 0;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  opacity: 0.75;
+}
+
+.form {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  border: 1px solid var(--color-border, #0a0a0a);
+}
+
+.label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.input {
+  width: 100%;
+  min-width: 0;
+  padding: 0.8rem 0.9rem;
+  border: none;
+  background: transparent;
+  font: inherit;
+  font-size: 0.8125rem;
+  color: inherit;
+}
+
+.input::placeholder {
+  opacity: 0.45;
+}
+
+.input:focus {
+  outline: none;
+}
+
+.input:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: -2px;
+}
+
+.submit {
+  padding: 0.8rem 1rem;
+  border: none;
+  border-left: 1px solid var(--color-border, #0a0a0a);
+  background: var(--color-bg-inverse, #0a0a0a);
+  color: var(--color-fg-inverse, #fff);
+  font: inherit;
+  font-size: 0.6875rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.submit:disabled,
+.input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.success {
+  margin: 0;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+
+.error {
+  margin: 0;
+  font-size: 0.75rem;
+  color: #8b3a3a;
+}

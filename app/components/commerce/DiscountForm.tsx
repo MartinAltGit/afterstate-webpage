@@ -1,67 +1,175 @@
 import {CartForm} from '@shopify/hydrogen';
-import {useId} from 'react';
+import {useEffect, useId, useState} from 'react';
+import {useCartRoute} from '~/lib/cart-route';
+import {WELCOME_DISCOUNT_CODE} from '~/lib/welcomeOffer';
 import styles from './DiscountForm.module.css';
 
+export type CartDiscountCode = {
+  code: string;
+  applicable: boolean;
+};
+
 export type DiscountFormProps = {
-  appliedCodes?: string[];
+  discountCodes?: CartDiscountCode[];
   className?: string;
 };
 
 /**
- * Apply / remove cart discount codes via CartForm.
+ * Cart discount field.
+ * Keeps codes on the cart even when Shopify marks them not-yet-applicable
+ * (common for first-order codes before checkout email). Does not auto-purge.
  */
 export function DiscountForm({
-  appliedCodes = [],
+  discountCodes = [],
   className,
 }: DiscountFormProps) {
   const inputId = useId();
-  const headingId = useId();
+  const errorId = useId();
+  const cartRoute = useCartRoute();
 
-  return (
-    <section
-      className={[styles.root, className].filter(Boolean).join(' ')}
-      aria-labelledby={headingId}
-    >
-      <h3 id={headingId} className={styles.heading}>
-        Discount
-      </h3>
+  const codesOnCart = discountCodes.map(({code}) => code);
+  const applicableCodes = discountCodes
+    .filter((discount) => discount.applicable)
+    .map(({code}) => code);
+  const pendingCodes = discountCodes
+    .filter((discount) => !discount.applicable)
+    .map(({code}) => code);
 
-      {appliedCodes.length > 0 ? (
+  const [error, setError] = useState<string | null>(null);
+  const [draft, setDraft] = useState('');
+  const [submittedCode, setSubmittedCode] = useState<string | null>(null);
+
+  // After a manual apply, surface a clear message if Shopify rejected it.
+  useEffect(() => {
+    if (!submittedCode) return;
+
+    const match = discountCodes.find(
+      (discount) =>
+        discount.code.toLowerCase() === submittedCode.toLowerCase(),
+    );
+
+    if (!match) {
+      setError(
+        'That code wasn’t accepted. For local testing, create Welcome20 in Shopify Admin → Discounts.',
+      );
+      return;
+    }
+
+    if (!match.applicable) {
+      const isWelcome =
+        match.code.toLowerCase() === WELCOME_DISCOUNT_CODE.toLowerCase();
+      setError(
+        isWelcome
+          ? 'Code saved — the % off applies once the cart qualifies (items in cart; first-order rules at checkout).'
+          : 'Code saved, but it isn’t active on this cart yet. It may apply at checkout.',
+      );
+      return;
+    }
+
+    setError(null);
+    setSubmittedCode(null);
+    setDraft('');
+  }, [discountCodes, submittedCode]);
+
+  if (codesOnCart.length > 0) {
+    const allApplicable = pendingCodes.length === 0;
+
+    return (
+      <section
+        className={[styles.root, className].filter(Boolean).join(' ')}
+        aria-label="Discount"
+      >
         <CartForm
-          route="/cart"
+          route={cartRoute}
           action={CartForm.ACTIONS.DiscountCodesUpdate}
           inputs={{discountCodes: []}}
         >
           <div className={styles.applied}>
-            <code>{appliedCodes.join(', ')}</code>
+            <div className={styles.appliedCopy}>
+              <span className={styles.appliedLabel}>
+                {allApplicable ? 'Code applied' : 'Code on cart'}
+              </span>
+              <span className={styles.appliedCode}>
+                {codesOnCart.join(', ')}
+              </span>
+              {!allApplicable ? (
+                <span className={styles.appliedHint}>
+                  Discount confirms when eligible (often at checkout)
+                </span>
+              ) : null}
+            </div>
             <button type="submit" className={styles.remove}>
               Remove
             </button>
           </div>
         </CartForm>
-      ) : null}
+      </section>
+    );
+  }
 
+  return (
+    <section
+      className={[styles.root, className].filter(Boolean).join(' ')}
+      aria-label="Discount"
+    >
       <CartForm
-        route="/cart"
+        route={cartRoute}
         action={CartForm.ACTIONS.DiscountCodesUpdate}
-        inputs={{discountCodes: appliedCodes}}
+        inputs={{discountCodes: applicableCodes}}
       >
-        <div className={styles.form}>
-          <label htmlFor={inputId} className={styles.srOnly}>
-            Discount code
-          </label>
-          <input
-            id={inputId}
-            type="text"
-            name="discountCode"
-            placeholder="Code"
-            className={styles.input}
-            autoComplete="off"
-          />
-          <button type="submit" className={styles.apply}>
-            Apply
-          </button>
-        </div>
+        {(fetcher) => {
+          const busy = fetcher.state !== 'idle';
+
+          return (
+            <div className={styles.field}>
+              <label htmlFor={inputId} className={styles.label}>
+                Promo code
+              </label>
+              <div
+                className={[styles.control, error ? styles.controlError : '']
+                  .filter(Boolean)
+                  .join(' ')}
+              >
+                <input
+                  id={inputId}
+                  type="text"
+                  name="discountCode"
+                  value={draft}
+                  onChange={(event) => {
+                    setDraft(event.target.value);
+                    if (error) setError(null);
+                    if (submittedCode) setSubmittedCode(null);
+                  }}
+                  placeholder="Enter code"
+                  className={styles.input}
+                  autoComplete="off"
+                  spellCheck={false}
+                  disabled={busy}
+                  aria-invalid={error ? true : undefined}
+                  aria-describedby={error ? errorId : undefined}
+                />
+                <button
+                  type="submit"
+                  className={styles.apply}
+                  disabled={busy || !draft.trim()}
+                  onClick={() => {
+                    const next = draft.trim();
+                    if (next) setSubmittedCode(next);
+                  }}
+                >
+                  {busy ? '…' : 'Apply'}
+                </button>
+              </div>
+              <p
+                id={errorId}
+                className={error ? styles.error : styles.hint}
+                role={error ? 'alert' : undefined}
+              >
+                {error ?? '\u00a0'}
+              </p>
+            </div>
+          );
+        }}
       </CartForm>
     </section>
   );

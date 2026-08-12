@@ -20,8 +20,6 @@ export const meta: Route.MetaFunction = () => {
   return buildMetaTags({
     title: 'Search',
     description: 'Search Afterstate products, pages, and journal.',
-    noindex: true,
-    nofollow: true,
   });
 };
 

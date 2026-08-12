@@ -3,25 +3,26 @@ import {replaceLocaleInPath} from '~/lib/locale-path';
 import styles from './MarketSelector.module.css';
 
 export type MarketLocale = {
-  /** Full market label, e.g. EN-US */
+  /** Full market label, e.g. EN-GB */
   label: string;
-  /** Two-letter language code shown in the UI */
+  /** Short code shown in the UI (region for EN markets, language otherwise) */
   code: string;
   /** Path prefix without trailing slash. Empty string = default market. */
   pathPrefix: string;
 };
 
 export const AFTERSTATE_MARKETS: MarketLocale[] = [
-  {label: 'EN-US', code: 'EN', pathPrefix: ''},
-  {label: 'EN-GB', code: 'EN', pathPrefix: '/en-gb'},
-  {label: 'EN-EU', code: 'EN', pathPrefix: '/en-eu'},
+  {label: 'EN-EU', code: 'EU', pathPrefix: ''},
+  {label: 'EN-GB', code: 'GB', pathPrefix: '/en-gb'},
   {label: 'DE-DE', code: 'DE', pathPrefix: '/de-de'},
   {label: 'FR-FR', code: 'FR', pathPrefix: '/fr-fr'},
 ];
 
-/** Languages shown in the dropdown — one entry per language code. */
+/**
+ * @deprecated Prefer AFTERSTATE_MARKETS — language-only list cannot reach EN-GB.
+ */
 export const AFTERSTATE_LANGUAGES: MarketLocale[] = [
-  {label: 'EN-US', code: 'EN', pathPrefix: ''},
+  {label: 'EN-EU', code: 'EU', pathPrefix: ''},
   {label: 'DE-DE', code: 'DE', pathPrefix: '/de-de'},
   {label: 'FR-FR', code: 'FR', pathPrefix: '/fr-fr'},
 ];
@@ -35,10 +36,10 @@ export type MarketSelectorProps = {
 };
 
 /**
- * Compact language dropdown — trigger and options show two-letter codes only.
+ * Compact market switcher — trigger and options show short market codes.
  */
 export function MarketSelector({
-  markets = AFTERSTATE_LANGUAGES,
+  markets = AFTERSTATE_MARKETS,
   currentPathPrefix,
   className,
   variant = 'dropdown',
@@ -46,7 +47,12 @@ export function MarketSelector({
   const {pathname, search} = useLocation();
   const activePrefix =
     currentPathPrefix ?? detectPathPrefix(pathname, AFTERSTATE_MARKETS);
-  const activeCode = codeFromPrefix(activePrefix, AFTERSTATE_MARKETS);
+  const activeMarket =
+    markets.find(
+      (market) =>
+        normalizePrefix(market.pathPrefix) === normalizePrefix(activePrefix),
+    ) ?? null;
+  const activeCode = activeMarket?.code ?? codeFromPrefix(activePrefix);
 
   return (
     <details
@@ -60,30 +66,34 @@ export function MarketSelector({
     >
       <summary
         className={styles.trigger}
-        aria-label={`Language: ${activeCode}`}
+        aria-label={`Market: ${activeMarket?.label ?? activeCode}`}
       >
         <span className={styles.code}>{activeCode}</span>
         <span className={styles.chevron} aria-hidden="true" />
       </summary>
-      <ul className={styles.menu} role="listbox" aria-label="Language">
+      <ul className={styles.menu} role="listbox" aria-label="Market">
         {markets.map((market) => {
-          const isActiveLanguage = market.code === activeCode;
-          const href = isActiveLanguage
+          const isActive =
+            normalizePrefix(market.pathPrefix) ===
+            normalizePrefix(activePrefix);
+          const href = isActive
             ? pathname + search
             : replaceLocaleInPath(pathname, market.pathPrefix) + search;
 
           return (
-            <li key={market.code} role="option" aria-selected={isActiveLanguage}>
+            <li
+              key={market.label}
+              role="option"
+              aria-selected={isActive}
+            >
               <Link
                 to={href}
                 prefetch="intent"
-                className={[
-                  styles.option,
-                  isActiveLanguage ? styles.selected : '',
-                ]
+                className={[styles.option, isActive ? styles.selected : '']
                   .filter(Boolean)
                   .join(' ')}
                 hrefLang={hreflangFromLabel(market.label)}
+                title={market.label}
                 onClick={(event) => {
                   const details = event.currentTarget.closest('details');
                   if (details) details.open = false;
@@ -115,17 +125,19 @@ function detectPathPrefix(pathname: string, markets: MarketLocale[]): string {
   return found?.pathPrefix ?? `/${match[1].toLowerCase()}`;
 }
 
-function codeFromPrefix(prefix: string, markets: MarketLocale[]): string {
-  const found = markets.find(
+function codeFromPrefix(prefix: string): string {
+  const found = AFTERSTATE_MARKETS.find(
     (m) => normalizePrefix(m.pathPrefix) === normalizePrefix(prefix),
   );
   if (found) return found.code;
-  const match = prefix.match(/\/?([a-z]{2})-/i);
-  return match ? match[1].toUpperCase() : 'EN';
+  const match = prefix.match(/\/?[a-z]{2}-([a-z]{2})/i);
+  return match ? match[1].toUpperCase() : 'EU';
 }
 
 function hreflangFromLabel(label: string): string {
   const [lang, region] = label.toLowerCase().split('-');
   if (!lang || !region) return label.toLowerCase();
+  // en-EU is not a valid hreflang region; use en for the default EU English market.
+  if (region === 'eu') return lang;
   return `${lang}-${region.toUpperCase()}`;
 }

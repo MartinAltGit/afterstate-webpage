@@ -1,6 +1,6 @@
 import {useOptimisticCart} from '@shopify/hydrogen';
-import {Link} from 'react-router';
 import {useAside} from '~/components/Aside';
+import {LocaleAwareLink} from '~/components/navigation/LocaleAwareLink';
 import type {CartApiQueryFragment} from 'storefrontapi.generated';
 import {CartLine} from './CartLine';
 import {CartSummary} from './CartSummary';
@@ -36,9 +36,14 @@ export function CartDrawer({cart: originalCart, className}: CartDrawerProps) {
       {!hasItems ? (
         <div className={styles.empty}>
           <p>Your cart is empty.</p>
-          <Link to="/shop" onClick={close} prefetch="intent" className={styles.continue}>
+          <LocaleAwareLink
+            to="/shop"
+            onClick={close}
+            prefetch="intent"
+            className={styles.continue}
+          >
             Continue shopping
-          </Link>
+          </LocaleAwareLink>
         </div>
       ) : (
         <>

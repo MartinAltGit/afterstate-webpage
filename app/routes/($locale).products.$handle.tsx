@@ -28,8 +28,9 @@ import {MobileStickyBuyBar} from '~/components/product/MobileStickyBuyBar';
 import {Breadcrumbs} from '~/components/navigation/Breadcrumbs';
 import {PageContainer} from '~/components/layout/PageContainer';
 import {Reveal} from '~/components/motion/Reveal';
-import {ProductJsonLd} from '~/components/seo';
+import {ProductJsonLd, buildMetaTags} from '~/components/seo';
 import {useAside} from '~/components/Aside';
+import {useAbsoluteSeoUrl} from '~/lib/seo/useAbsoluteSeoUrl';
 import type {
   ProductCardFragment,
   ProductRecommendationsQuery,
@@ -38,18 +39,22 @@ import type {RecommendedProduct} from '~/components/commerce/ProductRecommendati
 import type {CurrencyCode} from '@shopify/hydrogen/storefront-api-types';
 
 export const meta: Route.MetaFunction = ({data}) => {
-  const title =
-    data?.seoTitle ||
-    (data?.product?.title
-      ? `Afterstate | ${data.product.title}`
-      : 'Afterstate');
-  return [
-    {title},
-    {
-      rel: 'canonical',
-      href: `/products/${data?.product?.handle ?? ''}`,
-    },
-  ];
+  return buildMetaTags({
+    title:
+      data?.seoTitle ||
+      data?.product?.title ||
+      'Product',
+    description:
+      data?.seoDescription ||
+      data?.product?.description ||
+      undefined,
+    type: 'product',
+    imageUrl:
+      data?.product?.selectedOrFirstAvailableVariant?.image?.url ||
+      data?.product?.featuredImage?.url ||
+      undefined,
+    imageAlt: data?.product?.title,
+  });
 };
 
 export async function loader(args: Route.LoaderArgs) {
@@ -84,6 +89,7 @@ async function loadCriticalData({context, params, request}: Route.LoaderArgs) {
   return {
     product,
     seoTitle: metafields.seoTitleOverride ?? null,
+    seoDescription: metafields.seoDescriptionOverride ?? null,
   };
 }
 
@@ -136,7 +142,7 @@ export default function Product() {
 
   const onAddToCart = () => open('cart');
 
-  const productUrl = `/products/${product.handle}`;
+  const productUrl = useAbsoluteSeoUrl(`/products/${product.handle}`);
   const lookProducts = mapMetafieldProducts(metafields.completeTheLook);
   const relatedFromMeta = mapMetafieldProducts(metafields.relatedProducts);
 
@@ -205,6 +211,8 @@ export default function Product() {
             productOptions={productOptions}
             selectedVariant={selectedVariant}
             onAddToCart={onAddToCart}
+            productHandle={product.handle}
+            productTitle={product.title}
           />
         </Reveal>
       </PageContainer>

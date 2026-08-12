@@ -7,6 +7,7 @@ import {PageContainer} from '~/components/layout/PageContainer';
 import {ArticleJsonLd, buildMetaTags} from '~/components/seo';
 import {BLOG_ARTICLE_QUERY} from '~/graphql/queries/blog';
 import {redirectIfHandleIsLocalized} from '~/lib/redirect';
+import {useAbsoluteSeoUrl} from '~/lib/seo/useAbsoluteSeoUrl';
 import styles from '~/components/content/BlogArticle.module.css';
 
 export const meta: Route.MetaFunction = ({data}) => {
@@ -56,21 +57,20 @@ export default function BlogArticle() {
   const {article} = useLoaderData<typeof loader>();
   const {title, image, contentHtml, author, publishedAt, excerpt, tags} =
     article;
+  const url = useAbsoluteSeoUrl(`/blog/${article.handle}`);
 
-  const publishedDate = new Intl.DateTimeFormat('en-US', {
+  const publishedDate = new Intl.DateTimeFormat('en-GB', {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
   }).format(new Date(publishedAt));
-
-  const canonicalPath = `/blog/${article.handle}`;
 
   return (
     <PageContainer narrow>
       <ArticleJsonLd
         headline={title}
         description={excerpt ?? undefined}
-        url={canonicalPath}
+        url={url}
         image={image?.url}
         datePublished={publishedAt}
         authorName={author?.name ?? 'Afterstate'}

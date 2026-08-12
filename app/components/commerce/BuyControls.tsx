@@ -5,6 +5,7 @@ import type {
 import {AddToCartButton} from './AddToCartButton';
 import {SizeSelector, isSizeOptionName} from './SizeSelector';
 import {VariantSelector} from './VariantSelector';
+import {DemandCapture} from '~/components/content/DemandCapture';
 import styles from './BuyControls.module.css';
 
 export type BuyControlsSelectedVariant = {
@@ -22,10 +23,13 @@ export type BuyControlsProps = {
   className?: string;
   addToCartLabel?: string;
   soldOutLabel?: string;
+  /** Used for demand capture when the selected variant is unavailable. */
+  productHandle?: string;
+  productTitle?: string;
 };
 
 /**
- * Size + variant selectors, availability, and add to cart.
+ * Size + variant selectors, availability, and add to cart / demand capture.
  */
 export function BuyControls({
   productOptions,
@@ -35,6 +39,8 @@ export function BuyControls({
   className,
   addToCartLabel = 'Add to cart',
   soldOutLabel = 'Sold out',
+  productHandle,
+  productTitle,
 }: BuyControlsProps) {
   const available = Boolean(selectedVariant?.availableForSale);
   const lines: OptimisticCartLineInput[] = selectedVariant
@@ -49,6 +55,11 @@ export function BuyControls({
 
   const sizeOptions = productOptions.filter((o) => isSizeOptionName(o.name));
   const otherOptions = productOptions.filter((o) => !isSizeOptionName(o.name));
+  const showDemand =
+    Boolean(selectedVariant) &&
+    !available &&
+    Boolean(productHandle) &&
+    Boolean(productTitle);
 
   return (
     <div className={[styles.root, className].filter(Boolean).join(' ')}>
@@ -67,15 +78,22 @@ export function BuyControls({
           : 'Select options'}
       </p>
 
-      <AddToCartButton
-        disabled={!selectedVariant || !available}
-        onClick={onAddToCart}
-        lines={lines}
-        analytics={analytics}
-        className={styles.cta}
-      >
-        {available ? addToCartLabel : soldOutLabel}
-      </AddToCartButton>
+      {showDemand ? (
+        <DemandCapture
+          productHandle={productHandle!}
+          productTitle={productTitle!}
+        />
+      ) : (
+        <AddToCartButton
+          disabled={!selectedVariant || !available}
+          onClick={onAddToCart}
+          lines={lines}
+          analytics={analytics}
+          className={styles.cta}
+        >
+          {available ? addToCartLabel : soldOutLabel}
+        </AddToCartButton>
+      )}
     </div>
   );
 }

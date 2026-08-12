@@ -21,6 +21,7 @@ import styles from './SiteHeader.module.css';
 
 type SiteHeaderProps = {
   cart: Promise<CartApiQueryFragment | null>;
+  /** Kept for layout compatibility; account entry points are hidden for now. */
   isLoggedIn?: Promise<boolean>;
   marketSelector?: ReactNode;
   className?: string;
@@ -28,10 +29,10 @@ type SiteHeaderProps = {
 
 /**
  * Floating nav — logo centered, chrome on the sides.
+ * Sign-in is omitted: email capture covers newsletter / demand without Customer Accounts.
  */
 export function SiteHeader({
   cart,
-  isLoggedIn,
   marketSelector,
   className,
 }: SiteHeaderProps) {
@@ -84,11 +85,6 @@ export function SiteHeader({
               {marketSelector}
             </div>
           ) : null}
-          {isLoggedIn ? (
-            <span className={styles.desktopOnly}>
-              <AccountLink isLoggedIn={isLoggedIn} />
-            </span>
-          ) : null}
           <CartToggle cart={cart} />
         </div>
       </div>
@@ -108,37 +104,6 @@ function MobileMenuToggle() {
       <span className={styles.menuGlyph} aria-hidden="true" />
       <VisuallyHidden>Menu</VisuallyHidden>
     </button>
-  );
-}
-
-function AccountLink({isLoggedIn}: {isLoggedIn: Promise<boolean>}) {
-  return (
-    <LocaleAwareLink
-      className={styles.iconButton}
-      prefetch="intent"
-      to="/account"
-      aria-label="Account"
-    >
-      <Suspense
-        fallback={
-          <>
-            <ProfileIcon />
-            <VisuallyHidden>Sign in</VisuallyHidden>
-          </>
-        }
-      >
-        <Await resolve={isLoggedIn} errorElement={<ProfileIcon />}>
-          {(loggedIn) => (
-            <>
-              <ProfileIcon />
-              <VisuallyHidden>
-                {loggedIn ? 'Account' : 'Sign in'}
-              </VisuallyHidden>
-            </>
-          )}
-        </Await>
-      </Suspense>
-    </LocaleAwareLink>
   );
 }
 
@@ -184,28 +149,6 @@ function CartBadge({count}: {count: number}) {
         </span>
       ) : null}
     </button>
-  );
-}
-
-function ProfileIcon() {
-  return (
-    <svg
-      className={styles.glyph}
-      width="18"
-      height="18"
-      viewBox="0 0 24 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      aria-hidden="true"
-    >
-      <circle cx="12" cy="8" r="3.25" stroke="currentColor" strokeWidth="1.5" />
-      <path
-        d="M5.5 19.25c1.6-3.1 3.9-4.5 6.5-4.5s4.9 1.4 6.5 4.5"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-      />
-    </svg>
   );
 }
 

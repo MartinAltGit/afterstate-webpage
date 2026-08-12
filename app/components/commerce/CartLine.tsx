@@ -1,8 +1,8 @@
 import type {CartLineUpdateInput} from '@shopify/hydrogen/storefront-api-types';
-import {CartForm, Image, type OptimisticCartLine} from '@shopify/hydrogen';
+import {CartForm, Image, Money, type OptimisticCartLine} from '@shopify/hydrogen';
 import {Link} from 'react-router';
+import {useCartRoute} from '~/lib/cart-route';
 import {useVariantUrl} from '~/lib/variants';
-import {ProductPrice} from './ProductPrice';
 import styles from './CartLine.module.css';
 import type {CartApiQueryFragment} from 'storefrontapi.generated';
 
@@ -21,6 +21,7 @@ export function CartLine({line, onNavigate, className}: CartLineProps) {
   const {id, merchandise} = line;
   const {product, title, image, selectedOptions} = merchandise;
   const lineItemUrl = useVariantUrl(product.handle, selectedOptions);
+  const optionSummary = formatSelectedOptions(selectedOptions);
 
   return (
     <li className={[styles.root, className].filter(Boolean).join(' ')}>
@@ -35,10 +36,11 @@ export function CartLine({line, onNavigate, className}: CartLineProps) {
             alt={title}
             aspectRatio="1/1"
             data={image}
-            height={96}
+            height={112}
             loading="lazy"
-            width={96}
+            width={112}
             className={styles.image}
+            sizes="112px"
           />
         </Link>
       ) : (
@@ -46,28 +48,49 @@ export function CartLine({line, onNavigate, className}: CartLineProps) {
       )}
 
       <div className={styles.body}>
-        <Link
-          prefetch="intent"
-          to={lineItemUrl}
-          onClick={onNavigate}
-          className={styles.title}
-        >
-          {product.title}
-        </Link>
-        <ProductPrice price={line?.cost?.totalAmount} />
-        {selectedOptions?.length ? (
-          <ul className={styles.options}>
-            {selectedOptions.map((option) => (
-              <li key={option.name}>
-                {option.name}: {option.value}
-              </li>
-            ))}
-          </ul>
+        <div className={styles.header}>
+          <Link
+            prefetch="intent"
+            to={lineItemUrl}
+            onClick={onNavigate}
+            className={styles.title}
+          >
+            {product.title}
+          </Link>
+          {line?.cost?.totalAmount ? (
+            <Money data={line.cost.totalAmount} className={styles.price} />
+          ) : null}
+        </div>
+
+        {optionSummary ? (
+          <p className={styles.options}>{optionSummary}</p>
         ) : null}
-        <CartLineQuantity line={line} />
+
+        <div className={styles.actions}>
+          <CartLineQuantity line={line} />
+          <CartLineRemoveButton lineIds={[id]} disabled={!!line.isOptimistic} />
+        </div>
       </div>
     </li>
   );
+}
+
+function formatSelectedOptions(
+  selectedOptions: CartLineType['merchandise']['selectedOptions'] | undefined,
+) {
+  if (!selectedOptions?.length) return null;
+
+  const values = selectedOptions
+    .filter(
+      (option) =>
+        option.value &&
+        option.value.toLowerCase() !== 'default title' &&
+        option.name?.toLowerCase() !== 'title',
+    )
+    .map((option) => option.value);
+
+  if (!values.length) return null;
+  return values.join(' · ');
 }
 
 function CartLineQuantity({line}: {line: CartLineType}) {
@@ -77,8 +100,7 @@ function CartLineQuantity({line}: {line: CartLineType}) {
   const nextQuantity = quantity + 1;
 
   return (
-    <div className={styles.quantity}>
-      <span className={styles.qtyLabel}>Qty {quantity}</span>
+    <div className={styles.stepper} role="group" aria-label="Quantity">
       <CartLineUpdateButton lines={[{id: lineId, quantity: prevQuantity}]}>
         <button
           type="submit"
@@ -89,6 +111,9 @@ function CartLineQuantity({line}: {line: CartLineType}) {
           −
         </button>
       </CartLineUpdateButton>
+      <span className={styles.qtyValue} aria-live="polite">
+        {quantity}
+      </span>
       <CartLineUpdateButton lines={[{id: lineId, quantity: nextQuantity}]}>
         <button
           type="submit"
@@ -99,7 +124,6 @@ function CartLineQuantity({line}: {line: CartLineType}) {
           +
         </button>
       </CartLineUpdateButton>
-      <CartLineRemoveButton lineIds={[lineId]} disabled={!!isOptimistic} />
     </div>
   );
 }
@@ -111,10 +135,12 @@ function CartLineRemoveButton({
   lineIds: string[];
   disabled: boolean;
 }) {
+  const cartRoute = useCartRoute();
+
   return (
     <CartForm
       fetcherKey={getUpdateKey(lineIds)}
-      route="/cart"
+      route={cartRoute}
       action={CartForm.ACTIONS.LinesRemove}
       inputs={{lineIds}}
     >
@@ -132,11 +158,12 @@ function CartLineUpdateButton({
   children: React.ReactNode;
   lines: CartLineUpdateInput[];
 }) {
+  const cartRoute = useCartRoute();
   const lineIds = lines.map((line) => line.id);
   return (
     <CartForm
       fetcherKey={getUpdateKey(lineIds)}
-      route="/cart"
+      route={cartRoute}
       action={CartForm.ACTIONS.LinesUpdate}
       inputs={{lines}}
     >

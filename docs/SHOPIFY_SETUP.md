@@ -253,15 +253,15 @@ Currency on the Hydrogen storefront comes from Shopify Markets via `@inContext(c
 Afterstate defaults to **English Europe** (`country: NL` → **EUR** when your Europe market uses euros).
 
 1. **Settings → Markets** — enable a Europe (or Netherlands / Eurozone) market with **EUR** as the currency
-2. Optionally keep United Kingdom (GBP) and United States (USD) as separate markets
+2. Optionally keep United Kingdom (GBP) as a separate market — Afterstate does **not** sell to the US
 3. Align Hydrogen locales with those markets:
-   - `/` (default) and `/en-eu` → `EN` + `NL` → EUR
+   - `/` (default) → `EN` + `NL` → EUR (`/en-eu` 301s here)
    - `/en-gb` → `EN` + `GB` → GBP
-   - `/en-us` → `EN` + `US` → USD
    - `/de-de` → `DE` + `DE` → EUR
    - `/fr-fr` → `FR` + `FR` → EUR
 4. If the whole shop should be euro-only, set **Settings → Store details → Store currency** to EUR (or make Europe the primary market)
 5. Translate metafield / metaobject content via Shopify Markets translations where needed
+6. Set `PUBLIC_SITE_URL` to the production HTTPS origin for canonicals / hreflang / sitemap
 
 > Until Markets (or store currency) exposes EUR for `NL` / `DE` / `FR`, the Storefront API will keep returning the shop currency (e.g. GBP).
 
@@ -339,7 +339,7 @@ Forms POST to `/subscribe`. To store emails (Klaviyo, Shopify Email via Zapier/M
 NEWSLETTER_WEBHOOK_URL=https://hooks.zapier.com/hooks/catch/...
 ```
 
-Without this variable, the UI still succeeds and logs the capture server-side so you can try the experience locally. Set the webhook before launch.
+Without this variable, subscribe/demand forms fail closed (no false success, no email logged). Set the webhook before launch — required for capture to work.
 
 Checkout email + marketing consent still collect buyers automatically — this path is for visitors who have not purchased yet.
 

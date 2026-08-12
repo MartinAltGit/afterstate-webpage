@@ -1,8 +1,9 @@
 import type {Route} from './+types/[robots.txt]';
+import {getSiteOrigin} from '~/lib/seo';
 
-export function loader({request}: Route.LoaderArgs) {
-  const url = new URL(request.url);
-  const body = robotsTxtData({url: url.origin});
+export function loader({request, context}: Route.LoaderArgs) {
+  const origin = getSiteOrigin(context.env, request);
+  const body = robotsTxtData({url: origin || undefined});
 
   return new Response(body, {
     status: 200,
@@ -15,7 +16,7 @@ export function loader({request}: Route.LoaderArgs) {
 }
 
 function robotsTxtData({url}: {url?: string}) {
-  const sitemapUrl = url ? `${url}/sitemap.xml` : undefined;
+  const sitemapUrl = url ? `${url.replace(/\/$/, '')}/sitemap.xml` : undefined;
 
   return `
 User-agent: *

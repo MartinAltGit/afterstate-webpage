@@ -161,7 +161,8 @@
   --page-gutter: var(--space-4);
   --page-gutter-lg: var(--space-7);
 
-  --aside-width: 24rem;
+  --aside-width: min(26rem, 100vw);
+  --aside-pad: var(--space-4);
   --grid-item-width: 16rem;
 
   /* ------------------------------------------------------------------ */
@@ -215,4 +216,17 @@
 
   --cart-aside-summary-height: 15.625rem;
   --cart-aside-summary-height-with-discount: 18.75rem;
+}
+
+@media (min-width: 48em) {
+  :root {
+    --aside-width: min(32rem, 42vw);
+    --aside-pad: var(--space-6);
+  }
+}
+
+@media (min-width: 80em) {
+  :root {
+    --aside-width: min(36rem, 38vw);
+  }
 }

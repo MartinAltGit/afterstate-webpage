@@ -10,7 +10,9 @@ import {
   ScrollRestoration,
   useRouteLoaderData,
   Link,
+  Await,
 } from 'react-router';
+import {Suspense} from 'react';
 import type {Route} from './+types/root';
 import favicon from '~/assets/favicon.svg';
 import logoPng from '~/assets/logo-afterstate.png';
@@ -19,8 +21,17 @@ import resetStyles from '~/styles/reset.css?url';
 import appStyles from '~/styles/app.css?url';
 import {PageLayout} from '~/components/layout/PageLayout';
 import {PersistStylesheets} from '~/components/layout/PersistStylesheets';
+import {WelcomeOffer} from '~/components/layout/WelcomeOffer';
+import {NewsletterForm} from '~/components/content/NewsletterForm';
 import {NotFoundState} from '~/components/feedback/NotFoundState';
 import {ErrorState} from '~/components/feedback/ErrorState';
+import {CartBuyerIdentitySync} from '~/components/commerce/CartBuyerIdentitySync';
+import type {I18nLocale} from '~/lib/i18n';
+import {
+  buildDocumentSeoMeta,
+  getSiteOrigin,
+  htmlLangFromLanguage,
+} from '~/lib/seo';
 
 export type RootLoader = typeof loader;
 
@@ -37,6 +48,14 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 
   // revalidate when manually revalidating via useRevalidator
   if (currentUrl.toString() === nextUrl.toString()) return true;
+
+  // Market / locale prefix changed → refresh i18n + cart currency context
+  const currentLocale = currentUrl.pathname.split('/')[1] ?? '';
+  const nextLocale = nextUrl.pathname.split('/')[1] ?? '';
+  const isLocaleSeg = (seg: string) => /^[a-z]{2}-[a-z]{2}$/i.test(seg);
+  const currentPrefix = isLocaleSeg(currentLocale) ? currentLocale.toLowerCase() : '';
+  const nextPrefix = isLocaleSeg(nextLocale) ? nextLocale.toLowerCase() : '';
+  if (currentPrefix !== nextPrefix) return true;
 
   // Defaulting to no revalidation for root loader data to improve performance.
   // When using this feature, you risk your UI getting out of sync with your server.
@@ -82,6 +101,20 @@ export function links() {
   ];
 }
 
+/**
+ * Document-level canonical, hreflang, and utility robots for every route.
+ */
+export const meta: Route.MetaFunction = ({data, location}) => {
+  if (!data?.seo?.origin) return [];
+
+  return buildDocumentSeoMeta({
+    origin: data.seo.origin,
+    pathname: location.pathname,
+    pathPrefix: data.seo.pathPrefix,
+    search: location.search,
+  });
+};
+
 export async function loader(args: Route.LoaderArgs) {
   // Start fetching non-critical data without blocking time to first byte
   const deferredData = loadDeferredData(args);
@@ -90,11 +123,17 @@ export async function loader(args: Route.LoaderArgs) {
   const criticalData = await loadCriticalData(args);
 
   const {storefront, env} = args.context;
+  const i18n = storefront.i18n as I18nLocale;
 
   return {
     ...deferredData,
     ...criticalData,
     publicStoreDomain: env.PUBLIC_STORE_DOMAIN,
+    i18n,
+    seo: {
+      origin: getSiteOrigin(env, args.request),
+      pathPrefix: i18n.pathPrefix ?? '',
+    },
     shop: getShopAnalytics({
       storefront,
       publicStorefrontId: env.PUBLIC_STOREFRONT_ID,
@@ -104,8 +143,8 @@ export async function loader(args: Route.LoaderArgs) {
       storefrontAccessToken: env.PUBLIC_STOREFRONT_API_TOKEN,
       withPrivacyBanner: false,
       // localize the privacy banner
-      country: args.context.storefront.i18n.country,
-      language: args.context.storefront.i18n.language,
+      country: i18n.country,
+      language: i18n.language,
     },
   };
 }
@@ -160,9 +199,11 @@ function loadDeferredData({context}: Route.LoaderArgs) {
 
 export function Layout({children}: {children?: React.ReactNode}) {
   const nonce = useNonce();
+  const data = useRouteLoaderData<RootLoader>('root');
+  const lang = htmlLangFromLanguage(data?.i18n?.language);
 
   return (
-    <html lang="en">
+    <html lang={lang}>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -194,7 +235,29 @@ export default function App() {
       shop={data.shop}
       consent={data.consent}
     >
-      <PageLayout {...data}>
+      <Suspense fallback={null}>
+        <Await resolve={data.cart}>
+          {(cart) => (
+            <CartBuyerIdentitySync
+              countryCode={data.i18n.country}
+              cartCountryCode={cart?.buyerIdentity?.countryCode}
+              hasCart={Boolean(cart?.id)}
+            />
+          )}
+        </Await>
+      </Suspense>
+      <PageLayout
+        {...data}
+        announcement={<WelcomeOffer />}
+        newsletter={
+          <NewsletterForm
+            variant="footer"
+            submitLabel="Join"
+            note="No spam — drops and journal notes only."
+            source="footer"
+          />
+        }
+      >
         <Outlet />
       </PageLayout>
     </Analytics.Provider>

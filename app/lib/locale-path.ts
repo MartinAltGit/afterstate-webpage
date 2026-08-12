@@ -2,7 +2,7 @@ const LOCALE_PREFIX_RE = /^\/([a-z]{2}-[a-z]{2})(?=\/|$)/i;
 
 /**
  * Prefix a locale-agnostic path with a market path prefix.
- * Empty `pathPrefix` keeps the default-market path (EN-US → `/`).
+ * Empty `pathPrefix` keeps the default-market path (EN-EU → `/`).
  */
 export function prefixPathWithLocale(path: string, pathPrefix: string): string {
   const normalized = path.startsWith('/') ? path : `/${path}`;
