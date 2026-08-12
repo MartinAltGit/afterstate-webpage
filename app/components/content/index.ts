@@ -18,4 +18,5 @@ export {
   type QualityPoint,
 } from './QualityPoints';
 export {NewsletterForm, type NewsletterFormProps} from './NewsletterForm';
+export {NewsletterPopup} from './NewsletterPopup';
 export {DemandCapture, type DemandCaptureProps} from './DemandCapture';

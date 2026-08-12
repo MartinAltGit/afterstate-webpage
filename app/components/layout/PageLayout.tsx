@@ -6,6 +6,7 @@ import type {
 } from 'storefrontapi.generated';
 import {Aside} from '~/components/Aside';
 import {MarketSelector} from '~/components/commerce/MarketSelector';
+import {NewsletterPopup} from '~/components/content/NewsletterPopup';
 import {AnnouncementBar} from '~/components/layout/AnnouncementBar';
 import {SiteDrawers} from '~/components/layout/CartDrawer';
 import {SiteFooter} from '~/components/layout/SiteFooter';
@@ -57,6 +58,7 @@ export function PageLayout({
         <main id="main-content">{children}</main>
         <SiteFooter newsletter={newsletter} />
       </StageShell>
+      <NewsletterPopup />
     </Aside.Provider>
   );
 }
