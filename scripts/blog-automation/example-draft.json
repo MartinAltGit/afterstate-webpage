@@ -1,0 +1,13 @@
+{
+  "title": "Example draft — do not publish",
+  "handle": "example-draft-do-not-publish",
+  "body": "<p>Lead paragraph with the primary topic stated clearly.</p><h2>What is changing</h2><p>Body copy goes here.</p><h2>How to wear it</h2><p>Practical takeaway.</p>",
+  "summary": "An example draft showing the shape expected by scripts/blog-automation/publish.mjs.",
+  "seoTitle": "Example draft | Afterstate Blog",
+  "seoDescription": "Example only — replace with a real 155-character meta description before publishing.",
+  "tags": ["trends", "example"],
+  "imageUrl": "https://cdn.shopify.com/s/files/1/0533/2089/files/placeholder-images-image_large.png",
+  "imageAlt": "Placeholder image for draft example",
+  "authorName": "Afterstate",
+  "isPublished": true
+}

@@ -1,11 +1,13 @@
 import {useLoaderData} from 'react-router';
 import type {Route} from './+types/($locale).blog.$articleHandle';
 import {Image} from '@shopify/hydrogen';
+import {LocaleAwareLink} from '~/components/navigation/LocaleAwareLink';
 import {Breadcrumbs} from '~/components/navigation/Breadcrumbs';
 import {PageContainer} from '~/components/layout/PageContainer';
 import {ArticleJsonLd, buildMetaTags} from '~/components/seo';
 import {BLOG_ARTICLE_QUERY} from '~/graphql/queries/blog';
 import {redirectIfHandleIsLocalized} from '~/lib/redirect';
+import styles from '~/components/content/BlogArticle.module.css';
 
 export const meta: Route.MetaFunction = ({data}) => {
   const article = data?.article;
@@ -32,7 +34,7 @@ export async function loader({context, params, request}: Route.LoaderArgs) {
   const result = await storefront
     .query(BLOG_ARTICLE_QUERY, {
       variables: {articleHandle},
-      cache: storefront.CacheLong(),
+      cache: storefront.CacheShort(),
     })
     .catch(() => null);
 
@@ -52,7 +54,8 @@ export async function loader({context, params, request}: Route.LoaderArgs) {
 
 export default function BlogArticle() {
   const {article} = useLoaderData<typeof loader>();
-  const {title, image, contentHtml, author, publishedAt, excerpt} = article;
+  const {title, image, contentHtml, author, publishedAt, excerpt, tags} =
+    article;
 
   const publishedDate = new Intl.DateTimeFormat('en-US', {
     year: 'numeric',
@@ -73,17 +76,21 @@ export default function BlogArticle() {
         authorName={author?.name ?? 'Afterstate'}
       />
 
-      <Breadcrumbs
-        items={[
-          {label: 'Home', to: '/'},
-          {label: 'Blog', to: '/blog'},
-          {label: title},
-        ]}
-      />
+      <article className={styles.article}>
+        <LocaleAwareLink prefetch="intent" to="/blog" className={styles.back}>
+          <span aria-hidden="true">←</span> Blog
+        </LocaleAwareLink>
 
-      <article>
-        <header style={{marginBlock: '2rem'}}>
-          <p style={{marginBottom: '0.5rem'}}>
+        <Breadcrumbs
+          items={[
+            {label: 'Home', to: '/'},
+            {label: 'Blog', to: '/blog'},
+            {label: title},
+          ]}
+        />
+
+        <header className={styles.header}>
+          <p className={styles.meta}>
             <time dateTime={publishedAt}>{publishedDate}</time>
             {author?.name ? (
               <>
@@ -92,21 +99,41 @@ export default function BlogArticle() {
               </>
             ) : null}
           </p>
-          <h1>{title}</h1>
+          <h1 className={styles.title}>{title}</h1>
+          {excerpt ? <p className={styles.excerpt}>{excerpt}</p> : null}
         </header>
 
         {image ? (
-          <Image
-            data={image}
-            sizes="(min-width: 45em) 40rem, 100vw"
-            loading="eager"
-          />
+          <div className={styles.hero}>
+            <Image
+              data={image}
+              className={styles.heroImage}
+              sizes="(min-width: 45em) 40rem, 100vw"
+              loading="eager"
+            />
+          </div>
+        ) : null}
+
+        {tags?.length ? (
+          <ul className={styles.tags} aria-label="Tags">
+            {tags.map((tag) => (
+              <li key={tag} className={styles.tag}>
+                {tag}
+              </li>
+            ))}
+          </ul>
         ) : null}
 
         <div
+          className={styles.body}
           dangerouslySetInnerHTML={{__html: contentHtml}}
-          style={{marginBlock: '2rem'}}
         />
+
+        <footer className={styles.footer}>
+          <LocaleAwareLink prefetch="intent" to="/blog" className={styles.back}>
+            <span aria-hidden="true">←</span> More from the blog
+          </LocaleAwareLink>
+        </footer>
       </article>
     </PageContainer>
   );

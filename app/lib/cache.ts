@@ -13,7 +13,7 @@
  *
  * | Helper | Typical use | Notes |
  * | --- | --- | --- |
- * | `storefront.CacheShort()` | Homepage sections, search results, campaign metaobjects | Short TTL; revalidates quickly after publish |
+ * | `storefront.CacheShort()` | Homepage sections, search results, campaign metaobjects, fashion blog | Short TTL; revalidates quickly after publish |
  * | `storefront.CacheLong()` | Menus, shop brand, policies, stable collections | Longer TTL for rarely changing public data |
  * | `storefront.CacheNone()` | Predictive search, highly dynamic public queries | No shared cache |
  * | `storefront.CacheCustom({...})` | Tuned maxAge / staleWhileRevalidate | Prefer named helpers when possible |
@@ -53,7 +53,7 @@
 
 /** Documented mapping used by route loaders (names only — call via storefront). */
 export const CACHE_STRATEGY = {
-  /** Products, collections, homepage, campaigns, journal lists */
+  /** Products, collections, homepage, campaigns, journal lists, fashion blog */
   catalog: 'CacheShort',
   /** Menus, shop, policies */
   navigation: 'CacheLong',

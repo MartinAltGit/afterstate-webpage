@@ -12,7 +12,10 @@
     "typecheck": "react-router typegen && tsc --noEmit",
     "codegen": "shopify hydrogen codegen && react-router typegen",
     "test:e2e": "playwright test",
-    "test:e2e:ui": "playwright test --ui"
+    "test:e2e:ui": "playwright test --ui",
+    "blog:resolve-id": "node scripts/blog-automation/resolve-blog-id.mjs",
+    "blog:publish": "node scripts/blog-automation/publish.mjs",
+    "blog:mark-published": "node scripts/blog-automation/mark-published.mjs"
   },
   "prettier": "@shopify/prettier-config",
   "dependencies": {

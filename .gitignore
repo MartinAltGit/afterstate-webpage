@@ -16,3 +16,5 @@ hydrogen-quickstart/
 .cursor/settings.json
 assets/printful-test/
 /screenshots/
+content/blog/.last-draft.json
+content/blog/.draft-*.json

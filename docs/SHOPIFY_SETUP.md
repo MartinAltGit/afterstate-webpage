@@ -219,6 +219,18 @@ Routes: `/blog`, `/blog/:articleHandle`. Legacy `/blogs` and `/blogs/blog/*` red
 
 Do **not** publish fashion-trend posts into the `journal` blog — keep the two handles separate for IA and SEO.
 
+### Automated publishing (SEO)
+
+Afterstate can auto-publish **2 posts per week** (Mon + Thu) via Admin API + Magnific images + OpenSEO research.
+
+1. Create a custom Admin app with **content write** scopes (`write_content` / blogs & articles)
+2. Set env: `SHOPIFY_SHOP`, `SHOPIFY_ADMIN_TOKEN` (optional `SHOPIFY_BLOG_ID`)
+3. Resolve blog GID: `npm run blog:resolve-id`
+4. Follow [`docs/BLOG_AUTOMATION.md`](./BLOG_AUTOMATION.md) and [`content/blog/AGENT_PLAYBOOK.md`](../content/blog/AGENT_PLAYBOOK.md)
+5. Schedule a Cursor Automation **Mon + Thu** (`0 9 * * 1,4`) — Magnific + OpenSEO MCP
+
+Publisher script: `npm run blog:publish -- --file draft.json`
+
 ---
 
 ## 4. Menus
@@ -236,9 +248,22 @@ Update handles in `app/lib/fragments.ts` / root loader if you rename them.
 
 ## 5. Markets & localization
 
-1. Settings → Markets — enable markets you sell into
-2. Ensure Storefront API `@inContext(country, language)` matches Hydrogen `i18n`
-3. Translate metafield / metaobject content via Shopify Markets translations where needed
+Currency on the Hydrogen storefront comes from Shopify Markets via `@inContext(country)` — it is **not** converted in React.
+
+Afterstate defaults to **English Europe** (`country: NL` → **EUR** when your Europe market uses euros).
+
+1. **Settings → Markets** — enable a Europe (or Netherlands / Eurozone) market with **EUR** as the currency
+2. Optionally keep United Kingdom (GBP) and United States (USD) as separate markets
+3. Align Hydrogen locales with those markets:
+   - `/` (default) and `/en-eu` → `EN` + `NL` → EUR
+   - `/en-gb` → `EN` + `GB` → GBP
+   - `/en-us` → `EN` + `US` → USD
+   - `/de-de` → `DE` + `DE` → EUR
+   - `/fr-fr` → `FR` + `FR` → EUR
+4. If the whole shop should be euro-only, set **Settings → Store details → Store currency** to EUR (or make Europe the primary market)
+5. Translate metafield / metaobject content via Shopify Markets translations where needed
+
+> Until Markets (or store currency) exposes EUR for `NL` / `DE` / `FR`, the Storefront API will keep returning the shop currency (e.g. GBP).
 
 ---
 
@@ -258,6 +283,65 @@ await storefront.query(HOMEPAGE_SECTIONS_QUERY, {
 ```
 
 If metaobjects return empty, confirm Storefront API access on the definition and that entries are published.
+
+---
+
+## 7. Welcome discount + email capture (no login)
+
+The storefront uses email capture for newsletter and sold-out **Make a demand** — not customer accounts.
+
+### Welcome discount (`Welcome20`)
+
+The storefront only **attaches** the code to the cart. Shopify must have a matching discount or nothing comes off the price.
+
+#### Quick setup for testing
+
+1. **Shopify Admin → Discounts → Create discount**
+2. **Amount off order** → **Percentage** → **20%**
+3. Discount code: `Welcome20` (must match `app/lib/welcomeOffer.ts`)
+4. **Leave eligibility open** while testing (all customers, no first-order limit)
+5. Save → add a product to cart → apply `Welcome20` (bar link or cart field)
+6. Subtotal should drop once Shopify marks the code applicable
+
+Mock.shop / unlinked stores cannot host your custom codes — use a real dev store.
+
+#### Before launch (first-order only)
+
+1. Edit `Welcome20`
+2. **Limit to one use per customer** — on
+3. **Customer eligibility** → customers who have **not previously purchased**
+4. Save
+
+**How first-order tracking works:** Hydrogen does not count orders. Shopify does — at checkout, against the buyer’s email / customer record. Guests can attach the code on the cart; Shopify decides if it discounts when they check out.
+
+### Newsletter + demand webhook
+
+Forms POST to `/subscribe`. To store emails (Klaviyo, Shopify Email via Zapier/Make, etc.):
+
+1. Create a webhook endpoint that accepts JSON:
+
+```json
+{
+  "email": "guest@example.com",
+  "intent": "newsletter",
+  "source": "footer",
+  "productHandle": optional,
+  "productTitle": optional,
+  "capturedAt": "ISO-8601"
+}
+```
+
+`intent` is `newsletter` or `demand`.
+
+2. Set Oxygen / local env:
+
+```bash
+NEWSLETTER_WEBHOOK_URL=https://hooks.zapier.com/hooks/catch/...
+```
+
+Without this variable, the UI still succeeds and logs the capture server-side so you can try the experience locally. Set the webhook before launch.
+
+Checkout email + marketing consent still collect buyers automatically — this path is for visitors who have not purchased yet.
 
 ---
 

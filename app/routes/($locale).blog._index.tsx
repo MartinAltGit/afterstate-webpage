@@ -30,7 +30,7 @@ export async function loader({context, request}: Route.LoaderArgs) {
   const result = await storefront
     .query(BLOG_INDEX_QUERY, {
       variables: {...paginationVariables},
-      cache: storefront.CacheLong(),
+      cache: storefront.CacheShort(),
     })
     .catch(() => null);
 
