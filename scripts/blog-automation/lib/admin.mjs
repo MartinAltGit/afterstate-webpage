@@ -4,22 +4,55 @@
 
 const API_VERSION = process.env.SHOPIFY_API_VERSION || '2025-10';
 
-export function getAdminConfig() {
-  const shop = (process.env.SHOPIFY_SHOP || '')
+function normalizeShop() {
+  return (process.env.SHOPIFY_SHOP || '')
     .replace(/^https?:\/\//, '')
     .replace(/\/$/, '')
     .replace(/\.myshopify\.com$/i, '');
-  const token = process.env.SHOPIFY_ADMIN_TOKEN || '';
+}
 
+async function getAccessToken(shop) {
+  const staticToken = process.env.SHOPIFY_ADMIN_TOKEN || '';
+  if (staticToken) return staticToken;
+
+  const clientId = process.env.SHOPIFY_CLIENT_ID || '';
+  const clientSecret = process.env.SHOPIFY_CLIENT_SECRET || '';
+  if (!clientId || !clientSecret) {
+    throw new Error(
+      'Missing Shopify auth. Set SHOPIFY_CLIENT_ID + SHOPIFY_CLIENT_SECRET (Dev Dashboard) or SHOPIFY_ADMIN_TOKEN.',
+    );
+  }
+
+  const response = await fetch(
+    `https://${shop}.myshopify.com/admin/oauth/access_token`,
+    {
+      method: 'POST',
+      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+      body: new URLSearchParams({
+        grant_type: 'client_credentials',
+        client_id: clientId,
+        client_secret: clientSecret,
+      }),
+    },
+  );
+  const json = await response.json().catch(() => ({}));
+  if (!response.ok || !json.access_token) {
+    throw new Error(
+      `Shopify token exchange failed (${response.status}): ${JSON.stringify(json)}`,
+    );
+  }
+  return json.access_token;
+}
+
+export async function getAdminConfig() {
+  const shop = normalizeShop();
   if (!shop) {
     throw new Error(
       'Missing SHOPIFY_SHOP (e.g. your-store or your-store.myshopify.com)',
     );
   }
-  if (!token) {
-    throw new Error('Missing SHOPIFY_ADMIN_TOKEN (Admin API access token)');
-  }
 
+  const token = await getAccessToken(shop);
   return {
     shop,
     token,
@@ -28,7 +61,7 @@ export function getAdminConfig() {
 }
 
 export async function adminGraphql(query, variables = {}) {
-  const {endpoint, token} = getAdminConfig();
+  const {endpoint, token} = await getAdminConfig();
   const response = await fetch(endpoint, {
     method: 'POST',
     headers: {
