@@ -1,6 +1,7 @@
 export {
   buildPageTitle,
   buildMetaTags,
+  clampSeoText,
   type SeoMetaInput,
   type MetaDescriptor,
 } from './SeoMeta';

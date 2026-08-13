@@ -10,9 +10,9 @@ import {useAbsoluteSeoUrl} from '~/lib/seo/useAbsoluteSeoUrl';
 
 export const meta: Route.MetaFunction = () => {
   return buildMetaTags({
-    title: 'Life beyond the rush.',
+    title: 'Life beyond the rush',
     description:
-      'Afterstate — life beyond the rush. Clothes made for a slower, clearer pace.',
+      'Limited-edition clothing from Afterstate. Short runs, no restocks — pieces designed for everyday wear, long after the season has moved on.',
   });
 };
 

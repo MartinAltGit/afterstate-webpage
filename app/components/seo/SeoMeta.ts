@@ -5,6 +5,7 @@
 export {
   buildPageTitle,
   buildMetaTags,
+  clampSeoText,
   type SeoMetaInput,
   type MetaDescriptor,
 } from '~/lib/seo/meta';

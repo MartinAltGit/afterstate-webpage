@@ -10,7 +10,7 @@ export const meta: Route.MetaFunction = () => {
   return buildMetaTags({
     title: 'Size guide',
     description:
-      'How Afterstate garments are intended to fit — measured, considered, and easy to live in.',
+      'How Afterstate garments are intended to fit — measured, considered, and easy to live in. Use this before you order.',
   });
 };
 

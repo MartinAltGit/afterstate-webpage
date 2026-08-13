@@ -20,7 +20,7 @@ export function JournalCtaBand({
   title = 'Wear the quieter hours',
   body = 'Limited editions. Short runs. No restocks. When you are ready, the drop is waiting.',
   primaryLabel = 'Shop Afterstate 001',
-  primaryTo = '/collections/afterstate-001',
+  primaryTo = '/afterstate-001-no-rush',
   secondaryLabel = 'Browse the shop',
   secondaryTo = '/shop',
   className,

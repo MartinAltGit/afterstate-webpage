@@ -4,6 +4,12 @@ export const JOURNAL_BLOG_HANDLE = 'journal';
 /** Shopify blog handle for fashion-world Blog posts (trends, stories, culture). */
 export const FASHION_BLOG_HANDLE = 'blog';
 
+/** Primary catalog. */
+export const SHOP_PATH = '/shop';
+
+/** First campaign landing page (the Shopify collection `afterstate-001` does not exist). */
+export const CAMPAIGN_PATH = '/afterstate-001-no-rush';
+
 /** Journal world hub. */
 export const JOURNAL_PATH = '/journal';
 
@@ -38,3 +44,22 @@ export function blogIndexPath(blogHandle: string): string {
   }
   return '/blog';
 }
+
+/** Online Store page handles that have dedicated Hydrogen routes. */
+export const PAGE_HANDLE_PATHS: Record<string, string> = {
+  about: '/about',
+  contact: '/contact',
+  care: '/care',
+  philosophy: '/philosophy',
+  'size-guide': '/size-guide',
+  'shipping-returns': '/shipping-returns',
+  copyright: '/copyright',
+  legal: '/copyright',
+};
+
+/** Missing or legacy collection handles → a live storefront path. */
+export const COLLECTION_HANDLE_REDIRECTS: Record<string, string> = {
+  'afterstate-001': CAMPAIGN_PATH,
+  all: SHOP_PATH,
+  frontpage: SHOP_PATH,
+};

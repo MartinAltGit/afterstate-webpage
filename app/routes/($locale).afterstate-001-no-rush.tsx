@@ -9,6 +9,7 @@ import {PageContainer} from '~/components/layout/PageContainer';
 import {buildMetaTags} from '~/components/seo';
 import {CAMPAIGN_BY_HANDLE_QUERY} from '~/graphql/queries/campaign';
 import {PRODUCT_CARD_FRAGMENT} from '~/graphql/fragments/product';
+import {SHOP_PATH} from '~/lib/content-paths';
 import type {ProductCardFragment} from 'storefrontapi.generated';
 
 const CAMPAIGN_HANDLE = 'afterstate-001-no-rush';
@@ -16,9 +17,9 @@ const COLLECTION_HANDLE = 'afterstate-001';
 
 export const meta: Route.MetaFunction = () => {
   return buildMetaTags({
-    title: 'Afterstate 001: No Rush',
+    title: '001: No Rush',
     description:
-      'No Rush — the first Afterstate campaign. Fewer pieces, clearer intent, clothes made to last beyond the season.',
+      'Afterstate 001 — No Rush. The first campaign: fewer pieces, clearer intent, and clothes made to last beyond the season.',
   });
 };
 
@@ -62,7 +63,7 @@ export default function Afterstate001NoRush() {
         title="No Rush"
         subtitle="A slower pace for clothes made to last beyond the season."
         ctaLabel="Shop the collection"
-        ctaTo={`/collections/${COLLECTION_HANDLE}`}
+        ctaTo={SHOP_PATH}
       />
 
       <PageContainer>
@@ -81,7 +82,7 @@ export default function Afterstate001NoRush() {
           eyebrow="Shop"
           title="Afterstate 001"
           ctaLabel="View all"
-          ctaTo={`/collections/${COLLECTION_HANDLE}`}
+          ctaTo={SHOP_PATH}
         >
           {products.length
             ? products.map((product: ProductCardFragment) => (
@@ -102,7 +103,7 @@ export default function Afterstate001NoRush() {
         />
 
         <p style={{paddingBlock: '2rem', textAlign: 'center'}}>
-          <Link to={`/collections/${COLLECTION_HANDLE}`} prefetch="intent">
+          <Link to={SHOP_PATH} prefetch="intent">
             Continue to the shop
           </Link>
         </p>

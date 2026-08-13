@@ -19,7 +19,7 @@ export const meta: Route.MetaFunction = () => {
   return buildMetaTags({
     title: 'About',
     description:
-      'Afterstate is a clothing brand for life beyond the rush — fewer pieces, clearer intent.',
+      'Afterstate makes fewer clothes, on purpose. A small clothing brand for a slower pace — short runs, clear intent, pieces meant to last.',
   });
 };
 

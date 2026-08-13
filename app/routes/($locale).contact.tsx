@@ -13,7 +13,7 @@ export const meta: Route.MetaFunction = () => {
   return buildMetaTags({
     title: 'Contact',
     description:
-      'Write to Afterstate — sizing, orders, press, and quiet questions about the clothes.',
+      'Write to Afterstate about sizing, orders, press, or the clothes. We read every note — usually within a few days.',
   });
 };
 

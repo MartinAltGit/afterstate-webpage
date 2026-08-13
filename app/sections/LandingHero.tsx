@@ -39,7 +39,7 @@ export function LandingHero({
   accent = 'rush.',
   support = 'Limited editions only — short runs, clear intent, clothes made to stay.',
   ctaLabel = 'Shop the drop',
-  ctaTo = '/collections/afterstate-001',
+  ctaTo = '/shop',
   secondaryLabel = 'The journal',
   secondaryTo = '/journal',
   className,

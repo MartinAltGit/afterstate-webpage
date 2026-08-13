@@ -40,10 +40,15 @@ import type {CurrencyCode} from '@shopify/hydrogen/storefront-api-types';
 import styles from '~/components/product/ProductPage.module.css';
 
 export const meta: Route.MetaFunction = ({data}) => {
+  const name = data?.product?.title;
   return buildMetaTags({
-    title: data?.seoTitle || data?.product?.title || 'Product',
+    title: data?.seoTitle || name || 'Product',
     description:
-      data?.seoDescription || data?.product?.description || undefined,
+      data?.seoDescription ||
+      data?.product?.description ||
+      (name
+        ? `Shop ${name} from Afterstate. Limited edition, made to stay.`
+        : undefined),
     type: 'product',
     imageUrl:
       data?.product?.selectedOrFirstAvailableVariant?.image?.url ||

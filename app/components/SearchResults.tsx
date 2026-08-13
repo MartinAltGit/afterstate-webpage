@@ -161,7 +161,7 @@ function SearchResultsEmpty() {
   return (
     <p>
       No results for that search. Try a simpler word, or browse{' '}
-      <Link prefetch="intent" to="/collections/afterstate-001">
+      <Link prefetch="intent" to="/shop">
         Afterstate 001
       </Link>
       .

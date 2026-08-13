@@ -47,7 +47,7 @@ export function CampaignLook({
   accent = 'Wear it longer.',
   caption = 'A short run. When it’s gone, it’s gone.',
   ctaLabel = 'Explore the collection',
-  ctaTo = '/collections/afterstate-001',
+  ctaTo = '/shop',
   className,
 }: CampaignLookProps) {
   const localePrefix = useLocalePathPrefix();

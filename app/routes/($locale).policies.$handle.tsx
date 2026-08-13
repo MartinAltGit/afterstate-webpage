@@ -24,9 +24,10 @@ const HANDLE_TO_FIELD: Record<PolicyHandle, SelectedPolicies> = {
 };
 
 export const meta: Route.MetaFunction = ({data}) => {
+  const title = data?.policy.title ?? 'Policy';
   return buildMetaTags({
-    title: data?.policy.title ?? 'Policy',
-    description: `Afterstate ${data?.policy.title ?? 'store'} policy.`,
+    title,
+    description: `Read the Afterstate ${title.toLowerCase()}: how we handle your order, data, and rights.`,
   });
 };
 

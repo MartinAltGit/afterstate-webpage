@@ -4,6 +4,10 @@ export {buildCanonicalUrl, stripTrackingParams} from './url';
 export {
   buildPageTitle,
   buildMetaTags,
+  clampSeoText,
+  SEO_TITLE_MAX_LENGTH,
+  SEO_DESCRIPTION_MAX_LENGTH,
+  DEFAULT_SEO_DESCRIPTION,
   type SeoMetaInput,
   type MetaDescriptor,
 } from './meta';
@@ -30,7 +34,17 @@ export {
 
 export {
   getSiteOrigin,
+  requestWithSiteOrigin,
   buildDocumentSeoMeta,
+  PUBLIC_SITE_HOST,
+  PUBLIC_SITE_ORIGIN,
   type SiteOriginEnv,
   type DocumentSeoInput,
 } from './document';
+
+export {
+  sitemapResourcePath,
+  sitemapAbsoluteUrl,
+  buildStaticSitemapXml,
+  STATIC_SITEMAP_PATHS,
+} from './sitemap';

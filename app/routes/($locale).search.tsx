@@ -77,7 +77,7 @@ export default function SearchPage() {
             title="Search the store"
             message="Try a product name, fabric, or collection — for example “No Rush” or a silhouette."
             action={
-              <Link to="/collections/afterstate-001" prefetch="intent">
+              <Link to="/shop" prefetch="intent">
                 Browse Afterstate 001
               </Link>
             }
@@ -87,7 +87,7 @@ export default function SearchPage() {
             title={`No results for “${term}”`}
             message="Nothing matched that search. Try a simpler word, or browse the collection instead."
             action={
-              <Link to="/collections/afterstate-001" prefetch="intent">
+              <Link to="/shop" prefetch="intent">
                 Shop the collection
               </Link>
             }

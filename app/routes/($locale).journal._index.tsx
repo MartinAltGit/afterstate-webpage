@@ -6,7 +6,7 @@ export const meta: Route.MetaFunction = () => {
   return buildMetaTags({
     title: 'Journal',
     description:
-      'Afterstate journal — essays, the brand, and notes from the fashion world.',
+      'The Afterstate journal — brand essays, the thinking behind the clothes, and notes from a slower way of dressing.',
   });
 };
 

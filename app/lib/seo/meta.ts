@@ -25,19 +25,74 @@ export type MetaDescriptor = {
 const DEFAULT_SITE_NAME = 'Afterstate';
 const DEFAULT_TITLE_SEPARATOR = ' — ';
 
+/** Full document title, including the site suffix. Google truncates around here. */
+export const SEO_TITLE_MAX_LENGTH = 60;
+
+/** Meta description sweet spot before SERP truncation. */
+export const SEO_DESCRIPTION_MAX_LENGTH = 160;
+
+export const DEFAULT_SEO_DESCRIPTION =
+  'Afterstate — life beyond the rush. Clothes made for a slower, clearer pace.';
+
 /**
- * Build a page title with optional site name suffix.
+ * Trim to `max` at a word/dash boundary. Used for titles and descriptions.
+ */
+export function clampSeoText(text: string, max: number): string {
+  const normalized = text.replace(/\s+/g, ' ').trim();
+  if (normalized.length <= max) return normalized;
+  if (max < 8) return normalized.slice(0, max);
+
+  const ellipsis = '…';
+  const budget = Math.max(4, max - ellipsis.length);
+  let slice = normalized.slice(0, budget);
+  const breakChars = new Set([' ', '–', '—', '-', ',', ';', ':']);
+  const minKeep = Math.floor(budget * 0.55);
+  let breakAt = -1;
+  for (let i = slice.length - 1; i >= minKeep; i--) {
+    if (breakChars.has(slice[i] ?? '')) {
+      breakAt = i;
+      break;
+    }
+  }
+  if (breakAt > 0) slice = slice.slice(0, breakAt);
+  return `${slice.replace(/[\s,.;:–—-]+$/u, '')}${ellipsis}`;
+}
+
+function leadWithoutSiteName(
+  title: string,
+  siteName: string,
+  separator: string,
+): string {
+  const suffix = `${separator}${siteName}`;
+  if (title.endsWith(suffix)) {
+    return title.slice(0, -suffix.length).replace(/[\s—–-]+$/u, '');
+  }
+  if (title.endsWith(siteName) && title.length > siteName.length) {
+    return title.slice(0, -siteName.length).replace(/[\s—–-]+$/u, '');
+  }
+  return title;
+}
+
+/**
+ * Build a page title with optional site name suffix, capped for SERPs.
  */
 export function buildPageTitle(
   title?: string | null,
   siteName: string = DEFAULT_SITE_NAME,
   separator: string = DEFAULT_TITLE_SEPARATOR,
 ): string {
-  const trimmed = title?.trim();
-  if (!trimmed) return siteName;
-  if (trimmed === siteName) return siteName;
-  if (trimmed.endsWith(siteName)) return trimmed;
-  return `${trimmed}${separator}${siteName}`;
+  const trimmed = title?.replace(/\s+/g, ' ').trim() ?? '';
+  if (!trimmed || trimmed === siteName) return siteName;
+
+  const suffix = `${separator}${siteName}`;
+  const lead = leadWithoutSiteName(trimmed, siteName, separator) || siteName;
+  if (lead === siteName) return siteName;
+
+  const composed = `${lead}${suffix}`;
+  if (composed.length <= SEO_TITLE_MAX_LENGTH) return composed;
+
+  const maxLead = SEO_TITLE_MAX_LENGTH - suffix.length;
+  return `${clampSeoText(lead, maxLead)}${suffix}`;
 }
 
 /**
@@ -47,9 +102,10 @@ export function buildPageTitle(
 export function buildMetaTags(input: SeoMetaInput = {}): MetaDescriptor[] {
   const siteName = input.siteName ?? DEFAULT_SITE_NAME;
   const title = buildPageTitle(input.title, siteName);
-  const description =
-    input.description?.trim() ||
-    'Afterstate — life beyond the rush. Clothes made for a slower, clearer pace.';
+  const description = clampSeoText(
+    input.description?.trim() || DEFAULT_SEO_DESCRIPTION,
+    SEO_DESCRIPTION_MAX_LENGTH,
+  );
   const type = input.type ?? 'website';
 
   const tags: MetaDescriptor[] = [

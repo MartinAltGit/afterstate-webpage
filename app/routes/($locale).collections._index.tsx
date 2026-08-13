@@ -12,11 +12,16 @@ import {PageHero} from '~/components/layout/PageHero';
 import {Reveal} from '~/components/motion/Reveal';
 import {LocaleAwareLink} from '~/components/navigation/LocaleAwareLink';
 import {EmptyState} from '~/components/feedback/EmptyState';
+import {buildMetaTags} from '~/components/seo';
 import type {CollectionCardFragment} from 'storefrontapi.generated';
 import styles from '~/components/collection/CollectionEditorialGrid.module.css';
 
 export const meta: Route.MetaFunction = () => {
-  return [{title: 'Afterstate | Limited'}];
+  return buildMetaTags({
+    title: 'Limited drops',
+    description:
+      'Afterstate collections and limited drops. Each chapter is a short run — when a piece is gone, it is not restocked.',
+  });
 };
 
 export async function loader(args: Route.LoaderArgs) {
@@ -64,7 +69,7 @@ export default function Collections() {
         accent=""
         caption="The first Afterstate drop — fewer pieces, more room to live in them."
         ctaLabel="Shop Afterstate 001"
-        ctaTo="/collections/afterstate-001"
+        ctaTo="/afterstate-001-no-rush"
       />
 
       <EditorialStage>

@@ -37,7 +37,7 @@ const MOCKUPS: MockupItem[] = [
     label: 'The drop',
     detail: '001 · No Rush',
     cta: 'See the drop',
-    to: '/collections/afterstate-001',
+    to: '/afterstate-001-no-rush',
     tone: 'coral',
     src: lookbook02,
     alt: 'Model in Afterstate oversized black jacket with AS logo',

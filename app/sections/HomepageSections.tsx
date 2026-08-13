@@ -39,7 +39,7 @@ export function buildDefaultHomepageSections(
     eyebrow: 'Limited collection',
     title: 'Afterstate 001 — No Rush',
     ctaLabel: 'View limited drop',
-    ctaTo: '/collections/afterstate-001',
+    ctaTo: '/shop',
     children: products,
   };
 

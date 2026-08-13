@@ -14,7 +14,7 @@ export type FooterLink = {
 const SHOP_LINKS: FooterLink[] = [
   {label: 'Shop', to: '/shop'},
   {label: 'Limited drops', to: '/collections'},
-  {label: 'Afterstate 001', to: '/collections/afterstate-001'},
+  {label: 'Afterstate 001', to: '/afterstate-001-no-rush'},
   {label: 'Journal', to: '/journal'},
   {label: 'Blog', to: '/blog'},
   {label: 'About', to: '/about'},

@@ -14,7 +14,7 @@ type CollectionNavigationProps = {
 
 const DEFAULT_ITEMS: CollectionNavItem[] = [
   {label: 'All', to: '/collections/all'},
-  {label: 'Afterstate 001', to: '/collections/afterstate-001'},
+  {label: 'Afterstate 001', to: '/afterstate-001-no-rush'},
   {label: 'Essentials', to: '/collections/essentials'},
 ];
 

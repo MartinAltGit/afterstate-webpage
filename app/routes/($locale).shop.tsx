@@ -16,9 +16,9 @@ import type {ProductCardFragment} from 'storefrontapi.generated';
 
 export const meta: Route.MetaFunction = () => {
   return buildMetaTags({
-    title: 'Shop',
+    title: 'Limited editions',
     description:
-      'Shop Afterstate limited editions — short runs, no restocks, clothes made to stay.',
+      'Shop Afterstate limited editions. Short runs with no restocks — clothes cut to live in, not to chase a trend.',
   });
 };
 

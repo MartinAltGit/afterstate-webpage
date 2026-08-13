@@ -11,7 +11,7 @@ export const meta: Route.MetaFunction = ({data}) => {
   const title = data?.title ?? 'Lookbook';
   return buildMetaTags({
     title,
-    description: `Afterstate lookbook — ${title}.`,
+    description: `Afterstate lookbook ${title} — still frames from the campaign, shot without rush.`,
   });
 };
 

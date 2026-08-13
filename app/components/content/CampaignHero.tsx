@@ -21,7 +21,7 @@ export function CampaignHero({
   title = 'No Rush',
   subtitle = 'A slower pace for clothes made to last beyond the season.',
   ctaLabel = 'Explore the campaign',
-  ctaTo = '/collections/afterstate-001',
+  ctaTo = '/afterstate-001-no-rush',
   image,
   className,
 }: CampaignHeroProps) {

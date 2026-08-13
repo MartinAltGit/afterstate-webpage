@@ -20,7 +20,7 @@ export function ProductRow({
   eyebrow = 'Shop',
   title = 'Afterstate 001',
   ctaLabel = 'View all',
-  ctaTo = '/collections/afterstate-001',
+  ctaTo = '/shop',
   children,
   emptyLabel = 'Products from Afterstate 001 will appear here.',
   className,

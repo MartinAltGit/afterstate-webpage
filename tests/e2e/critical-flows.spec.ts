@@ -227,6 +227,7 @@ test.describe('Critical storefront flows', () => {
     expect(res.ok()).toBeTruthy();
     const body = await res.text();
     expect(body).toMatch(/User-agent|Sitemap/i);
+    expect(body).not.toMatch(/afterstate\.storeS/i);
     expect(body).not.toMatch(/Disallow:\s*\/policies\//);
   });
 

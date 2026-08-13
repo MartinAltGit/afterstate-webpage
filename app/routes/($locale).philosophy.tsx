@@ -9,7 +9,7 @@ export const meta: Route.MetaFunction = () => {
   return buildMetaTags({
     title: 'Philosophy',
     description:
-      'Calm, intentional clothing. Afterstate is about pace, permanence, and choosing less with care.',
+      'Calm, intentional clothing. Afterstate is about pace, permanence, and choosing less with care — enough, and nothing extra.',
   });
 };
 

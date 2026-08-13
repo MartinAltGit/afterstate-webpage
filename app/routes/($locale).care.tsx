@@ -10,7 +10,7 @@ export const meta: Route.MetaFunction = () => {
   return buildMetaTags({
     title: 'Care',
     description:
-      'How to care for Afterstate garments so they last — wash less, mend when needed, wear longer.',
+      'How to care for Afterstate garments so they last: wash less, air them out, mend when needed, and wear them longer.',
   });
 };
 

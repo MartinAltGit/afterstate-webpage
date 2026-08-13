@@ -1,5 +1,6 @@
 import type {Route} from './+types/($locale).sitemap.$type.$page[.xml]';
 import {getSitemap} from '@shopify/hydrogen';
+import {requestWithSiteOrigin, sitemapAbsoluteUrl} from '~/lib/seo';
 
 /** Europe-only market prefixes used in alternate sitemap URLs. */
 const SITEMAP_LOCALES = ['EN-EU', 'EN-GB', 'DE-DE', 'FR-FR'] as const;
@@ -7,20 +8,16 @@ const SITEMAP_LOCALES = ['EN-EU', 'EN-GB', 'DE-DE', 'FR-FR'] as const;
 export async function loader({
   request,
   params,
-  context: {storefront},
+  context,
 }: Route.LoaderArgs) {
+  const sitemapRequest = requestWithSiteOrigin(request, context.env);
   const response = await getSitemap({
-    storefront,
-    request,
+    storefront: context.storefront,
+    request: sitemapRequest,
     params,
     locales: [...SITEMAP_LOCALES],
-    getLink: ({type, baseUrl, handle, locale}) => {
-      // Default EN-EU market has no path prefix (same as `/`).
-      if (!locale || locale.toUpperCase() === 'EN-EU') {
-        return `${baseUrl}/${type}/${handle}`;
-      }
-      return `${baseUrl}/${locale.toLowerCase()}/${type}/${handle}`;
-    },
+    getLink: ({type, baseUrl, handle, locale}) =>
+      sitemapAbsoluteUrl({type, baseUrl, handle, locale}),
   });
 
   response.headers.set('Cache-Control', `max-age=${60 * 60 * 24}`);

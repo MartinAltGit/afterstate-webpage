@@ -1,22 +1,18 @@
 import {redirect, useLoaderData} from 'react-router';
 import type {Route} from './+types/($locale).pages.$handle';
 import type {I18nLocale} from '~/lib/i18n';
+import {PAGE_HANDLE_PATHS} from '~/lib/content-paths';
 import {redirectIfHandleIsLocalized} from '~/lib/redirect';
-
-/** Dedicated storefront routes that replace Shopify Online Store page URLs. */
-const STATIC_PAGE_REDIRECTS: Record<string, string> = {
-  about: '/about',
-  contact: '/contact',
-  care: '/care',
-  philosophy: '/philosophy',
-  'size-guide': '/size-guide',
-  'shipping-returns': '/shipping-returns',
-  copyright: '/copyright',
-  legal: '/copyright',
-};
+import {buildMetaTags} from '~/components/seo';
 
 export const meta: Route.MetaFunction = ({data}) => {
-  return [{title: `Hydrogen | ${data?.page.title ?? ''}`}];
+  const title = data?.page?.seo?.title || data?.page?.title || 'Page';
+  return buildMetaTags({
+    title,
+    description:
+      data?.page?.seo?.description ||
+      `Afterstate — ${data?.page?.title ?? 'page'}.`,
+  });
 };
 
 export async function loader(args: Route.LoaderArgs) {
@@ -38,7 +34,7 @@ async function loadCriticalData({context, request, params}: Route.LoaderArgs) {
     throw new Error('Missing page handle');
   }
 
-  const staticPath = STATIC_PAGE_REDIRECTS[params.handle.toLowerCase()];
+  const staticPath = PAGE_HANDLE_PATHS[params.handle.toLowerCase()];
   if (staticPath) {
     const pathPrefix = (context.storefront.i18n as I18nLocale).pathPrefix || '';
     throw redirect(`${pathPrefix}${staticPath}`);
