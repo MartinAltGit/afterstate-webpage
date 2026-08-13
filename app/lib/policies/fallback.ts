@@ -198,6 +198,36 @@ export function isPolicyHandle(handle: string): handle is PolicyHandle {
   return handle in FALLBACK_POLICIES;
 }
 
+function decodeBasicEntities(input: string) {
+  return input
+    .replace(/&lt;/gi, '<')
+    .replace(/&gt;/gi, '>')
+    .replace(/&quot;/gi, '"')
+    .replace(/&#39;|&apos;/gi, "'")
+    .replace(/&nbsp;/gi, ' ')
+    .replace(/&amp;/gi, '&');
+}
+
+/**
+ * Shopify's Customer Privacy HTML view stores tags as escaped text
+ * split across spans (`<span>&lt;</span><span>p</span>`). Recover the
+ * original markup so the storefront can render it.
+ */
+export function recoverPolicyHtml(body: string | null | undefined) {
+  const raw = (body ?? '').trim();
+  if (!raw.includes('&lt;')) return null;
+
+  let decoded = raw.replace(/<[^>]+>/g, '');
+  for (let i = 0; i < 3; i++) {
+    if (!decoded.includes('&lt;') && !decoded.includes('&amp;')) break;
+    decoded = decodeBasicEntities(decoded);
+  }
+  decoded = decoded.trim();
+
+  if (!/<(?:p|h[1-6]|ul|ol|li|div)\b/i.test(decoded)) return null;
+  return decoded;
+}
+
 /** Shopify body still contains the docs paste-pack wrappers or empty HTML. */
 export function isMangledOrEmptyPolicyBody(body: string | null | undefined) {
   const raw = (body ?? '').trim();
@@ -206,8 +236,9 @@ export function isMangledOrEmptyPolicyBody(body: string | null | undefined) {
   // Docs paste pack was dropped in wholesale (markdown fences / field labels)
   if (MANGLED_MARKERS.some((marker) => raw.includes(marker))) return true;
 
-  // HTML pasted as escaped plain text — shoppers see literal <p> tags
-  if (/&lt;\s*\/?\s*(?:p|h[1-6]|ul|ol|li|strong|a)\b/i.test(raw)) return true;
+  // HTML pasted as escaped plain text — shoppers see literal <p> tags.
+  // Shopify may split `&lt;p` across spans, so any `&lt;` is enough.
+  if (raw.includes('&lt;')) return true;
 
   return false;
 }
@@ -220,14 +251,17 @@ export function resolvePolicyContent(
 
   if (!shopify && !fallback) return null;
 
+  const recovered = recoverPolicyHtml(shopify?.body);
   const useFallback =
-    Boolean(fallback) && isMangledOrEmptyPolicyBody(shopify?.body);
+    Boolean(fallback) && !recovered && isMangledOrEmptyPolicyBody(shopify?.body);
 
   return {
     id: shopify?.id ?? `fallback:${handle}`,
     handle,
     title: shopify?.title?.trim() || fallback?.title || 'Policy',
-    body: useFallback ? fallback!.body : (shopify?.body ?? fallback?.body ?? ''),
+    body:
+      recovered ??
+      (useFallback ? fallback!.body : (shopify?.body ?? fallback?.body ?? '')),
     usingFallback: useFallback || !shopify?.body?.trim(),
   };
 }
