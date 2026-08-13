@@ -24,15 +24,18 @@ export type LanguageSelectorProps = {
   languages?: LanguageOption[];
   currentPathPrefix?: string;
   className?: string;
+  /** `compact` = two-letter trigger for the header */
+  variant?: 'menu' | 'compact';
 };
 
 /**
- * Language switcher — full names for now; copy translations come later.
+ * Language switcher — full names in the mobile menu; two-letter codes in the header.
  */
 export function LanguageSelector({
   languages = AFTERSTATE_UI_LANGUAGES,
   currentPathPrefix,
   className,
+  variant = 'menu',
 }: LanguageSelectorProps) {
   const {pathname, search} = useLocation();
   const activePrefix =
@@ -42,16 +45,21 @@ export function LanguageSelector({
       (lang) =>
         normalizePrefix(lang.pathPrefix) === normalizePrefix(activePrefix),
     ) ?? languages[0];
+  const compact = variant === 'compact';
 
   return (
     <details
-      className={[styles.root, className].filter(Boolean).join(' ')}
+      className={[styles.root, compact ? styles.compact : null, className]
+        .filter(Boolean)
+        .join(' ')}
     >
       <summary
         className={styles.trigger}
         aria-label={`Language: ${active?.name ?? 'English'}`}
       >
-        <span className={styles.label}>{active?.name ?? 'English'}</span>
+        <span className={compact ? styles.code : styles.label}>
+          {compact ? (active?.code ?? 'EN') : (active?.name ?? 'English')}
+        </span>
         <span className={styles.chevron} aria-hidden="true" />
       </summary>
       <ul className={styles.menu} role="listbox" aria-label="Language">
@@ -77,8 +85,14 @@ export function LanguageSelector({
                   if (details) details.open = false;
                 }}
               >
-                <span className={styles.optionName}>{lang.name}</span>
-                <span className={styles.optionCode}>{lang.code}</span>
+                {compact ? (
+                  <span className={styles.optionCode}>{lang.code}</span>
+                ) : (
+                  <>
+                    <span className={styles.optionName}>{lang.name}</span>
+                    <span className={styles.optionCode}>{lang.code}</span>
+                  </>
+                )}
               </Link>
             </li>
           );
@@ -101,9 +115,14 @@ function detectPathPrefix(
 ): string {
   const match = pathname.match(/^\/([a-z]{2}-[a-z]{2})(?=\/|$)/i);
   if (!match) return '';
+  const segment = match[1].toLowerCase();
   const found = languages.find(
-    (lang) =>
-      normalizePrefix(lang.pathPrefix) === `/${match[1].toLowerCase()}`,
+    (lang) => normalizePrefix(lang.pathPrefix) === `/${segment}`,
   );
-  return found?.pathPrefix ?? `/${match[1].toLowerCase()}`;
+  if (found) return found.pathPrefix;
+  const langCode = segment.slice(0, 2);
+  const byLanguage = languages.find((lang) =>
+    lang.hreflang.toLowerCase().startsWith(langCode),
+  );
+  return byLanguage?.pathPrefix ?? `/${segment}`;
 }

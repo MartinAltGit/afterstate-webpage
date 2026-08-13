@@ -9,87 +9,97 @@ export type SizeSelectorProps = {
 };
 
 /**
- * Size option selector — text labels, clear selected/unavailable states.
- * No low-stock or urgency messaging.
+ * Size selector — text for a single size, outline chips when there is a range.
  */
 export function SizeSelector({option, className}: SizeSelectorProps) {
   const navigate = useNavigate();
+  const selected = option.optionValues.find((value) => value.selected);
+  const values = option.optionValues;
+  if (!values.length) return null;
 
-  if (option.optionValues.length <= 1) return null;
+  const single = values.length === 1;
 
   return (
-    <fieldset
-      className={[styles.root, className].filter(Boolean).join(' ')}
-    >
+    <fieldset className={[styles.root, className].filter(Boolean).join(' ')}>
       <legend className={styles.legend}>
-        <span>{option.name}</span>
+        <span className={styles.legendMain}>
+          <span>{option.name}</span>
+          {selected && !single ? (
+            <span className={styles.chosen}>{selected.name}</span>
+          ) : null}
+        </span>
         <LocaleAwareLink className={styles.guideLink} to="/size-guide">
           Size guide
         </LocaleAwareLink>
       </legend>
-      <div className={styles.grid}>
-        {option.optionValues.map((value) => {
-          const {
-            name,
-            handle,
-            variantUriQuery,
-            selected,
-            available,
-            exists,
-            isDifferentProduct,
-          } = value;
 
-          const itemClass = [
-            styles.item,
-            selected ? styles.selected : '',
-            exists && !available ? styles.soldOut : '',
-          ]
-            .filter(Boolean)
-            .join(' ');
+      {single ? (
+        <p className={styles.oneSize}>{values[0].name}</p>
+      ) : (
+        <div className={styles.grid}>
+          {values.map((value) => {
+            const {
+              name,
+              handle,
+              variantUriQuery,
+              selected: isSelected,
+              available,
+              exists,
+              isDifferentProduct,
+            } = value;
 
-          if (isDifferentProduct) {
+            const itemClass = [
+              styles.item,
+              isSelected ? styles.selected : '',
+              exists && !available ? styles.soldOut : '',
+            ]
+              .filter(Boolean)
+              .join(' ');
+
+            if (isDifferentProduct) {
+              return (
+                <Link
+                  key={`${option.name}-${name}`}
+                  className={itemClass}
+                  prefetch="intent"
+                  preventScrollReset
+                  replace
+                  to={`/products/${handle}?${variantUriQuery}`}
+                  aria-label={`${option.name}: ${name}${!available ? ' (unavailable)' : ''}`}
+                >
+                  {name}
+                </Link>
+              );
+            }
+
             return (
-              <Link
+              <button
                 key={`${option.name}-${name}`}
+                type="button"
                 className={itemClass}
-                prefetch="intent"
-                preventScrollReset
-                replace
-                to={`/products/${handle}?${variantUriQuery}`}
-                aria-label={`${option.name}: ${name}${!available ? ' (unavailable)' : ''}`}
+                disabled={!exists}
+                aria-pressed={isSelected}
+                aria-label={`${option.name}: ${name}${exists && !available ? ' (unavailable)' : ''}`}
+                onClick={() => {
+                  if (!isSelected) {
+                    void navigate(`?${variantUriQuery}`, {
+                      replace: true,
+                      preventScrollReset: true,
+                    });
+                  }
+                }}
               >
                 {name}
-              </Link>
+              </button>
             );
-          }
-
-          return (
-            <button
-              key={`${option.name}-${name}`}
-              type="button"
-              className={itemClass}
-              disabled={!exists}
-              aria-pressed={selected}
-              aria-label={`${option.name}: ${name}${exists && !available ? ' (unavailable)' : ''}`}
-              onClick={() => {
-                if (!selected) {
-                  void navigate(`?${variantUriQuery}`, {
-                    replace: true,
-                    preventScrollReset: true,
-                  });
-                }
-              }}
-            >
-              {name}
-            </button>
-          );
-        })}
-      </div>
+          })}
+        </div>
+      )}
     </fieldset>
   );
 }
 
 /** Heuristic: treat options named Size / Größe / Taille as size selectors. */
 export function isSizeOptionName(name: string): boolean {
-  return /^(size|größe|groesse|taille|talla|misura)$/i.test(name.trim());
+  return /^(size|sizes|größe|groesse|taille|talla|misura)$/i.test(name.trim());
 }

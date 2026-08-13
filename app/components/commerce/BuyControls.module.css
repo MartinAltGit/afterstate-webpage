@@ -1,16 +1,26 @@
 .root {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: var(--space-5, 1.5rem);
+  flex: 1 1 auto;
+  min-height: 0;
 }
 
-.availability {
-  margin: 0;
-  font-size: 0.8125rem;
-  letter-spacing: 0.04em;
-  opacity: 0.7;
+.ctaBlock {
+  display: grid;
+  gap: var(--space-3, 0.75rem);
+  margin-top: auto;
+  padding-top: var(--space-2, 0.5rem);
 }
 
 .cta {
-  margin-top: 0.25rem;
+  margin: 0;
+}
+
+.ctaHint {
+  margin: 0;
+  text-align: center;
+  font-size: 0.6875rem;
+  letter-spacing: 0.06em;
+  color: var(--color-bone-subtle, rgba(236, 231, 218, 0.4));
 }

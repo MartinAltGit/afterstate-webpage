@@ -1,3 +1,4 @@
+import {useEffect, useState} from 'react';
 import type {MoneyV2} from '@shopify/hydrogen/storefront-api-types';
 import type {OptimisticCartLineInput} from '@shopify/hydrogen';
 import {ProductPrice} from '~/components/commerce/ProductPrice';
@@ -6,6 +7,7 @@ import styles from './MobileStickyBuyBar.module.css';
 
 export type MobileStickyBuyBarProps = {
   title: string;
+  detail?: string | null;
   price?: MoneyV2 | null;
   compareAtPrice?: MoneyV2 | null;
   availableForSale?: boolean;
@@ -20,10 +22,11 @@ export type MobileStickyBuyBarProps = {
 };
 
 /**
- * Mobile sticky buy bar — title, price, add to cart. No scarcity timers.
+ * Mobile sticky buy bar — appears after the main CTA leaves view.
  */
 export function MobileStickyBuyBar({
   title,
+  detail,
   price,
   compareAtPrice,
   availableForSale = true,
@@ -34,18 +37,40 @@ export function MobileStickyBuyBar({
   visible = true,
   productHandle,
 }: MobileStickyBuyBarProps) {
+  const [pastCta, setPastCta] = useState(false);
+
+  useEffect(() => {
+    const el = document.getElementById('product-buy-cta');
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setPastCta(!entry?.isIntersecting),
+      {threshold: 0.15},
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   if (!visible) return null;
 
   const showDemand = !availableForSale && Boolean(productHandle);
+  const revealed = pastCta;
 
   return (
     <div
-      className={[styles.root, className].filter(Boolean).join(' ')}
+      className={[
+        styles.root,
+        revealed ? styles.revealed : '',
+        className,
+      ]
+        .filter(Boolean)
+        .join(' ')}
       role="region"
       aria-label="Quick buy"
+      aria-hidden={!revealed}
     >
       <div className={styles.meta}>
         <p className={styles.title}>{title}</p>
+        {detail ? <p className={styles.detail}>{detail}</p> : null}
         <ProductPrice price={price} compareAtPrice={compareAtPrice} />
       </div>
       {showDemand ? (
@@ -60,7 +85,7 @@ export function MobileStickyBuyBar({
           analytics={analytics}
           className={styles.cta}
         >
-          {availableForSale ? 'Add to cart' : 'Sold out'}
+          {availableForSale ? 'Add' : 'Sold out'}
         </AddToCartButton>
       )}
     </div>

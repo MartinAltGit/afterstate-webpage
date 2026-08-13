@@ -3,29 +3,34 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  min-height: 2.75rem;
-  padding: 0.75rem 1.25rem;
-  border: 1px solid var(--color-dark, #000);
-  background: var(--color-dark, #000);
-  color: var(--color-light, #fff);
-  font-size: 0.8125rem;
+  min-height: 3.35rem;
+  padding: 0.95rem 1.35rem;
+  border: 1px solid var(--color-bone, #ece7da);
+  background: var(--color-bone, #ece7da);
+  color: var(--color-night, #0b100e);
+  font-size: 0.75rem;
   font-weight: 500;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   cursor: pointer;
+  transition:
+    background var(--duration-fast, 140ms) var(--ease-out, ease),
+    color var(--duration-fast, 140ms) var(--ease-out, ease),
+    border-color var(--duration-fast, 140ms) var(--ease-out, ease);
 }
 
 .button:hover:not(:disabled) {
-  background: var(--color-light, #fff);
-  color: var(--color-dark, #000);
+  background: var(--color-brass, #c2a878);
+  border-color: var(--color-brass, #c2a878);
+  color: var(--color-night, #0b100e);
 }
 
 .button:disabled {
-  opacity: 0.4;
+  opacity: 0.38;
   cursor: not-allowed;
 }
 
 .button:focus-visible {
-  outline: 2px solid var(--color-dark, #000);
-  outline-offset: 2px;
+  outline: 2px solid var(--color-brass, #c2a878);
+  outline-offset: 3px;
 }

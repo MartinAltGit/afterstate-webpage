@@ -40,15 +40,19 @@
   color: #0a0a0a;
 }
 
-:global(.cart-page) .root {
+:global(.cart-page) .root,
+:global(.product-page) .root {
   color: var(--color-bone-muted, rgba(236, 231, 218, 0.64));
 }
 
-:global(.cart-page) .separator {
+:global(.cart-page) .separator,
+:global(.product-page) .separator {
   color: var(--color-bone-subtle, rgba(236, 231, 218, 0.4));
 }
 
 :global(.cart-page) .link:hover,
-:global(.cart-page) .current {
+:global(.cart-page) .current,
+:global(.product-page) .link:hover,
+:global(.product-page) .current {
   color: var(--color-bone, #ece7da);
 }

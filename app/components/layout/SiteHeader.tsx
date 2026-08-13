@@ -23,18 +23,18 @@ type SiteHeaderProps = {
   cart: Promise<CartApiQueryFragment | null>;
   /** Kept for layout compatibility; account entry points are hidden for now. */
   isLoggedIn?: Promise<boolean>;
-  marketSelector?: ReactNode;
+  languageSelector?: ReactNode;
   className?: string;
 };
 
 /**
  * Floating nav — logo centered, chrome on the sides.
  * Sign-in is omitted: email capture covers newsletter / demand without Customer Accounts.
- * About and Blog live inside Journal; Journal sits beside the market selector.
+ * About and Blog live inside Journal; Journal sits beside the language selector.
  */
 export function SiteHeader({
   cart,
-  marketSelector,
+  languageSelector,
   className,
 }: SiteHeaderProps) {
   const localePrefix = useLocalePathPrefix();
@@ -69,9 +69,9 @@ export function SiteHeader({
           >
             {JOURNAL_NAV_ITEM.label}
           </NavLink>
-          {marketSelector ? (
-            <div className={[styles.market, styles.desktopOnly].join(' ')}>
-              {marketSelector}
+          {languageSelector ? (
+            <div className={[styles.language, styles.desktopOnly].join(' ')}>
+              {languageSelector}
             </div>
           ) : null}
           <HeaderSearch />

@@ -178,77 +178,8 @@
   transform: translateY(0.55rem);
 }
 
-.utilities {
-  display: flex;
-  flex-shrink: 0;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.15rem 1rem;
-  margin: 0;
-  padding: 0.15rem 0.55rem 0.05rem;
-  list-style: none;
-  opacity: 0;
-  transform: translateY(0.4rem);
-}
-
-.utilities > li {
-  margin: 0;
-}
-
-.utility {
-  color: var(--color-bone-muted, rgba(236, 231, 218, 0.64));
-  font-size: 0.6875rem;
-  font-weight: var(--font-weight-medium, 500);
-  letter-spacing: 0.1em;
-  text-decoration: none;
-  text-transform: uppercase;
-  transition: color var(--duration-fast, 140ms) var(--ease-out, ease);
-}
-
-.utility:hover,
-.utility:focus-visible {
-  color: var(--color-bone, #ece7da);
-  text-decoration: none;
-}
-
-.bottom {
-  display: flex;
-  flex-shrink: 0;
-  align-items: center;
-  justify-content: center;
-  gap: 0.75rem;
-  padding: 0.15rem 0.35rem 0.2rem 0.2rem;
-  opacity: 0;
-  transform: translateY(0.4rem);
-}
-
-.logoLink {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  line-height: 0;
-  color: var(--color-bone, #ece7da);
-  text-decoration: none;
-  opacity: 0.9;
-  transition: opacity var(--duration-fast, 140ms) var(--ease-out, ease);
-}
-
-.logoLink img {
-  display: block;
-  height: 1.35rem;
-  width: auto;
-  max-width: 9.5rem;
-}
-
-.logoLink:hover {
-  opacity: 1;
-  text-decoration: none;
-}
-
 :global(.overlay.expanded) .tile,
-:global(.overlay.expanded) .socialBar,
-:global(.overlay.expanded) .utilities,
-:global(.overlay.expanded) .bottom {
+:global(.overlay.expanded) .socialBar {
   opacity: 1;
   transform: none;
   transition:
@@ -276,14 +207,6 @@
   transition-delay: 210ms;
 }
 
-:global(.overlay.expanded) .utilities {
-  transition-delay: 250ms;
-}
-
-:global(.overlay.expanded) .bottom {
-  transition-delay: 280ms;
-}
-
 @media (max-height: 700px) {
   .grid {
     min-height: 13rem;
@@ -307,8 +230,6 @@
 @media (prefers-reduced-motion: reduce) {
   .tile,
   .socialBar,
-  .utilities,
-  .bottom,
   .image {
     opacity: 1;
     transform: none;
@@ -320,9 +241,7 @@
   }
 
   :global(.overlay.expanded) .tile,
-  :global(.overlay.expanded) .socialBar,
-  :global(.overlay.expanded) .utilities,
-  :global(.overlay.expanded) .bottom {
+  :global(.overlay.expanded) .socialBar {
     transition: none;
   }
 }

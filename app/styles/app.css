@@ -1179,48 +1179,9 @@ aside li {
   top: calc(var(--header-height-lg) + var(--space-4));
 }
 
-/* Afterstate editorial commerce pages */
+/* Afterstate editorial commerce pages — PDP layout lives in ProductPage.module.css */
 .product-page {
-  padding-bottom: var(--space-10);
-}
-
-.product-page-main {
-  display: grid;
-  gap: var(--space-8);
-  margin-block: var(--space-6);
-}
-
-@media (min-width: 48em) {
-  .product-page-main {
-    grid-template-columns: 1.1fr 0.9fr;
-    gap: var(--space-10);
-    align-items: start;
-  }
-}
-
-.product-page-info {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-4);
-}
-
-.product-page-info h1 {
-  margin: 0;
-  font-size: var(--text-3xl);
-}
-
-.product-page-eyebrow {
-  margin: 0;
-  font-size: var(--text-xs);
-  letter-spacing: var(--tracking-caps);
-  text-transform: uppercase;
-  color: var(--color-fg-muted);
-}
-
-.product-page-subtitle {
-  margin: 0;
-  color: var(--color-fg-muted);
-  max-width: 28rem;
+  color: var(--color-bone, #ece7da);
 }
 
 .shop-page,

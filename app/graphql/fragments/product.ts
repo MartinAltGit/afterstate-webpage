@@ -243,6 +243,49 @@ export const PRODUCT_DETAIL_FRAGMENT = `#graphql
       width
       height
     }
+    media(first: 20) {
+      nodes {
+        __typename
+        mediaContentType
+        alt
+        ... on MediaImage {
+          id
+          image {
+            id
+            url
+            altText
+            width
+            height
+          }
+        }
+        ... on Video {
+          id
+          previewImage {
+            id
+            url
+            altText
+            width
+            height
+          }
+          sources {
+            url
+            mimeType
+          }
+        }
+        ... on ExternalVideo {
+          id
+          embedUrl
+          originUrl
+          previewImage {
+            id
+            url
+            altText
+            width
+            height
+          }
+        }
+      }
+    }
     priceRange {
       minVariantPrice {
         amount

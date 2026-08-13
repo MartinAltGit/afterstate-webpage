@@ -1,10 +1,41 @@
 .root {
   position: relative;
   width: 100%;
-  aspect-ratio: 3 / 4;
+  aspect-ratio: 4 / 5;
   overflow: hidden;
-  border: 1px solid var(--color-dark, #000);
-  background: #f5f5f5;
+  background:
+    linear-gradient(
+      160deg,
+      var(--color-night-raised, #121814),
+      var(--color-night, #0b100e)
+    );
+}
+
+.fill {
+  /* Mobile keeps 4:5. Desktop stage sets height. */
+}
+
+.compact {
+  aspect-ratio: 3 / 4;
+}
+
+@media (min-width: 64em) {
+  .fill {
+    height: 100%;
+    aspect-ratio: auto;
+  }
+}
+
+.unconstrained {
+  aspect-ratio: auto;
+  height: 100%;
+  background: transparent;
+}
+
+.unconstrained .image,
+.unconstrained .video,
+.unconstrained .embed {
+  object-fit: contain;
 }
 
 .image,

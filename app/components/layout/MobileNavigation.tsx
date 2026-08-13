@@ -5,10 +5,8 @@ import shopImage from '~/assets/mockups/hero-campaign-hoodies.jpg';
 import limitedImage from '~/assets/mockups/campaign-look-new.jpg';
 import journalImage from '~/assets/mockups/campaign-look-alt.jpg';
 import {useAside} from '~/components/Aside';
-import {BrandLogo} from '~/components/brand/BrandLogo';
 import {SocialLinks} from '~/components/brand/SocialLinks';
 import {LanguageSelector} from '~/components/commerce/LanguageSelector';
-import {LocaleAwareLink} from '~/components/navigation/LocaleAwareLink';
 import {
   MAIN_NAV_ITEMS,
   type MainNavItem,
@@ -45,19 +43,13 @@ const DESTINATION_META: Record<string, DestinationMeta> = {
   },
 };
 
-const UTILITY_LINKS = [
-  {label: 'Size guide', to: '/size-guide'},
-  {label: 'Care', to: '/care'},
-  {label: 'Contact', to: '/contact'},
-] as const;
-
 type MobileNavigationProps = {
   items?: MainNavItem[];
   onNavigate?: () => void;
   className?: string;
   /** Kept for callers; sign-in row is hidden while accounts stay optional. */
   isLoggedIn?: Promise<boolean>;
-  /** @deprecated Markets live in the header; mobile uses LanguageSelector. */
+  /** Kept for callers; language lives in LanguageSelector above the tiles. */
   marketSelector?: ReactNode;
 };
 
@@ -134,33 +126,6 @@ export function MobileNavigation({
 
       <div className={styles.socialBar}>
         <SocialLinks onNavigate={onNavigate} />
-      </div>
-
-      <ul className={styles.utilities}>
-        {UTILITY_LINKS.map((link) => (
-          <li key={link.to}>
-            <LocaleAwareLink
-              className={styles.utility}
-              prefetch="intent"
-              to={link.to}
-              onClick={onNavigate}
-            >
-              {link.label}
-            </LocaleAwareLink>
-          </li>
-        ))}
-      </ul>
-
-      <div className={styles.bottom}>
-        <LocaleAwareLink
-          className={styles.logoLink}
-          prefetch="intent"
-          to="/"
-          onClick={onNavigate}
-          aria-label="Afterstate home"
-        >
-          <BrandLogo variant="mark" size="md" />
-        </LocaleAwareLink>
       </div>
     </nav>
   );

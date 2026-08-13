@@ -13,6 +13,16 @@ export function getLocalePathPrefix(pathname: string): string {
 }
 
 /**
+ * Pathname with the market prefix removed (`/en-us/shop` → `/shop`).
+ */
+export function pathnameWithoutLocale(pathname: string): string {
+  const prefix = getLocalePathPrefix(pathname);
+  let path = prefix ? pathname.slice(prefix.length) || '/' : pathname;
+  if (!path.startsWith('/')) path = `/${path}`;
+  return path.replace(/\/+$/, '') || '/';
+}
+
+/**
  * Prefix an absolute path with a locale segment when present.
  * Paths that are already locale-prefixed, relative, or external are unchanged.
  */

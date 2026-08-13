@@ -13,6 +13,7 @@ export type BuyControlsSelectedVariant = {
   id: string;
   availableForSale: boolean;
   title?: string | null;
+  selectedOptions?: Array<{name: string; value: string}>;
 } | null;
 
 export type BuyControlsProps = {
@@ -76,32 +77,35 @@ export function BuyControls({
         <SizeSelector key={option.name} option={option} />
       ))}
 
-      <p className={styles.availability} aria-live="polite">
-        {selectedVariant
-          ? available
-            ? 'In stock'
-            : 'Unavailable'
-          : 'Select options'}
-      </p>
+      <div id="product-buy-cta" className={styles.ctaBlock}>
+        {showDemand ? (
+          <DemandCapture
+            productHandle={productHandle!}
+            productTitle={productTitle!}
+          />
+        ) : (
+          <AddToCartButton
+            disabled={!selectedVariant || !available}
+            onClick={onAddToCart}
+            lines={lines}
+            analytics={analytics}
+            className={styles.cta}
+          >
+            {available ? addToCartLabel : soldOutLabel}
+          </AddToCartButton>
+        )}
+        <p className={styles.ctaHint} aria-live="polite">
+          {selectedVariant
+            ? available
+              ? 'In stock · Dispatch in 1–3 UK days'
+              : 'Unavailable'
+            : 'Select options'}
+        </p>
+      </div>
 
-      {showDemand ? (
-        <DemandCapture
-          productHandle={productHandle!}
-          productTitle={productTitle!}
-        />
-      ) : (
-        <AddToCartButton
-          disabled={!selectedVariant || !available}
-          onClick={onAddToCart}
-          lines={lines}
-          analytics={analytics}
-          className={styles.cta}
-        >
-          {available ? addToCartLabel : soldOutLabel}
-        </AddToCartButton>
-      )}
-
-      <PurchaseNote finalSale={finalSale} shippingNote={shippingNote} />
+      {finalSale || shippingNote ? (
+        <PurchaseNote finalSale={finalSale} shippingNote={shippingNote} />
+      ) : null}
     </div>
   );
 }

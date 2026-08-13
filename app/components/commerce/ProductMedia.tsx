@@ -26,6 +26,12 @@ export type ProductMediaProps = {
   priority?: boolean;
   className?: string;
   sizes?: string;
+  /** Drop the 4:5 crop — used in lightbox. */
+  unconstrained?: boolean;
+  /** Tighter 3:4 frame for the thumbnail filmstrip. */
+  compact?: boolean;
+  /** Fill the gallery stage on desktop instead of a fixed 4:5 crop. */
+  fill?: boolean;
 };
 
 /**
@@ -37,8 +43,19 @@ export function ProductMedia({
   priority = false,
   className,
   sizes = '(min-width: 45em) 50vw, 100vw',
+  unconstrained = false,
+  compact = false,
+  fill = false,
 }: ProductMediaProps) {
-  const rootClass = [styles.root, className].filter(Boolean).join(' ');
+  const rootClass = [
+    styles.root,
+    unconstrained ? styles.unconstrained : '',
+    compact ? styles.compact : '',
+    fill ? styles.fill : '',
+    className,
+  ]
+    .filter(Boolean)
+    .join(' ');
 
   if (media.mediaContentType === 'IMAGE') {
     if (!media.image?.url) {
@@ -50,7 +67,7 @@ export function ProductMedia({
         <Image
           data={media.image}
           alt={media.alt || media.image.altText || ''}
-          aspectRatio="3/4"
+          aspectRatio={unconstrained ? undefined : compact ? '3/4' : '4/5'}
           loading={priority ? 'eager' : 'lazy'}
           sizes={sizes}
           className={styles.image}
@@ -106,7 +123,7 @@ export function ProductMedia({
         <Image
           data={media.previewImage}
           alt={media.alt || media.previewImage.altText || ''}
-          aspectRatio="3/4"
+          aspectRatio={unconstrained ? undefined : compact ? '3/4' : '4/5'}
           loading={priority ? 'eager' : 'lazy'}
           sizes={sizes}
           className={styles.image}

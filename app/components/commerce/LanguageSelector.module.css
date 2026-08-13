@@ -131,3 +131,51 @@
   outline: 2px solid var(--color-brass, #c2a878);
   outline-offset: 1px;
 }
+
+/* Compact two-letter control for the desktop header */
+.compact .trigger {
+  gap: 0.35rem;
+  padding: 0.35rem 0.45rem;
+  border: 0;
+  border-radius: var(--radius, 0.375rem);
+  background: transparent;
+  color: var(--color-bone-muted, rgba(236, 231, 218, 0.64));
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.compact .trigger:hover {
+  background: rgba(236, 231, 218, 0.08);
+  border-color: transparent;
+  color: var(--color-bone, #ece7da);
+}
+
+.compact .code {
+  min-width: 1.25rem;
+  text-align: center;
+}
+
+.compact .menu {
+  left: auto;
+  right: 0;
+  min-width: 3.75rem;
+  transform: none;
+}
+
+.compact .option {
+  justify-content: center;
+  padding: 0.45rem 0.55rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+}
+
+.compact .optionCode {
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  color: inherit;
+}
+
+.compact .selected .optionCode {
+  color: inherit;
+}

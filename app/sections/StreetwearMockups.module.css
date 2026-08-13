@@ -50,13 +50,34 @@
 .grid {
   list-style: none;
   margin: 0;
-  padding: 0;
+  margin-inline: calc(-1 * var(--page-gutter, 1.15rem));
+  padding: 0 var(--page-gutter, 1.15rem);
+  padding-inline-end: max(1.5rem, var(--page-gutter, 1.15rem));
   display: grid;
-  gap: 0.85rem;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(16rem, 78vw);
+  align-items: start;
+  gap: 0.75rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  overscroll-behavior-y: none;
+  touch-action: pan-x;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: var(--page-gutter, 1.15rem);
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.grid::-webkit-scrollbar {
+  display: none;
 }
 
 .item {
   list-style: none;
+  min-width: 0;
+  overflow: hidden;
+  scroll-snap-align: start;
 }
 
 .card {
@@ -88,7 +109,6 @@
 .frame {
   position: relative;
   overflow: hidden;
-  height: 100%;
   aspect-ratio: 4 / 5;
   background: var(--color-night-raised, #121814);
 }
@@ -284,11 +304,26 @@
   }
 
   .grid {
+    grid-auto-flow: unset;
+    grid-auto-columns: unset;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 1.15rem;
     align-items: start;
     max-width: 78rem;
     margin-inline: auto;
+    padding-inline: 0;
+    overflow-x: visible;
+    overflow-y: visible;
+    overscroll-behavior-x: auto;
+    overscroll-behavior-y: auto;
+    touch-action: auto;
+    scroll-snap-type: none;
+    scroll-padding-inline: 0;
+  }
+
+  .item {
+    overflow: visible;
+    scroll-snap-align: none;
   }
 
   .item:nth-child(1) {
@@ -304,6 +339,7 @@
   }
 
   .frame {
+    height: 100%;
     aspect-ratio: 3 / 4;
   }
 

@@ -16,13 +16,10 @@ import {
   PRODUCT_RECOMMENDATIONS_QUERY,
 } from '~/graphql/queries/product';
 import {getProductMetafields} from '~/lib/metafields';
-import {ProductPrice} from '~/components/commerce/ProductPrice';
+import {buildGalleryMedia} from '~/lib/product-media';
 import {ProductGallery} from '~/components/commerce/ProductGallery';
-import type {ProductMediaItem} from '~/components/commerce/ProductMedia';
-import {BuyControls} from '~/components/commerce/BuyControls';
-import {isFinalSaleProduct} from '~/components/commerce/PurchaseNote';
+import {ProductInfo, getProductDetailFields} from '~/components/product/ProductInfo';
 import {ProductDetails} from '~/components/product/ProductDetails';
-import {ProductStory} from '~/components/product/ProductStory';
 import {CompleteTheLook} from '~/components/product/CompleteTheLook';
 import {RelatedProducts} from '~/components/product/RelatedProducts';
 import {MobileStickyBuyBar} from '~/components/product/MobileStickyBuyBar';
@@ -30,6 +27,8 @@ import {Breadcrumbs} from '~/components/navigation/Breadcrumbs';
 import {PageContainer} from '~/components/layout/PageContainer';
 import {Reveal} from '~/components/motion/Reveal';
 import {ProductJsonLd, buildMetaTags} from '~/components/seo';
+import campaignLook from '~/assets/mockups/campaign-look-new.jpg';
+import {CampaignLook} from '~/sections/CampaignLook';
 import {useAside} from '~/components/Aside';
 import {useAbsoluteSeoUrl} from '~/lib/seo/useAbsoluteSeoUrl';
 import type {
@@ -38,17 +37,13 @@ import type {
 } from 'storefrontapi.generated';
 import type {RecommendedProduct} from '~/components/commerce/ProductRecommendations';
 import type {CurrencyCode} from '@shopify/hydrogen/storefront-api-types';
+import styles from '~/components/product/ProductPage.module.css';
 
 export const meta: Route.MetaFunction = ({data}) => {
   return buildMetaTags({
-    title:
-      data?.seoTitle ||
-      data?.product?.title ||
-      'Product',
+    title: data?.seoTitle || data?.product?.title || 'Product',
     description:
-      data?.seoDescription ||
-      data?.product?.description ||
-      undefined,
+      data?.seoDescription || data?.product?.description || undefined,
     type: 'product',
     imageUrl:
       data?.product?.selectedOrFirstAvailableVariant?.image?.url ||
@@ -129,7 +124,7 @@ export default function Product() {
   });
 
   const metafields = getProductMetafields(product);
-  const galleryMedia = buildGalleryMedia(product, selectedVariant, metafields);
+  const galleryMedia = buildGalleryMedia(product, selectedVariant, metafields.editorialMedia);
 
   const lines: OptimisticCartLineInput[] = selectedVariant?.id
     ? [
@@ -142,23 +137,23 @@ export default function Product() {
     : [];
 
   const onAddToCart = () => open('cart');
-
   const productUrl = useAbsoluteSeoUrl(`/products/${product.handle}`);
   const lookProducts = mapMetafieldProducts(metafields.completeTheLook);
   const relatedFromMeta = mapMetafieldProducts(metafields.relatedProducts);
-
-  const fabricParts = [
-    metafields.fabric,
-    metafields.fabricComposition,
-    metafields.fabricWeightGsm
-      ? `${metafields.fabricWeightGsm} gsm`
-      : null,
-  ].filter(Boolean);
-
-  const fitParts = [metafields.fit, metafields.fitNotes].filter(Boolean);
+  const selection = selectedVariant?.selectedOptions
+    ?.map((option: {name: string; value: string}) => option.value)
+    .filter(Boolean)
+    .join(' · ');
+  const detailFields = getProductDetailFields({
+    title: product.title,
+    description: product.description,
+    descriptionHtml: product.descriptionHtml,
+    metafields,
+    sku: selectedVariant?.sku,
+  });
 
   return (
-    <div className="product-page">
+    <div className={`product-page ${styles.page}`}>
       <ProductJsonLd
         name={product.title}
         description={
@@ -179,7 +174,7 @@ export default function Product() {
         }
       />
 
-      <PageContainer>
+      <PageContainer className={styles.crumbs}>
         <Reveal>
           <Breadcrumbs
             items={[
@@ -191,80 +186,42 @@ export default function Product() {
         </Reveal>
       </PageContainer>
 
-      <PageContainer className="product-page-main">
-        <Reveal>
+      <div className={styles.main}>
+        <Reveal className={styles.gallery}>
           <ProductGallery media={galleryMedia} />
         </Reveal>
-
-        <Reveal delayMs={90} className="product-page-info">
-          {metafields.collectionNumber ? (
-            <p className="product-page-eyebrow">{metafields.collectionNumber}</p>
-          ) : null}
-          <h1>{product.title}</h1>
-          {metafields.subtitle ? (
-            <p className="product-page-subtitle">{metafields.subtitle}</p>
-          ) : null}
-          <ProductPrice
-            price={selectedVariant?.price}
-            compareAtPrice={selectedVariant?.compareAtPrice}
-          />
-          <BuyControls
+        <div className={styles.info}>
+          <ProductInfo
+            title={product.title}
+            description={product.description}
+            tags={product.tags}
+            productHandle={product.handle}
             productOptions={productOptions}
             selectedVariant={selectedVariant}
+            metafields={metafields}
             onAddToCart={onAddToCart}
-            productHandle={product.handle}
-            productTitle={product.title}
-            finalSale={isFinalSaleProduct({
-              tags: product.tags,
-              productBadge: metafields.productBadge,
-            })}
-            shippingNote={metafields.shippingNote}
           />
-        </Reveal>
-      </PageContainer>
+        </div>
+      </div>
 
-      <PageContainer>
+      <div className={styles.details}>
+        <ProductDetails {...detailFields} />
+      </div>
+
+      <PageContainer className={styles.more}>
         <Reveal delayMs={40}>
-          <ProductDetails
-            fit={fitParts.length ? fitParts.join(' — ') : undefined}
-            fabric={fabricParts.length ? fabricParts.join(' · ') : undefined}
-            construction={metafields.construction ?? undefined}
-            care={metafields.careInstructions ?? undefined}
-            measurements={metafields.measurements ?? undefined}
-            modelInfo={metafields.modelInformation ?? undefined}
-          />
+          <CompleteTheLook products={lookProducts} heading="Worn with" />
         </Reveal>
-
-        {(metafields.designStory || product.descriptionHtml) && (
-          <Reveal delayMs={70}>
-            <ProductStory>
-              {metafields.designStory ? (
-                <p>{metafields.designStory}</p>
-              ) : (
-                <div
-                  dangerouslySetInnerHTML={{__html: product.descriptionHtml}}
-                />
-              )}
-            </ProductStory>
-          </Reveal>
-        )}
-
-        <Reveal delayMs={90}>
-          <CompleteTheLook products={lookProducts} />
-        </Reveal>
-
-        <Reveal delayMs={110}>
+        <Reveal delayMs={80}>
           {relatedFromMeta.length > 0 ? (
-            <RelatedProducts products={relatedFromMeta} />
+            <RelatedProducts products={relatedFromMeta} heading="Also in the drop" />
           ) : (
             <Suspense fallback={null}>
               <Await resolve={recommendations}>
                 {(response: ProductRecommendationsQuery | null) => {
                   const recs: RecommendedProduct[] =
                     response?.productRecommendations
-                      ?.filter(
-                        (p): p is ProductCardFragment => Boolean(p),
-                      )
+                      ?.filter((p): p is ProductCardFragment => Boolean(p))
                       .map((p) => ({
                         id: p.id,
                         handle: p.handle,
@@ -273,7 +230,7 @@ export default function Product() {
                         priceRange: p.priceRange,
                         subtitle: getProductMetafields(p).subtitle,
                       })) ?? [];
-                  return <RelatedProducts products={recs} />;
+                  return <RelatedProducts products={recs} heading="Also in the drop" />;
                 }}
               </Await>
             </Suspense>
@@ -281,8 +238,11 @@ export default function Product() {
         </Reveal>
       </PageContainer>
 
+      <CampaignLook imageSrc={campaignLook} />
+
       <MobileStickyBuyBar
         title={product.title}
+        detail={selection}
         price={selectedVariant?.price}
         compareAtPrice={selectedVariant?.compareAtPrice}
         availableForSale={Boolean(selectedVariant?.availableForSale)}
@@ -337,73 +297,4 @@ function mapMetafieldProducts(
         }
       : undefined,
   }));
-}
-
-function buildGalleryMedia(
-  product: {
-    title: string;
-    featuredImage?: {
-      id?: string | null;
-      url: string;
-      altText?: string | null;
-      width?: number | null;
-      height?: number | null;
-    } | null;
-  },
-  selectedVariant: {
-    image?: {
-      id?: string | null;
-      url: string;
-      altText?: string | null;
-      width?: number | null;
-      height?: number | null;
-    } | null;
-  } | null,
-  metafields: ReturnType<typeof getProductMetafields>,
-): ProductMediaItem[] {
-  const items: ProductMediaItem[] = [];
-  const seen = new Set<string>();
-
-  const pushImage = (
-    image:
-      | {
-          id?: string | null;
-          url: string;
-          altText?: string | null;
-          width?: number | null;
-          height?: number | null;
-        }
-      | null
-      | undefined,
-  ) => {
-    if (!image?.url || seen.has(image.url)) return;
-    seen.add(image.url);
-    items.push({
-      mediaContentType: 'IMAGE',
-      id: image.id || image.url,
-      alt: image.altText || product.title,
-      image: {
-        id: image.id ?? undefined,
-        url: image.url,
-        altText: image.altText,
-        width: image.width,
-        height: image.height,
-      },
-    });
-  };
-
-  pushImage(selectedVariant?.image);
-  pushImage(product.featuredImage);
-
-  for (const img of metafields.editorialMedia ?? []) {
-    pushImage({
-      id: img.url,
-      url: img.url,
-      altText: img.altText,
-      width: img.width,
-      height: img.height,
-    });
-  }
-
-  return items;
 }

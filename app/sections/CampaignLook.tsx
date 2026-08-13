@@ -1,7 +1,30 @@
 import {MagneticLink} from '~/components/motion/MagneticLink';
 import {Reveal} from '~/components/motion/Reveal';
-import {prefixPathWithLocale, useLocalePathPrefix} from '~/lib/locale';
+import {
+  pathnameWithoutLocale,
+  prefixPathWithLocale,
+  useLocalePathPrefix,
+} from '~/lib/locale';
 import styles from './CampaignLook.module.css';
+
+/**
+ * Closing campaign band — shown under page content, skipped where the
+ * look already appears mid-page or the chrome is account/cart/legal.
+ */
+export function shouldShowClosingCampaignLook(pathname: string) {
+  const path = pathnameWithoutLocale(pathname);
+
+  if (path === '/') return false;
+  if (path === '/collections') return false;
+  if (path === '/afterstate-001-no-rush') return false;
+  if (path === '/cart' || path.startsWith('/cart/')) return false;
+  if (path.startsWith('/account')) return false;
+  if (path.startsWith('/discount/')) return false;
+  if (path === '/copyright' || path.startsWith('/policies')) return false;
+  if (path.startsWith('/products/')) return false;
+
+  return true;
+}
 
 export type CampaignLookProps = {
   imageSrc: string;
