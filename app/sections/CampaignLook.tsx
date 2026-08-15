@@ -22,6 +22,8 @@ export function shouldShowClosingCampaignLook(pathname: string) {
   if (path.startsWith('/discount/')) return false;
   if (path === '/copyright' || path.startsWith('/policies')) return false;
   if (path.startsWith('/products/')) return false;
+  /* Article pages carry their own look-ad rail. */
+  if (path.startsWith('/blog/') && path !== '/blog/') return false;
 
   return true;
 }

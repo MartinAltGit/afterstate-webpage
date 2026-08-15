@@ -8,6 +8,7 @@ export type PageHeroProps = {
   imageSrc: string;
   imageAlt?: string;
   actions?: ReactNode;
+  children?: ReactNode;
   align?: 'start' | 'center';
   className?: string;
 };
@@ -23,6 +24,7 @@ export function PageHero({
   imageSrc,
   imageAlt = '',
   actions,
+  children,
   align = 'start',
   className,
 }: PageHeroProps) {
@@ -50,10 +52,15 @@ export function PageHero({
         <div className={styles.grain} />
       </div>
 
-      <div className={styles.inner}>
+      <div
+        className={[styles.inner, children ? styles.innerWide : null]
+          .filter(Boolean)
+          .join(' ')}
+      >
         {eyebrow ? <p className={styles.eyebrow}>{eyebrow}</p> : null}
         <h1 className={styles.title}>{title}</h1>
         {support ? <p className={styles.support}>{support}</p> : null}
+        {children ? <div className={styles.body}>{children}</div> : null}
         {actions ? <div className={styles.actions}>{actions}</div> : null}
       </div>
     </header>

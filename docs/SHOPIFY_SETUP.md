@@ -223,8 +223,8 @@ Do **not** publish fashion-trend posts into the `journal` blog — keep the two 
 
 Afterstate can auto-publish **2 posts per week** (Mon + Thu) via Admin API + Magnific images + OpenSEO research.
 
-1. Create a custom Admin app with **content write** scopes (`write_content` / blogs & articles)
-2. Set env: `SHOPIFY_SHOP`, `SHOPIFY_ADMIN_TOKEN` (optional `SHOPIFY_BLOG_ID`)
+1. Create a Dev Dashboard app with **content write** scopes (`read_content`, `write_content`)
+2. Set env: `SHOPIFY_SHOP`, `SHOPIFY_CLIENT_ID`, `SHOPIFY_CLIENT_SECRET` (optional `SHOPIFY_BLOG_ID`)
 3. Resolve blog GID: `npm run blog:resolve-id`
 4. Follow [`docs/BLOG_AUTOMATION.md`](./BLOG_AUTOMATION.md) and [`content/blog/AGENT_PLAYBOOK.md`](../content/blog/AGENT_PLAYBOOK.md)
 5. Schedule a Cursor Automation **Mon + Thu** (`0 9 * * 1,4`) — Magnific + OpenSEO MCP

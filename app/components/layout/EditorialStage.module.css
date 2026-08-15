@@ -26,6 +26,10 @@
   margin-inline: auto;
 }
 
+.sectionTight {
+  padding-top: var(--space-7, 2.5rem);
+}
+
 .header {
   display: grid;
   gap: var(--space-3, 0.75rem);

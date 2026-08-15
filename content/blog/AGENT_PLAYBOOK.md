@@ -5,20 +5,28 @@
 
 Follow this playbook end-to-end in one run. Publish live. Do not wait for human approval.
 
+**Storefront (locked):** every article uses the same templates. `/blog` stacks full-bleed covers **newest on top**. `/blog/:handle` is the night hero + reading column + look-ad rail. Do not change those layouts when publishing.
+
 ---
 
 ## 0. Preconditions
 
 - Repo checkout with `content/blog/` and `scripts/blog-automation/`
-- Env: `SHOPIFY_SHOP`, `SHOPIFY_ADMIN_TOKEN` (content write scope)
+- Env (Cursor Secrets — **do not abort if `SHOPIFY_ADMIN_TOKEN` is missing**):
+  - `SHOPIFY_SHOP` (e.g. `rirapf-tf.myshopify.com`)
+  - **`SHOPIFY_CLIENT_ID` + `SHOPIFY_CLIENT_SECRET`** (Dev Dashboard app with `read_content,write_content`)
+  - Optional: `SHOPIFY_BLOG_ID`, or a legacy `shpat_` `SHOPIFY_ADMIN_TOKEN`
 - Magnific MCP available
+- OpenSEO MCP available (keyword check)
 - Fashion blog with handle `blog` exists in Shopify Admin
 
-If `SHOPIFY_BLOG_ID` is unset, run:
+Verify auth before drafting:
 
 ```bash
 node scripts/blog-automation/resolve-blog-id.mjs
 ```
+
+If that command fails, stop. Do **not** require `SHOPIFY_ADMIN_TOKEN`.
 
 ---
 
@@ -26,13 +34,13 @@ node scripts/blog-automation/resolve-blog-id.mjs
 
 1. Open `content/blog/calendar.json`.
 2. Count topics with `"status": "queued"`.
-3. If fewer than `minQueuedBeforeRefill` (4), append `refillCount` (4) new topics (~2 weeks):
+3. If fewer than `minQueuedBeforeRefill`, append `refillCount` new topics (~2 weeks):
    - Follow `categories.md` rotation and `KEYWORD_MAP.md` / OpenSEO metrics
    - Assign `imageMode`: `generate` for trends/seasonal/craft; `stock` for street_style/culture
    - Leave `handle` / `publishedAt` null; `status: "queued"`
 4. Select the **oldest** queued topic (first matching in array order with `status: "queued"`).
 5. Skip if category matches the most recent `published` category and another queued category exists — pick the next suitable queued item.
-6. **Cadence guard:** scheduled automation runs Mon + Thu only (2/week). Never publish two posts in one run.
+6. **Cadence guard:** scheduled runs publish **one** post. Manual **Run** after a missed/rate-limited slot should still publish that one queued topic. Never publish two posts in one run.
 
 ---
 
@@ -80,7 +88,7 @@ Write the payload to a temp file for the publisher, e.g. `content/blog/.last-dra
 
 1. `stock_search` with `content_type: "photo"`, prefer `license: "free"`, query from topic keywords
 2. Pick a strong editorial photo (clothing / city / fabric — not logos)
-3. `stock_download` for a signed URL (or `stock_to_creation` then wait if a durable creation URL is needed)
+3. `stock_download` for a signed URL (or `stock_to_creation` + wait if a durable creation URL is needed)
 4. Use that URL as Shopify `image.url`; set sensible `altText`
 
 **Never** hotlink copyrighted runway galleries or random scraped CDNs.
@@ -111,7 +119,8 @@ Draft JSON shape:
 }
 ```
 
-Expect `isPublished: true`. On success, note returned article `id` + `handle`.
+Expect `isPublished: true`. On success, note returned article `id` + `handle`.  
+If the script returns `alreadyExists: true`, treat that as success (do not create a second article) and continue to mark the calendar.
 
 ---
 
@@ -119,12 +128,11 @@ Expect `isPublished: true`. On success, note returned article `id` + `handle`.
 
 Update the topic in `content/blog/calendar.json`:
 
-- `status`: `"published"`
-- `handle`: published handle
-- `publishedAt`: ISO timestamp
-- `notes`: optional Shopify article GID
+```bash
+node scripts/blog-automation/mark-published.mjs --id <topicId> --handle <handle> --article-id gid://shopify/Article/...
+```
 
-Commit the calendar update when running in an automation that may push; otherwise leave the file updated in the working tree for the next human commit.
+Then **commit and push** `content/blog/calendar.json` on the same branch the automation checked out (`main`). Without this push, the next run will try the same queued topic again.
 
 ---
 
@@ -134,7 +142,7 @@ Short summary only:
 
 - Title + `/blog/{handle}`
 - Category + image mode
-- Any warnings (cache lag, stock license, etc.)
+- Any warnings (cache lag, stock license, duplicate-handle recovery, etc.)
 
 ---
 
@@ -144,3 +152,4 @@ Short summary only:
 - If Shopify `userErrors`: fix payload and retry once; then stop
 - Never publish to blog handle `journal`
 - Never invent fake news events as “breaking”
+- Never stop solely because `SHOPIFY_ADMIN_TOKEN` is unset

@@ -6,7 +6,8 @@
  *   node scripts/blog-automation/resolve-blog-id.mjs
  *   node scripts/blog-automation/resolve-blog-id.mjs --handle blog
  *
- * Env: SHOPIFY_SHOP, SHOPIFY_ADMIN_TOKEN
+ * Env: SHOPIFY_SHOP plus SHOPIFY_CLIENT_ID + SHOPIFY_CLIENT_SECRET
+ *      (or legacy SHOPIFY_ADMIN_TOKEN)
  */
 
 import {adminGraphql} from './lib/admin.mjs';

@@ -7,7 +7,8 @@
  *   node scripts/blog-automation/publish.mjs --file content/blog/.last-draft.json
  *   node scripts/blog-automation/publish.mjs --stdin < draft.json
  *
- * Env: SHOPIFY_SHOP, SHOPIFY_ADMIN_TOKEN
+ * Env: SHOPIFY_SHOP plus SHOPIFY_CLIENT_ID + SHOPIFY_CLIENT_SECRET
+ *      (or legacy SHOPIFY_ADMIN_TOKEN)
  * Optional: SHOPIFY_BLOG_ID (skips lookup), SHOPIFY_API_VERSION
  *
  * Draft JSON:
@@ -27,7 +28,7 @@
  */
 
 import {readFileSync} from 'node:fs';
-import {adminGraphql, slugifyHandle} from './lib/admin.mjs';
+import {adminGraphql, describeShopifyAuth, slugifyHandle} from './lib/admin.mjs';
 
 const BLOGS_QUERY = `#graphql
   query Blogs($first: Int!) {
@@ -53,6 +54,18 @@ const CREATE_MUTATION = `#graphql
         field
         message
         code
+      }
+    }
+  }
+`;
+
+const ARTICLES_BY_HANDLE_QUERY = `#graphql
+  query ArticlesByHandle($query: String!) {
+    articles(first: 5, query: $query) {
+      nodes {
+        id
+        handle
+        title
       }
     }
   }
@@ -116,10 +129,42 @@ async function main() {
   const draft = JSON.parse(raw);
   validateDraft(draft);
 
+  const auth = describeShopifyAuth();
+  if (auth === 'missing') {
+    throw new Error(
+      'Missing Shopify auth. Set SHOPIFY_SHOP plus SHOPIFY_CLIENT_ID + SHOPIFY_CLIENT_SECRET (or a shpat_ SHOPIFY_ADMIN_TOKEN).',
+    );
+  }
+  console.error(`[blog:publish] auth=${auth}`);
+
   const blogId = await resolveBlogId('blog');
   const handle = draft.handle?.trim() || slugifyHandle(draft.title);
   const authorName = draft.authorName?.trim() || 'Afterstate';
   const isPublished = draft.isPublished !== false;
+
+  const existingData = await adminGraphql(ARTICLES_BY_HANDLE_QUERY, {
+    query: `handle:${handle}`,
+  });
+  const existing = (existingData?.articles?.nodes ?? []).find(
+    (node) => node.handle === handle,
+  );
+  if (existing) {
+    console.log(
+      JSON.stringify(
+        {
+          ok: true,
+          alreadyExists: true,
+          id: existing.id,
+          handle: existing.handle,
+          title: existing.title,
+          path: `/blog/${existing.handle}`,
+        },
+        null,
+        2,
+      ),
+    );
+    return;
+  }
 
   const metafields = [];
   if (draft.seoTitle?.trim()) {

@@ -2,7 +2,10 @@
   "blogHandle": "blog",
   "authorName": "Afterstate",
   "postsPerWeek": 2,
-  "publishDays": ["monday", "thursday"],
+  "publishDays": [
+    "monday",
+    "thursday"
+  ],
   "cadenceNote": "2 posts per week — do not increase without SEO review",
   "openseoProjectId": "d4b81108-e1b8-45de-96b3-180ac0359b8b",
   "openseoMarket": "2826/en",
@@ -11,18 +14,26 @@
   "topics": [
     {
       "id": "2026-w1-what-is-quiet-luxury",
-      "status": "queued",
+      "status": "published",
       "category": "trends",
       "title": "What is quiet luxury — and why street wardrobes caught on",
       "angle": "Define quiet luxury without hype: materials, silhouette, and how city dressing absorbed the idea. Primary keyword: what is quiet luxury / quiet luxury.",
       "seoKeyword": "quiet luxury",
       "seoKeywordSecondary": "what is quiet luxury",
-      "keywordMetrics": { "volume": 1300, "kd": 26, "intent": "informational" },
+      "keywordMetrics": {
+        "volume": 1300,
+        "kd": 26,
+        "intent": "informational"
+      },
       "imageMode": "generate",
-      "tags": ["trends", "quiet luxury", "style"],
-      "handle": null,
-      "publishedAt": null,
-      "notes": null
+      "tags": [
+        "trends",
+        "quiet luxury",
+        "style"
+      ],
+      "handle": "what-is-quiet-luxury",
+      "publishedAt": "2026-08-15T02:55:47.100Z",
+      "notes": "gid://shopify/Article/620800540967"
     },
     {
       "id": "2026-w1-gsm-fabric-guide",
@@ -32,9 +43,18 @@
       "angle": "Explain GSM for shoppers: why weight changes drape, season, and longevity. Keyword: what is gsm fabric.",
       "seoKeyword": "what is gsm fabric",
       "seoKeywordSecondary": "fabric weight gsm",
-      "keywordMetrics": { "volume": 320, "kd": 0, "intent": "informational" },
+      "keywordMetrics": {
+        "volume": 320,
+        "kd": 0,
+        "intent": "informational"
+      },
       "imageMode": "generate",
-      "tags": ["craft", "fabric", "gsm", "quality"],
+      "tags": [
+        "craft",
+        "fabric",
+        "gsm",
+        "quality"
+      ],
       "handle": null,
       "publishedAt": null,
       "notes": null
@@ -47,9 +67,18 @@
       "angle": "Practical capsule for men who want fewer pieces without looking uniform. Keywords: capsule wardrobe men, how to build a capsule wardrobe.",
       "seoKeyword": "capsule wardrobe men",
       "seoKeywordSecondary": "how to build a capsule wardrobe",
-      "keywordMetrics": { "volume": 720, "kd": 6, "intent": "transactional" },
+      "keywordMetrics": {
+        "volume": 720,
+        "kd": 6,
+        "intent": "transactional"
+      },
       "imageMode": "generate",
-      "tags": ["capsule", "wardrobe", "men", "seasonal"],
+      "tags": [
+        "capsule",
+        "wardrobe",
+        "men",
+        "seasonal"
+      ],
       "handle": null,
       "publishedAt": null,
       "notes": null
@@ -62,9 +91,17 @@
       "angle": "Culture piece on fewer, better purchases. Keywords: slow fashion, slow fashion brands (editorial, not a listicle dump).",
       "seoKeyword": "slow fashion",
       "seoKeywordSecondary": "slow fashion brands",
-      "keywordMetrics": { "volume": 590, "kd": 28, "intent": "informational" },
+      "keywordMetrics": {
+        "volume": 590,
+        "kd": 28,
+        "intent": "informational"
+      },
       "imageMode": "stock",
-      "tags": ["culture", "slow fashion", "habits"],
+      "tags": [
+        "culture",
+        "slow fashion",
+        "habits"
+      ],
       "handle": null,
       "publishedAt": null,
       "notes": null
@@ -77,9 +114,17 @@
       "angle": "How relaxed / tailored-relaxed trousers became the default city pant — proportion tips, not hype. Keyword: relaxed fit trousers.",
       "seoKeyword": "relaxed fit trousers",
       "seoKeywordSecondary": "relaxed tailored trousers",
-      "keywordMetrics": { "volume": 720, "kd": 0, "intent": "transactional" },
+      "keywordMetrics": {
+        "volume": 720,
+        "kd": 0,
+        "intent": "transactional"
+      },
       "imageMode": "generate",
-      "tags": ["trends", "trousers", "silhouette"],
+      "tags": [
+        "trends",
+        "trousers",
+        "silhouette"
+      ],
       "handle": null,
       "publishedAt": null,
       "notes": null
@@ -91,9 +136,17 @@
       "title": "Organic cotton clothing: what “quality” actually means",
       "angle": "Beyond the label — hand-feel, weight, construction. Keyword: organic cotton clothing (informational framing, not pure product dump).",
       "seoKeyword": "organic cotton clothing",
-      "keywordMetrics": { "volume": 1000, "kd": 0, "intent": "transactional" },
+      "keywordMetrics": {
+        "volume": 1000,
+        "kd": 0,
+        "intent": "transactional"
+      },
       "imageMode": "generate",
-      "tags": ["craft", "cotton", "materials"],
+      "tags": [
+        "craft",
+        "cotton",
+        "materials"
+      ],
       "handle": null,
       "publishedAt": null,
       "notes": null
@@ -105,9 +158,17 @@
       "title": "Minimal streetwear: logos out, proportion in",
       "angle": "Field notes on quieter street dressing. Keyword: minimal streetwear.",
       "seoKeyword": "minimal streetwear",
-      "keywordMetrics": { "volume": 90, "kd": 0, "intent": "navigational" },
+      "keywordMetrics": {
+        "volume": 90,
+        "kd": 0,
+        "intent": "navigational"
+      },
       "imageMode": "stock",
-      "tags": ["street style", "minimal", "city"],
+      "tags": [
+        "street style",
+        "minimal",
+        "city"
+      ],
       "handle": null,
       "publishedAt": null,
       "notes": null
@@ -119,9 +180,17 @@
       "title": "Oversized blazer outfits that don’t look costume",
       "angle": "Proportion rules for oversized blazers with relaxed bottoms and soft layers. Keyword: oversized blazer outfit.",
       "seoKeyword": "oversized blazer outfit",
-      "keywordMetrics": { "volume": 140, "kd": 0, "intent": "transactional" },
+      "keywordMetrics": {
+        "volume": 140,
+        "kd": 0,
+        "intent": "transactional"
+      },
       "imageMode": "generate",
-      "tags": ["trends", "blazer", "styling"],
+      "tags": [
+        "trends",
+        "blazer",
+        "styling"
+      ],
       "handle": null,
       "publishedAt": null,
       "notes": null

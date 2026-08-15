@@ -1,8 +1,14 @@
 /**
  * Shared Shopify Admin GraphQL helpers for blog automation.
+ *
+ * Auth (either):
+ *   SHOPIFY_CLIENT_ID + SHOPIFY_CLIENT_SECRET  (Dev Dashboard — preferred)
+ *   SHOPIFY_ADMIN_TOKEN                         (legacy shpat_ custom-app token)
  */
 
 const API_VERSION = process.env.SHOPIFY_API_VERSION || '2025-10';
+
+let cachedAccessToken = null;
 
 function normalizeShop() {
   return (process.env.SHOPIFY_SHOP || '')
@@ -11,37 +17,66 @@ function normalizeShop() {
     .replace(/\.myshopify\.com$/i, '');
 }
 
+function looksLikeLegacyAdminToken(token) {
+  return /^shp(at|ca|ss)_/i.test(token);
+}
+
+export function describeShopifyAuth() {
+  const staticToken = (process.env.SHOPIFY_ADMIN_TOKEN || '').trim();
+  const clientId = (process.env.SHOPIFY_CLIENT_ID || '').trim();
+  const clientSecret = (process.env.SHOPIFY_CLIENT_SECRET || '').trim();
+
+  if (looksLikeLegacyAdminToken(staticToken)) return 'admin_token';
+  if (clientId && clientSecret) return 'client_credentials';
+  if (staticToken) return 'admin_token';
+  return 'missing';
+}
+
 async function getAccessToken(shop) {
-  const staticToken = process.env.SHOPIFY_ADMIN_TOKEN || '';
-  if (staticToken) return staticToken;
+  if (cachedAccessToken) return cachedAccessToken;
 
-  const clientId = process.env.SHOPIFY_CLIENT_ID || '';
-  const clientSecret = process.env.SHOPIFY_CLIENT_SECRET || '';
-  if (!clientId || !clientSecret) {
-    throw new Error(
-      'Missing Shopify auth. Set SHOPIFY_CLIENT_ID + SHOPIFY_CLIENT_SECRET (Dev Dashboard) or SHOPIFY_ADMIN_TOKEN.',
-    );
+  const staticToken = (process.env.SHOPIFY_ADMIN_TOKEN || '').trim();
+  const clientId = (process.env.SHOPIFY_CLIENT_ID || '').trim();
+  const clientSecret = (process.env.SHOPIFY_CLIENT_SECRET || '').trim();
+
+  // Prefer Dev Dashboard client credentials unless a real shpat_/shpca_ token is set.
+  // A leftover placeholder in SHOPIFY_ADMIN_TOKEN must not block the exchange.
+  if (looksLikeLegacyAdminToken(staticToken)) {
+    cachedAccessToken = staticToken;
+    return cachedAccessToken;
   }
 
-  const response = await fetch(
-    `https://${shop}.myshopify.com/admin/oauth/access_token`,
-    {
-      method: 'POST',
-      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-      body: new URLSearchParams({
-        grant_type: 'client_credentials',
-        client_id: clientId,
-        client_secret: clientSecret,
-      }),
-    },
+  if (clientId && clientSecret) {
+    const response = await fetch(
+      `https://${shop}.myshopify.com/admin/oauth/access_token`,
+      {
+        method: 'POST',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: new URLSearchParams({
+          grant_type: 'client_credentials',
+          client_id: clientId,
+          client_secret: clientSecret,
+        }),
+      },
+    );
+    const json = await response.json().catch(() => ({}));
+    if (!response.ok || !json.access_token) {
+      throw new Error(
+        `Shopify token exchange failed (${response.status}): ${JSON.stringify(json)}`,
+      );
+    }
+    cachedAccessToken = json.access_token;
+    return cachedAccessToken;
+  }
+
+  if (staticToken) {
+    cachedAccessToken = staticToken;
+    return cachedAccessToken;
+  }
+
+  throw new Error(
+    'Missing Shopify auth. Set SHOPIFY_SHOP plus SHOPIFY_CLIENT_ID + SHOPIFY_CLIENT_SECRET (Dev Dashboard) or a shpat_ SHOPIFY_ADMIN_TOKEN.',
   );
-  const json = await response.json().catch(() => ({}));
-  if (!response.ok || !json.access_token) {
-    throw new Error(
-      `Shopify token exchange failed (${response.status}): ${JSON.stringify(json)}`,
-    );
-  }
-  return json.access_token;
 }
 
 export async function getAdminConfig() {

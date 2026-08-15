@@ -1,0 +1,26 @@
+---
+description: Canonical Fashion Blog index and article layout — keep for every post.
+globs: app/routes/($locale).blog*.tsx,app/components/content/Blog*.tsx,app/components/content/Blog*.css,app/graphql/queries/blog.ts,content/blog/**
+alwaysApply: false
+---
+
+# Fashion Blog layout (locked)
+
+Every Shopify article on handle `blog` uses the same storefront templates. Do not invent per-post layouts.
+
+## `/blog` index
+
+- Newest first (`sortKey: PUBLISHED_AT`, `reverse: true`).
+- Stack **every** article as a full-bleed `BlogFeatured` cover, one on top of the last. Newest at the top.
+- Do not drop older posts into a card grid (`JournalCard` / two-column `feedRest`).
+- Keep the night masthead, brass break between covers, and `Latest` only on the first slot.
+
+## `/blog/:handle` article
+
+- Keep the night hero, reading column, `LookAd` rail, and “More from the blog” cards.
+- New posts must render through this page as-is (Shopify `contentHtml` + hero image). Do not add unique article templates.
+
+## Publishing
+
+- Publish to blog handle `blog` only. Journal is separate.
+- Hero image required. Body HTML follows `content/blog/voice.md`.

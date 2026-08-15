@@ -4,6 +4,8 @@
  * Distinct from Journal (`journal` handle → `/journal`).
  */
 
+import {PRODUCT_CARD_FRAGMENT} from '~/graphql/fragments/product';
+
 export const BLOG_ARTICLE_CARD_FRAGMENT = `#graphql
   fragment BlogArticleCard on Article {
     id
@@ -24,7 +26,7 @@ export const BLOG_ARTICLE_CARD_FRAGMENT = `#graphql
   }
 ` as const;
 
-/** List articles from the fashion blog. */
+/** List articles from the fashion blog — newest first, stacked on the index. */
 export const BLOG_INDEX_QUERY = `#graphql
   query BlogIndex(
     $country: CountryCode
@@ -100,4 +102,19 @@ export const BLOG_ARTICLE_QUERY = `#graphql
       }
     }
   }
+` as const;
+
+/** Three live pieces for the article look-ad rail. */
+export const LOOK_AD_PRODUCTS_QUERY = `#graphql
+  query LookAdProducts(
+    $country: CountryCode
+    $language: LanguageCode
+  ) @inContext(country: $country, language: $language) {
+    products(first: 3, sortKey: UPDATED_AT, reverse: true) {
+      nodes {
+        ...ProductCard
+      }
+    }
+  }
+  ${PRODUCT_CARD_FRAGMENT}
 ` as const;

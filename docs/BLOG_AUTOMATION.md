@@ -2,7 +2,7 @@
 
 Auto-publishes SEO fashion posts to Shopify blog handle **`blog`** **twice per week** (Monday + Thursday). No approval gate — edit or unpublish in Admin if something is wrong.
 
-Storefront: `/blog` (cards) → `/blog/:handle` (full story). Journal stays separate.
+Storefront: `/blog` stacks every article as a full-bleed cover, **newest on top** → `/blog/:handle` is the night article page (hero, reading column, look-ad rail). Same templates for every post. Journal stays separate.
 
 ## Overview
 
@@ -14,32 +14,35 @@ Storefront: `/blog` (cards) → `/blog/:handle` (full story). Journal stays sepa
 | Voice + SEO brief | [`content/blog/voice.md`](../content/blog/voice.md) |
 | Agent playbook | [`content/blog/AGENT_PLAYBOOK.md`](../content/blog/AGENT_PLAYBOOK.md) |
 | Publish scripts | [`scripts/blog-automation/`](../scripts/blog-automation/) |
-| Cursor Automation | Schedule every 48h; follow the playbook |
+| Cursor Automation | Mon + Thu; follow the playbook |
 
 ```text
 Pick queued topic → draft HTML + SEO → Magnific image → publish.mjs → mark calendar
 ```
 
-## Shopify Admin token
+## Shopify Dev Dashboard app
 
-1. Shopify Admin → **Settings → Apps and sales channels → Develop apps**
-2. Create an app (e.g. `Afterstate Blog Publisher`)
-3. Configure Admin API scopes:
-   - `write_content` (and `read_content` if listed separately)
-   - Online Store / content scopes as required by your Admin API version for blogs & articles
-4. Install the app on the store; copy the **Admin API access token**
-5. Confirm Fashion Blog exists with handle **`blog`** ([SHOPIFY_SETUP.md](./SHOPIFY_SETUP.md) §3b)
+Shopify no longer issues a lasting `shpat_` token for new apps. Use **Dev Dashboard** client credentials.
+
+1. Dev Dashboard → create app (e.g. `Afterstate Blog Publisher`)
+2. App URL: `https://shopify.dev/apps/default-app-home` · do not embed in Admin
+3. Scopes: `read_content`, `write_content`
+4. Release, then **Install** on the Afterstate store
+5. Settings → copy **Client ID** and **Client secret**
+6. Confirm Fashion Blog exists with handle **`blog`** ([SHOPIFY_SETUP.md](./SHOPIFY_SETUP.md) §3b)
 
 ### Environment variables
 
 | Variable | Required | Example |
 | --- | --- | --- |
-| `SHOPIFY_SHOP` | Yes | `your-store` or `your-store.myshopify.com` |
-| `SHOPIFY_ADMIN_TOKEN` | Yes | `shpat_…` |
+| `SHOPIFY_SHOP` | Yes | `rirapf-tf.myshopify.com` |
+| `SHOPIFY_CLIENT_ID` | Yes (preferred) | Dev Dashboard Client ID |
+| `SHOPIFY_CLIENT_SECRET` | Yes (preferred) | Dev Dashboard Client secret |
+| `SHOPIFY_ADMIN_TOKEN` | No | Legacy `shpat_…` only |
 | `SHOPIFY_BLOG_ID` | No | `gid://shopify/Blog/…` (from resolve script) |
 | `SHOPIFY_API_VERSION` | No | `2025-10` (default) |
 
-Put secrets in `.env` locally (gitignored) and in the Cursor Automation / CI secret store for scheduled runs.
+Put secrets in Cursor Automation **Secrets** (and `.env` locally if you publish by hand). Do **not** put the client secret in `SHOPIFY_ADMIN_TOKEN`.
 
 ```bash
 npm run blog:resolve-id
@@ -97,9 +100,11 @@ Ready-to-paste draft: [`content/blog/CURSOR_AUTOMATION.md`](../content/blog/CURS
 
 After this repo content is **committed** on the branch the automation checks out:
 
-1. Open Cursor **Agents Window → Automations** and create a new automation
+1. Open Cursor **Agents Window → Automations** and create a new automation (or edit Agent Instructions on the existing one)
 2. Use the name, cron (`0 9 * * 1,4` = Mon + Thu 09:00), tools, and instructions from that draft
-3. Attach Magnific + OpenSEO MCP; set `SHOPIFY_SHOP` + `SHOPIFY_ADMIN_TOKEN`
+3. Attach Magnific + OpenSEO MCP; set `SHOPIFY_SHOP` + `SHOPIFY_CLIENT_ID` + `SHOPIFY_CLIENT_SECRET`
 4. Confirm repo/branch and schedule timezone in the editor
+
+If a scheduled run is **Rate limited**, click **Run** later the same day — do not wait for the next Mon/Thu slot. Avoid other cloud agents at 11:00 GMT+2.
 
 Do not rely on an open chat `/loop` for production cadence.

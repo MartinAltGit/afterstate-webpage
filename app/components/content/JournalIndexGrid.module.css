@@ -4,9 +4,31 @@
   gap: var(--grid-gap, 1.5rem);
 }
 
+.feed {
+  display: grid;
+  gap: var(--space-8, 3rem);
+}
+
+.feedRest {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--grid-gap, 1.5rem);
+}
+
 @media (min-width: 45em) {
   .grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: var(--grid-gap-lg, 2rem);
+  }
+
+  .feedRest {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--grid-gap-lg, 2rem);
+  }
+}
+
+@media (min-width: 60em) {
+  .feed {
+    gap: var(--space-10, 5rem);
   }
 }
