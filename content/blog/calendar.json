@@ -15,6 +15,9 @@
     {
       "id": "2026-w1-what-is-quiet-luxury",
       "status": "published",
+      "role": "pillar",
+      "cluster": "quiet-luxury",
+      "hubHandle": "what-is-quiet-luxury",
       "category": "trends",
       "title": "What is quiet luxury — and why street wardrobes caught on",
       "angle": "Define quiet luxury without hype: materials, silhouette, and how city dressing absorbed the idea. Primary keyword: what is quiet luxury / quiet luxury.",
@@ -33,14 +36,17 @@
       ],
       "handle": "what-is-quiet-luxury",
       "publishedAt": "2026-08-15T02:55:47.100Z",
-      "notes": "gid://shopify/Article/620800540967"
+      "notes": "gid://shopify/Article/620800540967 — published before hub HTML; rewrite later with voice.md pillar skeleton if ranking. Cluster tag not on Shopify yet."
     },
     {
       "id": "2026-w1-gsm-fabric-guide",
       "status": "queued",
+      "role": "pillar",
+      "cluster": "fabric",
+      "hubHandle": "what-is-gsm-fabric",
       "category": "craft",
       "title": "What is GSM in fabric? A practical guide to weight and feel",
-      "angle": "Explain GSM for shoppers: why weight changes drape, season, and longevity. Keyword: what is gsm fabric.",
+      "angle": "Explain GSM for shoppers: why weight changes drape, season, and longevity. Keyword: what is gsm fabric. Pillar for the fabric cluster — link to organic cotton when that spoke is live.",
       "seoKeyword": "what is gsm fabric",
       "seoKeywordSecondary": "fabric weight gsm",
       "keywordMetrics": {
@@ -55,16 +61,19 @@
         "gsm",
         "quality"
       ],
-      "handle": null,
+      "handle": "what-is-gsm-fabric",
       "publishedAt": null,
       "notes": null
     },
     {
       "id": "2026-w2-capsule-wardrobe-men",
       "status": "queued",
+      "role": "pillar",
+      "cluster": "capsule-wardrobe",
+      "hubHandle": "mens-capsule-wardrobe",
       "category": "seasonal",
       "title": "How to build a men's capsule wardrobe that still feels current",
-      "angle": "Practical capsule for men who want fewer pieces without looking uniform. Keywords: capsule wardrobe men, how to build a capsule wardrobe.",
+      "angle": "Practical capsule for men who want fewer pieces without looking uniform. Keywords: capsule wardrobe men, how to build a capsule wardrobe. This is the cluster hub.",
       "seoKeyword": "capsule wardrobe men",
       "seoKeywordSecondary": "how to build a capsule wardrobe",
       "keywordMetrics": {
@@ -79,16 +88,19 @@
         "men",
         "seasonal"
       ],
-      "handle": null,
+      "handle": "mens-capsule-wardrobe",
       "publishedAt": null,
       "notes": null
     },
     {
       "id": "2026-w2-slow-fashion-habit",
       "status": "queued",
+      "role": "pillar",
+      "cluster": "slow-fashion",
+      "hubHandle": "slow-fashion-buying-habit",
       "category": "culture",
       "title": "Slow fashion isn’t a slogan — it’s a buying habit",
-      "angle": "Culture piece on fewer, better purchases. Keywords: slow fashion, slow fashion brands (editorial, not a listicle dump).",
+      "angle": "Culture piece on fewer, better purchases. Keywords: slow fashion, slow fashion brands (editorial, not a listicle dump). Cluster hub.",
       "seoKeyword": "slow fashion",
       "seoKeywordSecondary": "slow fashion brands",
       "keywordMetrics": {
@@ -102,16 +114,19 @@
         "slow fashion",
         "habits"
       ],
-      "handle": null,
+      "handle": "slow-fashion-buying-habit",
       "publishedAt": null,
       "notes": null
     },
     {
       "id": "2026-w3-relaxed-fit-trousers",
       "status": "queued",
+      "role": "pillar",
+      "cluster": "silhouette",
+      "hubHandle": "relaxed-fit-trousers",
       "category": "trends",
       "title": "Relaxed fit trousers: the silhouette that replaced skinny",
-      "angle": "How relaxed / tailored-relaxed trousers became the default city pant — proportion tips, not hype. Keyword: relaxed fit trousers.",
+      "angle": "How relaxed / tailored-relaxed trousers became the default city pant — proportion tips, not hype. Keyword: relaxed fit trousers. Silhouette cluster hub; deeper-link the oversized blazer spoke when live.",
       "seoKeyword": "relaxed fit trousers",
       "seoKeywordSecondary": "relaxed tailored trousers",
       "keywordMetrics": {
@@ -125,16 +140,19 @@
         "trousers",
         "silhouette"
       ],
-      "handle": null,
+      "handle": "relaxed-fit-trousers",
       "publishedAt": null,
       "notes": null
     },
     {
       "id": "2026-w3-organic-cotton-quality",
       "status": "queued",
+      "role": "spoke",
+      "cluster": "fabric",
+      "hubHandle": "what-is-gsm-fabric",
       "category": "craft",
       "title": "Organic cotton clothing: what “quality” actually means",
-      "angle": "Beyond the label — hand-feel, weight, construction. Keyword: organic cotton clothing (informational framing, not pure product dump).",
+      "angle": "Beyond the label — hand-feel, weight, construction. Keyword: organic cotton clothing. Spoke under fabric; link back to the GSM pillar.",
       "seoKeyword": "organic cotton clothing",
       "keywordMetrics": {
         "volume": 1000,
@@ -147,16 +165,19 @@
         "cotton",
         "materials"
       ],
-      "handle": null,
+      "handle": "organic-cotton-clothing-quality",
       "publishedAt": null,
       "notes": null
     },
     {
       "id": "2026-w4-minimal-streetwear",
       "status": "queued",
+      "role": "spoke",
+      "cluster": "street",
+      "hubHandle": null,
       "category": "street_style",
       "title": "Minimal streetwear: logos out, proportion in",
-      "angle": "Field notes on quieter street dressing. Keyword: minimal streetwear.",
+      "angle": "Field notes on quieter street dressing. Keyword: minimal streetwear. Spoke-first until a street hub exists; also link quiet luxury if it fits.",
       "seoKeyword": "minimal streetwear",
       "keywordMetrics": {
         "volume": 90,
@@ -169,16 +190,19 @@
         "minimal",
         "city"
       ],
-      "handle": null,
+      "handle": "minimal-streetwear",
       "publishedAt": null,
       "notes": null
     },
     {
       "id": "2026-w4-oversized-blazer",
       "status": "queued",
+      "role": "spoke",
+      "cluster": "silhouette",
+      "hubHandle": "relaxed-fit-trousers",
       "category": "trends",
       "title": "Oversized blazer outfits that don’t look costume",
-      "angle": "Proportion rules for oversized blazers with relaxed bottoms and soft layers. Keyword: oversized blazer outfit.",
+      "angle": "Proportion rules for oversized blazers with relaxed bottoms and soft layers. Keyword: oversized blazer outfit. Spoke under silhouette; link back to /blog/relaxed-fit-trousers once that pillar is live.",
       "seoKeyword": "oversized blazer outfit",
       "keywordMetrics": {
         "volume": 140,
@@ -191,7 +215,33 @@
         "blazer",
         "styling"
       ],
-      "handle": null,
+      "handle": "oversized-blazer-outfits",
+      "publishedAt": null,
+      "notes": null
+    },
+    {
+      "id": "2026-w5-quiet-luxury-dressing",
+      "status": "queued",
+      "role": "spoke",
+      "cluster": "quiet-luxury",
+      "hubHandle": "what-is-quiet-luxury",
+      "category": "trends",
+      "title": "How to dress quiet luxury without looking bland",
+      "angle": "Practical spoke under the live quiet-luxury hub: colour, cloth, proportion. Link back to /blog/what-is-quiet-luxury. Keyword: quiet luxury fashion.",
+      "seoKeyword": "quiet luxury fashion",
+      "seoKeywordSecondary": "quiet luxury",
+      "keywordMetrics": {
+        "volume": 40,
+        "kd": 12,
+        "intent": "commercial"
+      },
+      "imageMode": "generate",
+      "tags": [
+        "trends",
+        "quiet luxury",
+        "styling"
+      ],
+      "handle": "how-to-dress-quiet-luxury",
       "publishedAt": null,
       "notes": null
     }

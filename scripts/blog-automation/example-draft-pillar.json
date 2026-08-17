@@ -1,0 +1,15 @@
+{
+  "title": "Example pillar — do not publish",
+  "handle": "example-pillar-do-not-publish",
+  "cluster": "quiet-luxury",
+  "role": "pillar",
+  "body": "<div class=\"blog-answer\"><p><strong>In short.</strong> Quiet luxury is clothing that reads as quality before it reads as a brand. Score the cloth, the silhouette, and the absence of logo noise — then dress from there.</p></div><div class=\"blog-takeaways\"><p class=\"blog-kicker\">Key takeaways</p><ul><li>It is a way of dressing, not a colour story.</li><li>Fabric and fit do more than a muted palette.</li><li>Logos are optional; proportion is not.</li><li>Use this page as the map; open a deeper guide when you need the full method.</li></ul></div><p>This is the hub for Afterstate’s quiet-luxury notes. Each section below is the short answer; the linked guide is the full one.</p><h2>What quiet luxury actually means</h2><div class=\"blog-answer\"><p>Quality you can see in the cloth and the cut, without a trademark doing the talking.</p></div><p>A short paragraph of context.</p><div class=\"blog-deeper\"><p class=\"blog-kicker\">Go deeper</p><p><a href=\"/blog/how-to-dress-quiet-luxury\">How to dress quiet luxury</a> — colour, cloth, and proportion.</p></div><h2>Why street wardrobes caught on</h2><div class=\"blog-answer\"><p>City dressing absorbed the idea because it survives a commute and still looks considered.</p></div><p>A short paragraph of context.</p><h2>How to start</h2><p>One or two practical moves, not a shopping list.</p><div class=\"blog-faq\"><h2>Frequently asked questions</h2><h3>What is quiet luxury?</h3><p>Clothing that signals quality through cloth and cut rather than a visible brand.</p><h3>Is it the same as minimalism?</h3><p>Not quite. Minimalism is a silhouette; quiet luxury is a quality standard that can still have ease and texture.</p></div>",
+  "summary": "An example pillar draft: takeaways, short answers, go-deeper links, FAQ. Do not publish.",
+  "seoTitle": "Example pillar | Afterstate Blog",
+  "seoDescription": "Example only — replace with a real 155-character meta description before publishing.",
+  "tags": ["trends", "example"],
+  "imageUrl": "https://cdn.shopify.com/s/files/1/0533/2089/files/placeholder-images-image_large.png",
+  "imageAlt": "Placeholder image for draft example",
+  "authorName": "Afterstate",
+  "isPublished": true
+}

@@ -5,7 +5,7 @@
 
 Follow this playbook end-to-end in one run. Publish live. Do not wait for human approval.
 
-**Storefront (locked):** every article uses the same templates. `/blog` stacks full-bleed covers **newest on top**. `/blog/:handle` is the night hero + reading column + look-ad rail. Do not change those layouts when publishing.
+**Storefront (locked):** every article uses the same templates. `/blog` stacks full-bleed covers **newest on top**. `/blog/:handle` is the night hero + reading column + look-ad rail. Do not change those layouts when publishing. Hub structure belongs in the article HTML (`voice.md` + `clusters.md`), not a new template.
 
 ---
 
@@ -28,19 +28,29 @@ node scripts/blog-automation/resolve-blog-id.mjs
 
 If that command fails, stop. Do **not** require `SHOPIFY_ADMIN_TOKEN`.
 
+Then sync the calendar against live Shopify articles (stale checkouts retry already-live posts otherwise):
+
+```bash
+node scripts/blog-automation/sync-calendar.mjs
+```
+
+If that command marks a topic published, **do not end the run**. Pick the next remaining queued topic and publish a **new** article.
+
 ---
 
 ## 1. Pick (and refill) the calendar
 
-1. Open `content/blog/calendar.json`.
+1. Open `content/blog/calendar.json` **after** `sync-calendar.mjs`.
 2. Count topics with `"status": "queued"`.
 3. If fewer than `minQueuedBeforeRefill`, append `refillCount` new topics (~2 weeks):
-   - Follow `categories.md` rotation and `KEYWORD_MAP.md` / OpenSEO metrics
+   - Follow `categories.md` rotation, `clusters.md` (prefer spokes under open clusters), and `KEYWORD_MAP.md` / OpenSEO metrics
+   - Set `role`, `cluster`, and `hubHandle` (spokes only)
    - Assign `imageMode`: `generate` for trends/seasonal/craft; `stock` for street_style/culture
-   - Leave `handle` / `publishedAt` null; `status: "queued"`
-4. Select the **oldest** queued topic (first matching in array order with `status: "queued"`).
+   - Set a stable `handle` (pillars especially — spokes link to it)
+   - Leave `publishedAt` null; `status: "queued"`
+4. Select the **oldest** queued topic (first matching in array order with `status: "queued"`). Skip any whose handle already exists on Shopify.
 5. Skip if category matches the most recent `published` category and another queued category exists — pick the next suitable queued item.
-6. **Cadence guard:** scheduled runs publish **one** post. Manual **Run** after a missed/rate-limited slot should still publish that one queued topic. Never publish two posts in one run.
+6. **Cadence guard:** publish **one new** Shopify article per run. If the first queued topic was already live, mark it published and continue with the next queued topic. Never publish two **new** posts in one run. Never finish after only syncing a duplicate.
 
 ---
 
@@ -54,18 +64,24 @@ If that command fails, stop. Do **not** require `SHOPIFY_ADMIN_TOKEN`.
 
 ## 3. Draft the article
 
-Follow `voice.md`. Produce:
+Follow `voice.md` **and** `clusters.md`. Use the calendar topic’s `role` (`pillar` | `spoke` | `standard`) and `cluster`.
 
 | Output | Notes |
 | --- | --- |
 | `title` | From calendar or lightly improved |
-| `handle` | kebab-case from title; unique vs published handles |
+| `handle` | From calendar if set (pillars should be stable); otherwise kebab-case from title; unique vs published handles |
 | `summary` | 140–160 chars |
 | `seoTitle` | ≤ ~60 chars |
 | `seoDescription` | ≤ ~155 chars |
-| `tags` | From calendar + category |
-| `bodyHtml` | 800–1200 words, HTML skeleton from `voice.md` |
+| `tags` | From calendar + category (do **not** add `cluster-*` / `role-*` by hand — `publish.mjs` adds them) |
+| `cluster` | From calendar (`quiet-luxury`, `fabric`, …) |
+| `role` | From calendar (`pillar` or `spoke`) |
+| `bodyHtml` | Pillar 1200–1800 words **or** spoke/standard 800–1200; HTML skeleton from `voice.md` |
 | `imageAlt` | Descriptive, keyword-aware |
+
+**Pillar:** `blog-answer` at the top, `blog-takeaways`, 5–8 H2s with short answers, `blog-deeper` to live spokes, `blog-faq`. No TOC in the HTML.  
+**Spoke:** `blog-answer`, link to `/blog/{hubHandle}`, `blog-faq`, closing `blog-deeper` back to the pillar.  
+**Do not invent spoke URLs** — only link handles that are `published` or this run’s topic.
 
 Write the payload to a temp file for the publisher, e.g. `content/blog/.last-draft.json` (gitignored pattern via `content/blog/.draft-*` if needed — prefer stdin/CLI args via publish script).
 
@@ -112,6 +128,8 @@ Draft JSON shape:
   "seoTitle": "...",
   "seoDescription": "...",
   "tags": ["trends", "street style"],
+  "cluster": "quiet-luxury",
+  "role": "spoke",
   "imageUrl": "https://...",
   "imageAlt": "...",
   "authorName": "Afterstate",
@@ -120,7 +138,7 @@ Draft JSON shape:
 ```
 
 Expect `isPublished: true`. On success, note returned article `id` + `handle`.  
-If the script returns `alreadyExists: true`, treat that as success (do not create a second article) and continue to mark the calendar.
+If the script returns `alreadyExists: true`, mark that topic published, then go back to step 1 and publish the **next** queued topic (still one new article this run). Do not stop after only recovering a duplicate.
 
 ---
 
@@ -132,7 +150,7 @@ Update the topic in `content/blog/calendar.json`:
 node scripts/blog-automation/mark-published.mjs --id <topicId> --handle <handle> --article-id gid://shopify/Article/...
 ```
 
-Then **commit and push** `content/blog/calendar.json` on the same branch the automation checked out (`main`). Without this push, the next run will try the same queued topic again.
+Then **commit and push** `content/blog/calendar.json` on the same branch the automation checked out (`main`). If this environment cannot push to `main`, open a PR and say so in the report. The next run still starts with `sync-calendar.mjs`, so a missed calendar push must not retry a live handle.
 
 ---
 
@@ -153,3 +171,4 @@ Short summary only:
 - Never publish to blog handle `journal`
 - Never invent fake news events as “breaking”
 - Never stop solely because `SHOPIFY_ADMIN_TOKEN` is unset
+- Never end a run after only syncing or recovering an already-live handle unless no queued topics remain

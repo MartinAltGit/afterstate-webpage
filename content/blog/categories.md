@@ -19,12 +19,14 @@ Publish to Shopify blog handle **`blog`** only. Never use the `journal` blog for
 3. Prefer evergreen angles over day-of gossip. If covering “news”, explain *why it matters for how people dress*.
 4. Keep Afterstate brand philosophy, manifesto, and product origin stories on **`/journal`**.
 5. Pick `seoKeyword` from [`KEYWORD_MAP.md`](./KEYWORD_MAP.md) / OpenSEO — do not invent high-volume targets blindly.
+6. Prefer filling **spokes** under an open cluster before starting a new pillar. See [`clusters.md`](./clusters.md).
 
 ## Internal linking
 
-When natural, link once or twice to:
+Every post belongs to a **cluster** ([`clusters.md`](./clusters.md)). Link like this:
 
-- `/collections/all` or a specific collection handle if known
-- Product PDPs only when the article genuinely connects (fit, fabric, silhouette)
+- **Pillar → spokes:** one `blog-deeper` block per live (or about-to-publish) spoke. Do not invent URLs for posts that are not in the calendar.
+- **Spoke → pillar:** one link to `/blog/{hubHandle}` in the lead or a closing `blog-deeper`.
+- Product: `/collections/all` or a specific collection only when the article genuinely connects (fit, fabric, silhouette). The look-ad rail is the shop CTA.
 
 Do not turn every post into a product pitch.

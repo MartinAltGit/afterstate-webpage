@@ -20,6 +20,8 @@
  *   "seoTitle": "...",
  *   "seoDescription": "...",
  *   "tags": ["trends"],
+ *   "cluster": "quiet-luxury",
+ *   "role": "spoke",
  *   "imageUrl": "https://...",
  *   "imageAlt": "...",
  *   "authorName": "Afterstate",
@@ -114,6 +116,48 @@ function validateDraft(draft) {
   }
 }
 
+function mergeSystemTags(draft) {
+  const tags = Array.isArray(draft.tags)
+    ? draft.tags.map((tag) => String(tag).trim()).filter(Boolean)
+    : [];
+  const cluster = String(draft.cluster || '')
+    .trim()
+    .toLowerCase();
+  const role = String(draft.role || '')
+    .trim()
+    .toLowerCase();
+
+  if (cluster) {
+    const tag = `cluster-${cluster}`;
+    if (!tags.includes(tag)) tags.push(tag);
+  }
+  if (role === 'pillar' || role === 'spoke') {
+    const tag = `role-${role}`;
+    if (!tags.includes(tag)) tags.push(tag);
+  }
+  return tags;
+}
+
+function warnHubShape(draft) {
+  const role = String(draft.role || '')
+    .trim()
+    .toLowerCase();
+  if (role !== 'pillar' && role !== 'spoke') return;
+
+  const body = String(draft.body);
+  const missing = [];
+  if (!body.includes('blog-answer')) missing.push('blog-answer');
+  if (role === 'pillar' && !body.includes('blog-takeaways')) {
+    missing.push('blog-takeaways');
+  }
+  if (!body.includes('blog-faq')) missing.push('blog-faq');
+  if (missing.length) {
+    console.error(
+      `[blog:publish] ${role} HTML missing: ${missing.join(', ')} (see content/blog/voice.md)`,
+    );
+  }
+}
+
 async function main() {
   const args = parseArgs(process.argv.slice(2));
   if (!args.file && !args.stdin) {
@@ -128,6 +172,7 @@ async function main() {
     : readFileSync(args.file, 'utf8');
   const draft = JSON.parse(raw);
   validateDraft(draft);
+  warnHubShape(draft);
 
   const auth = describeShopifyAuth();
   if (auth === 'missing') {
@@ -192,7 +237,7 @@ async function main() {
     summary: draft.summary,
     author: {name: authorName},
     isPublished,
-    tags: Array.isArray(draft.tags) ? draft.tags : [],
+    tags: mergeSystemTags(draft),
     image: {
       url: draft.imageUrl,
       altText: draft.imageAlt?.trim() || draft.title.trim(),

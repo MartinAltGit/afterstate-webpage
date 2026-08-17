@@ -13,9 +13,69 @@ Afterstate’s blog looks **outward**: world fashion trends, culture, craft, and
 
 ## Length & structure
 
-- **~800–1200 words** of body copy
-- HTML only (Shopify `body` / `contentHtml`)
-- Suggested skeleton:
+Every post is **pillar**, **spoke**, or (rarely) **standard**. Read `role` + `cluster` from [`calendar.json`](./calendar.json) and the map in [`clusters.md`](./clusters.md). HTML only (Shopify `body` / `contentHtml`). One H1 only (the Shopify title) — body starts at H2.
+
+Allowed body classes: `blog-answer`, `blog-takeaways`, `blog-deeper`, `blog-faq`, `blog-sources`, `blog-kicker`. No scripts, no inline styles, no marketing banners. The look-ad rail is the shop CTA.
+
+### Pillar — hub guide (~1200–1800 words)
+
+Short answers on this page; each H2 is one search intent and links to a spoke when that spoke exists. Do **not** put a table of contents in the HTML — the storefront builds “On this page” from H2s.
+
+```html
+<div class="blog-answer">
+  <p><strong>In short.</strong> Two or three sentences: definition, one caveat, what to do next.</p>
+</div>
+<div class="blog-takeaways">
+  <p class="blog-kicker">Key takeaways</p>
+  <ul>
+    <li>Four concrete points. No slogans.</li>
+  </ul>
+</div>
+<p><!-- Hub intro: this page is the map; each section below has a short answer and a deeper guide. --></p>
+<h2><!-- Intent as a clear heading, not clickbait --></h2>
+<div class="blog-answer">
+  <p>Forty to sixty words that could stand alone as a snippet.</p>
+</div>
+<p><!-- One or two short paragraphs. --></p>
+<div class="blog-deeper">
+  <p class="blog-kicker">Go deeper</p>
+  <p><a href="/blog/spoke-handle">Spoke title</a> — one line on why to open it.</p>
+</div>
+<!-- Repeat H2 + answer + optional deeper for 5–8 intents -->
+<div class="blog-faq">
+  <h2>Frequently asked questions</h2>
+  <h3><!-- Question people actually search --></h3>
+  <p><!-- Direct answer, 2–4 sentences. --></p>
+</div>
+```
+
+Include `blog-sources` only when you cite real craft/industry sources (no fake studies).
+
+### Spoke — one question (~800–1200 words)
+
+```html
+<div class="blog-answer">
+  <p><strong>In short.</strong> The answer to this spoke’s keyword.</p>
+</div>
+<p><!-- Lead. Link once to the pillar: see the complete guide at /blog/{hubHandle}. --></p>
+<h2><!-- Section --></h2>
+<p>...</p>
+<h2><!-- Section --></h2>
+<p>...</p>
+<div class="blog-deeper">
+  <p class="blog-kicker">In this series</p>
+  <p><a href="/blog/{hubHandle}">Pillar title</a> — the rest of the map.</p>
+</div>
+<div class="blog-faq">
+  <h2>Frequently asked questions</h2>
+  <h3><!-- 2–4 questions unique to this spoke --></h3>
+  <p>...</p>
+</div>
+```
+
+### Standard — one-off (~800–1200 words)
+
+Use only when the topic has no cluster.
 
 ```html
 <p><!-- lead: 2–3 sentences, keyword-aware, no fluff --></p>
@@ -27,8 +87,7 @@ Afterstate’s blog looks **outward**: world fashion trends, culture, craft, and
 <p>...</p>
 ```
 
-- Use `<h2>` / `<h3>`, `<p>`, `<ul><li>`, occasional `<blockquote>` — no scripts, no inline styles, no marketing banners
-- One clear takeaway near the end
+Use `<h2>` / `<h3>`, `<p>`, `<ul><li>`, occasional `<blockquote>`, and the hub `div`s above.
 
 ## Mandatory fields (every publish)
 

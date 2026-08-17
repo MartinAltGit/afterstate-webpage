@@ -4,20 +4,24 @@ Auto-publishes SEO fashion posts to Shopify blog handle **`blog`** **twice per w
 
 Storefront: `/blog` stacks every article as a full-bleed cover, **newest on top** → `/blog/:handle` is the night article page (hero, reading column, look-ad rail). Same templates for every post. Journal stays separate.
 
+Articles are a **hub-and-spoke** system: one pillar per cluster, spokes for long-tail keywords. Structure lives in the HTML (`blog-answer`, `blog-takeaways`, `blog-deeper`, `blog-faq`) — not a second template. The article page adds an “On this page” TOC when there are enough H2s, FAQ JSON-LD, and related cards from the same cluster. See [`content/blog/clusters.md`](../content/blog/clusters.md) and [`content/blog/voice.md`](../content/blog/voice.md).
+
 ## Overview
 
 | Piece | Location |
 | --- | --- |
 | Topic calendar | [`content/blog/calendar.json`](../content/blog/calendar.json) |
+| Topic clusters (hub + spokes) | [`content/blog/clusters.md`](../content/blog/clusters.md) |
 | Keyword map (OpenSEO) | [`content/blog/KEYWORD_MAP.md`](../content/blog/KEYWORD_MAP.md) |
 | Categories / rotation | [`content/blog/categories.md`](../content/blog/categories.md) |
-| Voice + SEO brief | [`content/blog/voice.md`](../content/blog/voice.md) |
+| Voice + HTML skeletons | [`content/blog/voice.md`](../content/blog/voice.md) |
+| Example drafts | `scripts/blog-automation/example-draft.json` (spoke) · `example-draft-pillar.json` (pillar) |
 | Agent playbook | [`content/blog/AGENT_PLAYBOOK.md`](../content/blog/AGENT_PLAYBOOK.md) |
-| Publish scripts | [`scripts/blog-automation/`](../scripts/blog-automation/) |
+| Publish scripts | [`scripts/blog-automation/`](../scripts/blog-automation/) (`resolve-blog-id`, `sync-calendar`, `publish`, `mark-published`) |
 | Cursor Automation | Mon + Thu; follow the playbook |
 
 ```text
-Pick queued topic → draft HTML + SEO → Magnific image → publish.mjs → mark calendar
+resolve-blog-id → sync-calendar → pick queued topic → draft HTML + SEO → Magnific image → publish.mjs → mark calendar
 ```
 
 ## Shopify Dev Dashboard app
@@ -104,6 +108,8 @@ After this repo content is **committed** on the branch the automation checks out
 2. Use the name, cron (`0 9 * * 1,4` = Mon + Thu 09:00), tools, and instructions from that draft
 3. Attach Magnific + OpenSEO MCP; set `SHOPIFY_SHOP` + `SHOPIFY_CLIENT_ID` + `SHOPIFY_CLIENT_SECRET`
 4. Confirm repo/branch and schedule timezone in the editor
+
+After changing playbook/scripts, **push to `main`** and replace **Agent Instructions** with the block in `CURSOR_AUTOMATION.md`. Then click **Run** (do not wait for Thursday). Keep other cloud agents idle so the run is not rate-limited.
 
 If a scheduled run is **Rate limited**, click **Run** later the same day — do not wait for the next Mon/Thu slot. Avoid other cloud agents at 11:00 GMT+2.
 

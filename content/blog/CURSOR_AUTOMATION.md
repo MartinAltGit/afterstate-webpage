@@ -24,24 +24,25 @@ Cadence is 2 posts per week. Publish one queued topic on a scheduled day, or on 
 Shopify auth is SHOPIFY_SHOP + SHOPIFY_CLIENT_ID + SHOPIFY_CLIENT_SECRET. Do not require SHOPIFY_ADMIN_TOKEN. If that token is missing, continue.
 
 1. Follow content/blog/AGENT_PLAYBOOK.md end-to-end.
-2. Also respect content/blog/categories.md and content/blog/voice.md.
+2. Also respect content/blog/categories.md, content/blog/voice.md, and content/blog/clusters.md.
 3. Verify Shopify with: node scripts/blog-automation/resolve-blog-id.mjs
-4. Read content/blog/calendar.json — refill queued topics if fewer than minQueuedBeforeRefill, then pick the oldest suitable queued topic.
-5. Research lightly (OpenSEO SERP/keyword check when useful); write 800–1200 words of HTML; fill SEO title/description/excerpt/tags/handle.
-6. Images via Magnific only:
+4. Sync the calendar: node scripts/blog-automation/sync-calendar.mjs
+5. Read content/blog/calendar.json — refill queued topics if fewer than minQueuedBeforeRefill, then pick the oldest queued topic that is not already live on Shopify.
+6. Research lightly (OpenSEO SERP/keyword check when useful). Write HTML from voice.md: pillar 1200–1800 words with takeaways/answers/FAQ, or spoke 800–1200 with a link back to the hub. Include cluster and role from the calendar in the draft JSON.
+7. Images via Magnific only:
    - generate → mode imagen-nano-banana-2-flash, aspect 3:2; simulate_cost → images_generate → creations_show → creations_wait
    - stock → stock_search (photo, prefer free) → stock_download (or stock_to_creation + wait)
    Never scrape random fashion websites.
-7. Write draft JSON, then run:
+8. Write draft JSON, then run:
    node scripts/blog-automation/publish.mjs --file <draft>
-   If the script returns alreadyExists: true, treat as success.
-8. On success, run mark-published.mjs with topic id, handle, and article id.
-9. Commit and push content/blog/calendar.json on this branch so the next run does not repeat the topic.
-10. Reply with a short report: title, /blog/{handle}, category, image mode, primary keyword.
+   If alreadyExists is true, mark that topic published and publish the NEXT queued topic. Do not end the run after only recovering a duplicate. The run must create one new Shopify article unless no queued topics remain.
+9. On success, run mark-published.mjs with topic id, handle, and article id.
+10. Commit and push content/blog/calendar.json on this branch. If you cannot push to main, open a PR.
+11. Reply with a short report: title, /blog/{handle}, category, image mode, primary keyword.
 
 Publish to Shopify blog handle "blog" only — never "journal". isPublished must be true.
 If image or Shopify fails after one retry (and one image-mode switch), stop without publishing.
-Do not publish more than one article per run.
+Do not publish more than one new article per run.
 ```
 
 ## Why not GitHub Actions alone?
