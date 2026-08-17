@@ -21,12 +21,15 @@ export {
   ProductGroupJsonLd,
   BreadcrumbJsonLd,
   ArticleJsonLd,
+  FaqJsonLd,
   type OrganizationJsonLdProps,
   type ProductJsonLdProps,
   type ProductGroupJsonLdProps,
   type BreadcrumbJsonLdProps,
   type BreadcrumbJsonLdItem,
   type ArticleJsonLdProps,
+  type FaqJsonLdProps,
+  type FaqJsonLdItem,
 } from './JsonLd';
 
 export {

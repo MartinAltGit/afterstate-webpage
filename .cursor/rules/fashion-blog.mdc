@@ -17,8 +17,16 @@ Every Shopify article on handle `blog` uses the same storefront templates. Do no
 
 ## `/blog/:handle` article
 
-- Keep the night hero, reading column, `LookAd` rail, and “More from the blog” cards.
-- New posts must render through this page as-is (Shopify `contentHtml` + hero image). Do not add unique article templates.
+Guide layout (same template for every post). Do not add per-post templates.
+
+- Breadcrumb: Home / Blog / category
+- Category + H1 + byline (author, date, read time)
+- Cover image **under** the title (not a full-bleed overlay hero)
+- “In short” from excerpt when the body has no `blog-answer`
+- “On this page” from H2s; sticky TOC on desktop
+- Reading column + `LookAd` rail
+- Author bio, share buttons, shop/guide CTAs, previous/next, related guides
+- Hub blocks in `contentHtml`: `blog-answer`, `blog-takeaways`, `blog-deeper`, `blog-faq`, `blog-sources`
 
 ## Publishing
 

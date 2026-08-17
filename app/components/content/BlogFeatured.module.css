@@ -150,13 +150,13 @@
 
 .title {
   margin: 0;
-  max-width: 18ch;
+  max-width: 14em;
   font-family: var(--font-serif);
   font-size: clamp(1.85rem, 1.35rem + 2.1vw, 3.05rem);
   font-weight: var(--font-weight-regular, 400);
   font-style: italic;
-  letter-spacing: -0.022em;
-  line-height: 1.12;
+  letter-spacing: -0.02em;
+  line-height: 1.16;
   color: var(--color-bone, #ece7da);
   text-wrap: balance;
   text-shadow: 0 2px 28px rgba(0, 0, 0, 0.35);

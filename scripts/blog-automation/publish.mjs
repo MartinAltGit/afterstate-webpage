@@ -142,18 +142,25 @@ function warnHubShape(draft) {
   const role = String(draft.role || '')
     .trim()
     .toLowerCase();
-  if (role !== 'pillar' && role !== 'spoke') return;
-
   const body = String(draft.body);
   const missing = [];
-  if (!body.includes('blog-answer')) missing.push('blog-answer');
-  if (role === 'pillar' && !body.includes('blog-takeaways')) {
-    missing.push('blog-takeaways');
+
+  if (role === 'pillar' || role === 'spoke') {
+    if (!body.includes('blog-answer')) missing.push('blog-answer');
+    if (role === 'pillar' && !body.includes('blog-takeaways')) {
+      missing.push('blog-takeaways');
+    }
+    if (!body.includes('blog-faq')) missing.push('blog-faq');
   }
-  if (!body.includes('blog-faq')) missing.push('blog-faq');
+
+  const linkCount = (body.match(/<a\s[^>]*href=/gi) || []).length;
+  if (linkCount < 5) {
+    missing.push(`in-body links (${linkCount}/5)`);
+  }
+
   if (missing.length) {
     console.error(
-      `[blog:publish] ${role} HTML missing: ${missing.join(', ')} (see content/blog/voice.md)`,
+      `[blog:publish] HTML missing: ${missing.join(', ')} (see content/blog/voice.md)`,
     );
   }
 }

@@ -1,6 +1,7 @@
 import {Image} from '@shopify/hydrogen';
 import type {Image as ImageType} from '@shopify/hydrogen/storefront-api-types';
 import {LocaleAwareLink} from '~/components/navigation/LocaleAwareLink';
+import {displayArticleTitle} from '~/lib/blog/articleHtml';
 import styles from './BlogFeatured.module.css';
 
 export type BlogFeaturedProps = {
@@ -66,7 +67,7 @@ export function BlogFeatured({
               {eyebrow ? <span className={styles.eyebrow}>{eyebrow}</span> : null}
             </p>
           ) : null}
-          <h2 className={styles.title}>{title}</h2>
+          <h2 className={styles.title}>{displayArticleTitle(title)}</h2>
           {excerpt ? <p className={styles.excerpt}>{excerpt}</p> : null}
           <span className={styles.cta}>
             <span>Read the story</span>

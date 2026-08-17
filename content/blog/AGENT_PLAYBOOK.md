@@ -5,7 +5,7 @@
 
 Follow this playbook end-to-end in one run. Publish live. Do not wait for human approval.
 
-**Storefront (locked):** every article uses the same templates. `/blog` stacks full-bleed covers **newest on top**. `/blog/:handle` is the night hero + reading column + look-ad rail. Do not change those layouts when publishing. Hub structure belongs in the article HTML (`voice.md` + `clusters.md`), not a new template.
+**Storefront (locked):** `/blog` stacks full-bleed covers **newest on top**. `/blog/:handle` is the guide article (breadcrumb, byline, cover under the title, TOC, reading column, look-ad rail). Do not invent a second article template. Hub HTML belongs in the body (`voice.md` + `clusters.md`).
 
 ---
 
@@ -68,7 +68,7 @@ Follow `voice.md` **and** `clusters.md`. Use the calendar topic’s `role` (`pil
 
 | Output | Notes |
 | --- | --- |
-| `title` | From calendar or lightly improved |
+| `title` | From calendar or lightly improved. No em dashes. |
 | `handle` | From calendar if set (pillars should be stable); otherwise kebab-case from title; unique vs published handles |
 | `summary` | 140–160 chars |
 | `seoTitle` | ≤ ~60 chars |
@@ -81,6 +81,7 @@ Follow `voice.md` **and** `clusters.md`. Use the calendar topic’s `role` (`pil
 
 **Pillar:** `blog-answer` at the top, `blog-takeaways`, 5–8 H2s with short answers, `blog-deeper` to live spokes, `blog-faq`. No TOC in the HTML.  
 **Spoke:** `blog-answer`, link to `/blog/{hubHandle}`, `blog-faq`, closing `blog-deeper` back to the pillar.  
+**In-body links:** at least 5 `<a href>` in the HTML — live `/blog/...` posts, `/afterstate-001-no-rush`, `/shop`, plus `/care` or `/size-guide` when relevant. Weave them into sentences.  
 **Do not invent spoke URLs** — only link handles that are `published` or this run’s topic.
 
 Write the payload to a temp file for the publisher, e.g. `content/blog/.last-draft.json` (gitignored pattern via `content/blog/.draft-*` if needed — prefer stdin/CLI args via publish script).

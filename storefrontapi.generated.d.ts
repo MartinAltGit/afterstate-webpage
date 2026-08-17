@@ -419,7 +419,7 @@ export type ProductDetailFragment = Pick<
 
 export type BlogArticleCardFragment = Pick<
   StorefrontAPI.Article,
-  'id' | 'handle' | 'title' | 'excerpt' | 'publishedAt'
+  'id' | 'handle' | 'title' | 'excerpt' | 'publishedAt' | 'tags'
 > & {
   image?: StorefrontAPI.Maybe<
     Pick<StorefrontAPI.Image, 'id' | 'altText' | 'url' | 'width' | 'height'>
@@ -450,7 +450,7 @@ export type BlogIndexQuery = {
         nodes: Array<
           Pick<
             StorefrontAPI.Article,
-            'id' | 'handle' | 'title' | 'excerpt' | 'publishedAt'
+            'id' | 'handle' | 'title' | 'excerpt' | 'publishedAt' | 'tags'
           > & {
             image?: StorefrontAPI.Maybe<
               Pick<
@@ -508,6 +508,39 @@ export type BlogArticleQuery = {
       >;
     }
   >;
+};
+
+export type LookAdProductsQueryVariables = StorefrontAPI.Exact<{
+  country?: StorefrontAPI.InputMaybe<StorefrontAPI.CountryCode>;
+  language?: StorefrontAPI.InputMaybe<StorefrontAPI.LanguageCode>;
+}>;
+
+export type LookAdProductsQuery = {
+  products: {
+    nodes: Array<
+      Pick<StorefrontAPI.Product, 'id' | 'title' | 'handle' | 'vendor'> & {
+        featuredImage?: StorefrontAPI.Maybe<
+          Pick<
+            StorefrontAPI.Image,
+            'id' | 'url' | 'altText' | 'width' | 'height'
+          >
+        >;
+        priceRange: {
+          minVariantPrice: Pick<
+            StorefrontAPI.MoneyV2,
+            'amount' | 'currencyCode'
+          >;
+          maxVariantPrice: Pick<
+            StorefrontAPI.MoneyV2,
+            'amount' | 'currencyCode'
+          >;
+        };
+        subtitle?: StorefrontAPI.Maybe<
+          Pick<StorefrontAPI.Metafield, 'value' | 'type'>
+        >;
+      }
+    >;
+  };
 };
 
 export type MetaobjectFieldsFragment = Pick<
@@ -2515,13 +2548,17 @@ export type PredictiveSearchQuery = {
 };
 
 interface GeneratedQueryTypes {
-  '#graphql\n  query BlogIndex(\n    $country: CountryCode\n    $language: LanguageCode\n    $first: Int\n    $last: Int\n    $startCursor: String\n    $endCursor: String\n  ) @inContext(country: $country, language: $language) {\n    blog(handle: "blog") {\n      id\n      handle\n      title\n      seo {\n        title\n        description\n      }\n      articles(\n        first: $first\n        last: $last\n        before: $startCursor\n        after: $endCursor\n        sortKey: PUBLISHED_AT\n        reverse: true\n      ) {\n        nodes {\n          ...BlogArticleCard\n        }\n        pageInfo {\n          hasNextPage\n          hasPreviousPage\n          startCursor\n          endCursor\n        }\n      }\n    }\n  }\n  #graphql\n  fragment BlogArticleCard on Article {\n    id\n    handle\n    title\n    excerpt\n    publishedAt\n    image {\n      id\n      altText\n      url\n      width\n      height\n    }\n    author: authorV2 {\n      name\n    }\n  }\n\n': {
+  '#graphql\n  query BlogIndex(\n    $country: CountryCode\n    $language: LanguageCode\n    $first: Int\n    $last: Int\n    $startCursor: String\n    $endCursor: String\n  ) @inContext(country: $country, language: $language) {\n    blog(handle: "blog") {\n      id\n      handle\n      title\n      seo {\n        title\n        description\n      }\n      articles(\n        first: $first\n        last: $last\n        before: $startCursor\n        after: $endCursor\n        sortKey: PUBLISHED_AT\n        reverse: true\n      ) {\n        nodes {\n          ...BlogArticleCard\n        }\n        pageInfo {\n          hasNextPage\n          hasPreviousPage\n          startCursor\n          endCursor\n        }\n      }\n    }\n  }\n  #graphql\n  fragment BlogArticleCard on Article {\n    id\n    handle\n    title\n    excerpt\n    publishedAt\n    tags\n    image {\n      id\n      altText\n      url\n      width\n      height\n    }\n    author: authorV2 {\n      name\n    }\n  }\n\n': {
     return: BlogIndexQuery;
     variables: BlogIndexQueryVariables;
   };
   '#graphql\n  query BlogArticle(\n    $articleHandle: String!\n    $country: CountryCode\n    $language: LanguageCode\n  ) @inContext(country: $country, language: $language) {\n    blog(handle: "blog") {\n      handle\n      title\n      articleByHandle(handle: $articleHandle) {\n        id\n        handle\n        title\n        contentHtml\n        excerpt\n        publishedAt\n        tags\n        author: authorV2 {\n          name\n        }\n        image {\n          id\n          altText\n          url\n          width\n          height\n        }\n        seo {\n          description\n          title\n        }\n      }\n    }\n  }\n': {
     return: BlogArticleQuery;
     variables: BlogArticleQueryVariables;
+  };
+  '#graphql\n  query LookAdProducts(\n    $country: CountryCode\n    $language: LanguageCode\n  ) @inContext(country: $country, language: $language) {\n    products(first: 3, sortKey: UPDATED_AT, reverse: true) {\n      nodes {\n        ...ProductCard\n      }\n    }\n  }\n  #graphql\n  fragment ProductCard on Product {\n    id\n    title\n    handle\n    vendor\n    featuredImage {\n      id\n      url\n      altText\n      width\n      height\n    }\n    priceRange {\n      minVariantPrice {\n        amount\n        currencyCode\n      }\n      maxVariantPrice {\n        amount\n        currencyCode\n      }\n    }\n    subtitle: metafield(namespace: "custom", key: "subtitle") {\n      value\n      type\n    }\n  }\n\n': {
+    return: LookAdProductsQuery;
+    variables: LookAdProductsQueryVariables;
   };
   '#graphql\n  query Campaigns(\n    $country: CountryCode\n    $language: LanguageCode\n  ) @inContext(country: $country, language: $language) {\n    metaobjects(type: "campaign", first: 20) {\n      nodes {\n        ...MetaobjectFields\n      }\n    }\n  }\n  #graphql\n  fragment MetaobjectFields on Metaobject {\n    id\n    handle\n    type\n    updatedAt\n    fields {\n      key\n      type\n      value\n      reference {\n        ... on MediaImage {\n          image {\n            url\n            altText\n            width\n            height\n          }\n        }\n        ... on Video {\n          id\n          sources {\n            url\n            mimeType\n          }\n          previewImage {\n            url\n            altText\n            width\n            height\n          }\n        }\n        ... on Product {\n          id\n          handle\n          title\n          featuredImage {\n            url\n            altText\n            width\n            height\n          }\n        }\n        ... on Collection {\n          id\n          handle\n          title\n          image {\n            url\n            altText\n            width\n            height\n          }\n        }\n        ... on Metaobject {\n          id\n          handle\n          type\n          fields {\n            key\n            type\n            value\n          }\n        }\n      }\n      references(first: 24) {\n        nodes {\n          ... on MediaImage {\n            image {\n              url\n              altText\n              width\n              height\n            }\n          }\n          ... on Product {\n            id\n            handle\n            title\n            featuredImage {\n              url\n              altText\n              width\n              height\n            }\n            priceRange {\n              minVariantPrice {\n                amount\n                currencyCode\n              }\n            }\n          }\n          ... on Collection {\n            id\n            handle\n            title\n          }\n          ... on Metaobject {\n            id\n            handle\n            type\n            fields {\n              key\n              type\n              value\n            }\n          }\n        }\n      }\n    }\n  }\n\n': {
     return: CampaignsQuery;

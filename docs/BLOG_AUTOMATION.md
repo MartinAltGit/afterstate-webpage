@@ -2,7 +2,7 @@
 
 Auto-publishes SEO fashion posts to Shopify blog handle **`blog`** **twice per week** (Monday + Thursday). No approval gate — edit or unpublish in Admin if something is wrong.
 
-Storefront: `/blog` stacks every article as a full-bleed cover, **newest on top** → `/blog/:handle` is the night article page (hero, reading column, look-ad rail). Same templates for every post. Journal stays separate.
+Storefront: `/blog` stacks every article as a full-bleed cover, **newest on top** → `/blog/:handle` is the guide article (breadcrumb, byline, cover under the title, TOC, reading column, look-ad rail). Same template for every post. Journal stays separate.
 
 Articles are a **hub-and-spoke** system: one pillar per cluster, spokes for long-tail keywords. Structure lives in the HTML (`blog-answer`, `blog-takeaways`, `blog-deeper`, `blog-faq`) — not a second template. The article page adds an “On this page” TOC when there are enough H2s, FAQ JSON-LD, and related cards from the same cluster. See [`content/blog/clusters.md`](../content/blog/clusters.md) and [`content/blog/voice.md`](../content/blog/voice.md).
 

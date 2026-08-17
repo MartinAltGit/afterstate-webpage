@@ -89,11 +89,25 @@ Use only when the topic has no cluster.
 
 Use `<h2>` / `<h3>`, `<p>`, `<ul><li>`, occasional `<blockquote>`, and the hub `div`s above.
 
+## In-body links (mandatory)
+
+The storefront CTAs are not enough. The **article HTML must contain real `<a href>` links in the paragraphs** — at least **5** per post. Readers should be able to click from the text itself.
+
+Every post includes:
+
+1. One link to a **live** Fashion Blog article (`/blog/{handle}` from `calendar.json` status `published`, or this cluster’s `hubHandle` if that post is live). If this is the first post in a cluster, link `what-is-quiet-luxury` or another live guide when it fits.
+2. One link to **Afterstate 001** (`/afterstate-001-no-rush`) where cloth, cut, or wearing it longer is mentioned.
+3. One link to the **shop** (`/shop`).
+4. One more contextual storefront link when it fits: `/care`, `/size-guide`, `/journal`, or `/blog`.
+5. Pillars: a `blog-deeper` `<a>` for each **live** spoke in the cluster. Spokes: a lead or closing link back to `/blog/{hubHandle}` if that hub is live.
+
+Do not invent unpublished URLs. Weave the anchors into sentences (`<a href="/shop">organic cotton</a>`), not a dump of “click here”.
+
 ## Mandatory fields (every publish)
 
 | Field | Rule |
 | --- | --- |
-| `title` | Human title; include primary keyword naturally if it fits |
+| `title` | Human title; include primary keyword naturally if it fits. No em dashes. Prefer a comma or a full stop over “X — and why Y”. |
 | `handle` | kebab-case, unique, stable |
 | `summary` / excerpt | 140–160 characters, keyword-aware |
 | `seoTitle` | ≤ ~60 characters |
@@ -110,6 +124,7 @@ Use `<h2>` / `<h3>`, `<p>`, `<ul><li>`, occasional `<blockquote>`, and the hub `
 4. Descriptive image `altText`
 5. No duplicate handles; check calendar for prior `published` handles
 6. Prefer evergreen URLs (`quiet-luxury-street-style` not `march-11-recap`)
+7. At least **5** in-body `<a href>` links (see In-body links above)
 
 ## Image prompts (generate)
 

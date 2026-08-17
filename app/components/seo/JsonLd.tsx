@@ -218,3 +218,31 @@ export function ArticleJsonLd({
   if (dateModified) data.dateModified = dateModified;
   return <JsonLdScript data={data} />;
 }
+
+export type FaqJsonLdItem = {
+  question: string;
+  answer: string;
+};
+
+export type FaqJsonLdProps = {
+  items: FaqJsonLdItem[];
+};
+
+export function FaqJsonLd({items}: FaqJsonLdProps) {
+  if (!items.length) return null;
+
+  const data = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: items.map((item) => ({
+      '@type': 'Question',
+      name: item.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: item.answer,
+      },
+    })),
+  };
+
+  return <JsonLdScript data={data} />;
+}

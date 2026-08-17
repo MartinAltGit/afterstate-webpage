@@ -28,7 +28,7 @@ Shopify auth is SHOPIFY_SHOP + SHOPIFY_CLIENT_ID + SHOPIFY_CLIENT_SECRET. Do not
 3. Verify Shopify with: node scripts/blog-automation/resolve-blog-id.mjs
 4. Sync the calendar: node scripts/blog-automation/sync-calendar.mjs
 5. Read content/blog/calendar.json — refill queued topics if fewer than minQueuedBeforeRefill, then pick the oldest queued topic that is not already live on Shopify.
-6. Research lightly (OpenSEO SERP/keyword check when useful). Write HTML from voice.md: pillar 1200–1800 words with takeaways/answers/FAQ, or spoke 800–1200 with a link back to the hub. Include cluster and role from the calendar in the draft JSON.
+6. Research lightly (OpenSEO SERP/keyword check when useful). Write HTML from voice.md: pillar 1200–1800 words with takeaways/answers/FAQ, or spoke 800–1200 with a link back to the hub. At least 5 in-body <a href> links (live /blog posts, /shop, /afterstate-001-no-rush). Include cluster and role from the calendar in the draft JSON.
 7. Images via Magnific only:
    - generate → mode imagen-nano-banana-2-flash, aspect 3:2; simulate_cost → images_generate → creations_show → creations_wait
    - stock → stock_search (photo, prefer free) → stock_download (or stock_to_creation + wait)

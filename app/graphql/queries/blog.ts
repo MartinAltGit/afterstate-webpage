@@ -13,6 +13,7 @@ export const BLOG_ARTICLE_CARD_FRAGMENT = `#graphql
     title
     excerpt
     publishedAt
+    tags
     image {
       id
       altText

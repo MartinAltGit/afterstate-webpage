@@ -11,6 +11,7 @@ export {
 } from './LookbookSequence';
 export {ManifestoBlock, type ManifestoBlockProps} from './ManifestoBlock';
 export {QuoteBlock, type QuoteBlockProps} from './QuoteBlock';
+export {ArticleShare, type ArticleShareProps} from './ArticleShare';
 export {JournalCard, type JournalCardProps} from './JournalCard';
 export {LookAd, type LookAdProps} from './LookAd';
 export {
