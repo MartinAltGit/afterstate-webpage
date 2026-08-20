@@ -50,7 +50,6 @@ const CREATE_MUTATION = `#graphql
         id
         handle
         title
-        onlineStoreUrl
       }
       userErrors {
         field
@@ -277,7 +276,6 @@ async function main() {
         handle: created?.handle,
         title: created?.title,
         path: created?.handle ? `/blog/${created.handle}` : null,
-        onlineStoreUrl: created?.onlineStoreUrl ?? null,
       },
       null,
       2,

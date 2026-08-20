@@ -37,9 +37,10 @@ const BLOG_ARTICLES_QUERY = `#graphql
 `;
 
 function topicHandles(topic) {
+  // Match only this topic's own handle (and title slug). Never match hubHandle —
+  // spokes share a hub with a live pillar and would be wrongly marked published.
   const handles = [];
   if (topic.handle) handles.push(String(topic.handle).trim().toLowerCase());
-  if (topic.hubHandle) handles.push(String(topic.hubHandle).trim().toLowerCase());
   if (topic.title) handles.push(slugifyHandle(topic.title));
   return [...new Set(handles.filter(Boolean))];
 }
