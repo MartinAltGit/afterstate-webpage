@@ -59,6 +59,7 @@ export const DEFAULT_NOINDEX_PATH_PREFIXES = [
   '/search',
   '/orders',
   '/subscribe',
+  '/password',
 ] as const;
 
 export function pathSuggestsNoIndex(pathname: string): boolean {
@@ -88,7 +89,9 @@ export function robotsPolicyForPath(pathname: string): PathRobotsPolicy {
     path === '/orders' ||
     path.startsWith('/orders/') ||
     path === '/subscribe' ||
-    path.startsWith('/subscribe/')
+    path.startsWith('/subscribe/') ||
+    path === '/password' ||
+    path.startsWith('/password/')
   ) {
     return {noindex: true, nofollow: true};
   }

@@ -12,5 +12,10 @@ declare global {
     PUBLIC_SITE_URL?: string;
     /** Zapier / Make / Klaviyo webhook — required for newsletter + demand capture */
     NEWSLETTER_WEBHOOK_URL?: string;
+    /**
+     * Temporary storefront password. When set, the Hydrogen storefront
+     * requires this password. Unset to open the store. Never prefix with PUBLIC_.
+     */
+    STOREFRONT_PASSWORD?: string;
   }
 }

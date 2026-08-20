@@ -52,6 +52,7 @@ Writes / updates `.env` from the linked Oxygen storefront. **Do not commit `.env
 | `PUBLIC_CUSTOMER_ACCOUNT_API_CLIENT_ID` | Account |
 | `PUBLIC_CUSTOMER_ACCOUNT_API_URL` | Account |
 | `PUBLIC_SITE_URL` | Production canonical origin (set for prod) |
+| `STOREFRONT_PASSWORD` | Optional temporary storefront lock. Set to require a password; remove to open the store. Server-only — do not prefix with `PUBLIC_`. |
 
 Set / rotate secrets in the Oxygen / Hydrogen storefront environment UI as well as locally. Preview and production should differ where needed (`PUBLIC_SITE_URL`, indexing behavior).
 

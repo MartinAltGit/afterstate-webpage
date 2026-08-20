@@ -73,6 +73,7 @@ Do not commit `.env`. Pull from Oxygen after linking, or set locally:
 | `PUBLIC_CUSTOMER_ACCOUNT_API_URL` | Account | Customer Account API URL |
 | `PUBLIC_SITE_URL` | Production SEO | Absolute site origin for canonicals (`https://afterstate.store`) |
 | `NEWSLETTER_WEBHOOK_URL` | Required for subscribe/demand | Zapier / Make / Klaviyo webhook for newsletter + demand emails |
+| `STOREFRONT_PASSWORD` | Temporary lock | When set, visitors must enter this password. Unset to open the store. Never prefix with `PUBLIC_`. |
 
 \*Injected / optional when running against Mock.shop via Hydrogen CLI defaults.
 

@@ -1,6 +1,11 @@
 import * as serverBuild from 'virtual:react-router/server-build';
 import {createRequestHandler, storefrontRedirect} from '@shopify/hydrogen';
 import {createHydrogenRouterContext} from '~/lib/context';
+import {
+  applyStorefrontPasswordResponseHeaders,
+  gateStorefrontPassword,
+  isStorefrontPasswordEnabled,
+} from '~/lib/storefront-password';
 
 /**
  * Export a fetch handler in module format.
@@ -28,7 +33,26 @@ export default {
         getLoadContext: () => hydrogenContext,
       });
 
+      const blocked = await gateStorefrontPassword(
+        request,
+        env,
+        hydrogenContext.session,
+      );
+      if (blocked) {
+        if (hydrogenContext.session.isPending) {
+          blocked.headers.set(
+            'Set-Cookie',
+            await hydrogenContext.session.commit(),
+          );
+        }
+        return blocked;
+      }
+
       const response = await handleRequest(request);
+
+      if (isStorefrontPasswordEnabled(env)) {
+        applyStorefrontPasswordResponseHeaders(response.headers);
+      }
 
       if (hydrogenContext.session.isPending) {
         response.headers.set(

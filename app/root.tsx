@@ -35,6 +35,10 @@ import {
   getSiteOrigin,
   htmlLangFromLanguage,
 } from '~/lib/seo';
+import {
+  isStorefrontPasswordEnabled,
+  isStorefrontPasswordPath,
+} from '~/lib/storefront-password';
 
 export type RootLoader = typeof loader;
 
@@ -115,6 +119,8 @@ export const meta: Route.MetaFunction = ({data, location}) => {
     pathname: location.pathname,
     pathPrefix: data.seo.pathPrefix,
     search: location.search,
+    noindex: data.storefrontPasswordEnabled ? true : undefined,
+    nofollow: data.storefrontPasswordEnabled ? true : undefined,
   });
 };
 
@@ -133,6 +139,7 @@ export async function loader(args: Route.LoaderArgs) {
     ...criticalData,
     publicStoreDomain: env.PUBLIC_STORE_DOMAIN,
     i18n,
+    storefrontPasswordEnabled: isStorefrontPasswordEnabled(env),
     seo: {
       origin: getSiteOrigin(env, args.request),
       pathPrefix: i18n.pathPrefix ?? '',
@@ -236,6 +243,13 @@ export default function App() {
     return <Outlet />;
   }
 
+  if (
+    data.storefrontPasswordEnabled &&
+    isStorefrontPasswordPath(pathname)
+  ) {
+    return <Outlet />;
+  }
+
   return (
     <Analytics.Provider
       cart={data.cart}
@@ -312,6 +326,13 @@ export function ErrorBoundary() {
 
   // Keep site chrome when root data loaded (typical child-route 404).
   if (!data) {
+    return body;
+  }
+
+  if (
+    data.storefrontPasswordEnabled &&
+    isStorefrontPasswordPath(pathname)
+  ) {
     return body;
   }
 

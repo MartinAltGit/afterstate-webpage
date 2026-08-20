@@ -1,16 +1,27 @@
 import type {Route} from './+types/[robots.txt]';
 import {getSiteOrigin} from '~/lib/seo';
+import {
+  closedStoreRobotsTxt,
+  isStorefrontPasswordEnabled,
+} from '~/lib/storefront-password';
 
 export function loader({request, context}: Route.LoaderArgs) {
   const origin = getSiteOrigin(context.env, request);
-  const body = robotsTxtData({url: origin || undefined});
+  const passwordProtected = isStorefrontPasswordEnabled(context.env);
+  const body = passwordProtected
+    ? closedStoreRobotsTxt()
+    : robotsTxtData({url: origin || undefined});
 
   return new Response(body, {
     status: 200,
     headers: {
       'Content-Type': 'text/plain',
-
-      'Cache-Control': `max-age=${60 * 60 * 24}`,
+      'Cache-Control': passwordProtected
+        ? 'private, no-store, must-revalidate'
+        : `max-age=${60 * 60 * 24}`,
+      ...(passwordProtected
+        ? {'X-Robots-Tag': 'noindex, nofollow, noarchive'}
+        : {}),
     },
   });
 }
