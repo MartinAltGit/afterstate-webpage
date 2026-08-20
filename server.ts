@@ -49,19 +49,23 @@ export default {
       }
 
       const response = await handleRequest(request);
+      const headers = new Headers(response.headers);
 
       if (isStorefrontPasswordEnabled(env)) {
-        applyStorefrontPasswordResponseHeaders(response.headers);
+        applyStorefrontPasswordResponseHeaders(headers);
       }
 
       if (hydrogenContext.session.isPending) {
-        response.headers.set(
-          'Set-Cookie',
-          await hydrogenContext.session.commit(),
-        );
+        headers.set('Set-Cookie', await hydrogenContext.session.commit());
       }
 
-      if (response.status === 404) {
+      const nextResponse = new Response(response.body, {
+        status: response.status,
+        statusText: response.statusText,
+        headers,
+      });
+
+      if (nextResponse.status === 404) {
         /**
          * Check for redirects only when there's a 404 from the app.
          * If the redirect doesn't exist, then `storefrontRedirect`
@@ -69,12 +73,12 @@ export default {
          */
         return storefrontRedirect({
           request,
-          response,
+          response: nextResponse,
           storefront: hydrogenContext.storefront,
         });
       }
 
-      return response;
+      return nextResponse;
     } catch (error) {
       console.error(error);
       return new Response('An unexpected error occurred', {status: 500});

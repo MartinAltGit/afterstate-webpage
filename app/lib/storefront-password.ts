@@ -33,7 +33,7 @@ export function isStorefrontPasswordPath(pathname: string): boolean {
 
 /** Paths that must stay reachable while the rest of the store is locked. */
 export function isStorefrontPasswordExemptPath(pathname: string): boolean {
-  const path = pathname.replace(/\/+$/, '') || '/';
+  const path = (pathname.replace(/\/+$/, '') || '/').replace(/\.data$/i, '');
   if (isStorefrontPasswordPath(path)) return true;
   if (path === '/robots.txt') return true;
   return false;
@@ -49,9 +49,28 @@ export function safeStorefrontReturnTo(value: unknown): string {
   if (!trimmed.startsWith('/') || trimmed.startsWith('//')) return '/';
   if (trimmed.includes('\\') || trimmed.includes('://')) return '/';
 
-  const pathOnly = trimmed.split('?')[0]?.replace(/\/+$/, '') || '/';
+  const [rawPath, rawSearch = ''] = trimmed.split('?');
+  const pathOnly = (rawPath?.replace(/\/+$/, '') || '/').replace(/\.data$/i, '');
   if (pathOnly === STOREFRONT_PASSWORD_PATH) return '/';
-  return trimmed;
+
+  const params = new URLSearchParams(rawSearch);
+  params.delete('_routes');
+  params.delete('_config');
+  const search = params.toString();
+  return search ? `${pathOnly}?${search}` : pathOnly;
+}
+
+/** React Router single-fetch / SPA data requests cannot decode a raw 302. */
+export function isReactRouterDataRequest(request: Request): boolean {
+  const url = new URL(request.url);
+  if (url.searchParams.has('_routes')) return true;
+  if (url.pathname.endsWith('.data')) return true;
+  const accept = request.headers.get('Accept') ?? '';
+  return (
+    accept.includes('text/x-remix') ||
+    accept.includes('text/x-script') ||
+    accept.includes('text/vnd.turbo-stream')
+  );
 }
 
 export async function storefrontUnlockToken(password: string): Promise<string> {
@@ -99,13 +118,26 @@ export function storefrontPasswordRedirect(request: Request): Response {
   const returnTo = safeStorefrontReturnTo(`${url.pathname}${url.search}`);
   if (returnTo !== '/') dest.searchParams.set('returnTo', returnTo);
 
+  const location = `${dest.pathname}${dest.search}`;
+  const headers: Record<string, string> = {
+    Location: location,
+    'Cache-Control': 'private, no-store, must-revalidate',
+    'X-Robots-Tag': 'noindex, nofollow, noarchive',
+  };
+
+  if (isReactRouterDataRequest(request)) {
+    return new Response(null, {
+      status: 204,
+      headers: {
+        ...headers,
+        'X-Remix-Reload-Document': 'true',
+      },
+    });
+  }
+
   return new Response(null, {
     status: 302,
-    headers: {
-      Location: `${dest.pathname}${dest.search}`,
-      'Cache-Control': 'private, no-store, must-revalidate',
-      'X-Robots-Tag': 'noindex, nofollow, noarchive',
-    },
+    headers,
   });
 }
 

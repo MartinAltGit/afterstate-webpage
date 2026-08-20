@@ -54,7 +54,11 @@ export async function action({request, context}: Route.ActionArgs) {
     await storefrontUnlockToken(password),
   );
 
-  return redirect(returnTo);
+  return redirect(returnTo, {
+    headers: {
+      'X-Remix-Reload-Document': 'true',
+    },
+  });
 }
 
 export default function PasswordGatePage() {
@@ -77,7 +81,11 @@ export default function PasswordGatePage() {
           </p>
         </header>
 
-        <Form method="post" className={`${pageStyles.form} ${styles.form}`} replace>
+        <Form
+          method="post"
+          className={`${pageStyles.form} ${styles.form}`}
+          reloadDocument
+        >
           <input type="hidden" name="returnTo" value={returnTo} />
           <label className={pageStyles.field}>
             <span className={pageStyles.fieldLabel}>Password</span>
