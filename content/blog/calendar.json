@@ -40,7 +40,7 @@
     },
     {
       "id": "2026-w1-gsm-fabric-guide",
-      "status": "queued",
+      "status": "published",
       "role": "pillar",
       "cluster": "fabric",
       "hubHandle": "what-is-gsm-fabric",
@@ -62,12 +62,12 @@
         "quality"
       ],
       "handle": "what-is-gsm-fabric",
-      "publishedAt": null,
-      "notes": null
+      "publishedAt": "2026-08-24T09:05:54.349Z",
+      "notes": "gid://shopify/Article/620810699047"
     },
     {
       "id": "2026-w2-capsule-wardrobe-men",
-      "status": "queued",
+      "status": "published",
       "role": "pillar",
       "cluster": "capsule-wardrobe",
       "hubHandle": "mens-capsule-wardrobe",
@@ -89,12 +89,12 @@
         "seasonal"
       ],
       "handle": "mens-capsule-wardrobe",
-      "publishedAt": null,
-      "notes": null
+      "publishedAt": "2026-08-24T09:05:54.350Z",
+      "notes": "gid://shopify/Article/620828623143"
     },
     {
       "id": "2026-w2-slow-fashion-habit",
-      "status": "queued",
+      "status": "published",
       "role": "pillar",
       "cluster": "slow-fashion",
       "hubHandle": "slow-fashion-buying-habit",
@@ -115,8 +115,8 @@
         "habits"
       ],
       "handle": "slow-fashion-buying-habit",
-      "publishedAt": null,
-      "notes": null
+      "publishedAt": "2026-08-24T09:10:27.094Z",
+      "notes": "gid://shopify/Article/620851069223"
     },
     {
       "id": "2026-w3-relaxed-fit-trousers",
