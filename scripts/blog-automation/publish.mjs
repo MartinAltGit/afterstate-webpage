@@ -50,7 +50,6 @@ const CREATE_MUTATION = `#graphql
         id
         handle
         title
-        onlineStoreUrl
       }
       userErrors {
         field
