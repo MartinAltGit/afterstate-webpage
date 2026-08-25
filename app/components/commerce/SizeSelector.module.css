@@ -12,7 +12,7 @@
   gap: 0.75rem;
   width: 100%;
   padding: 0;
-  margin-bottom: var(--space-3, 0.75rem);
+  margin-bottom: 0.55rem;
   font-size: 0.625rem;
   font-weight: 500;
   letter-spacing: 0.16em;
@@ -27,7 +27,7 @@
 }
 
 .chosen {
-  color: var(--color-bone, #ece7da);
+  color: var(--color-brass, #c2a878);
   letter-spacing: 0.08em;
 }
 
@@ -56,33 +56,36 @@
 }
 
 .grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2, 0.5rem);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(3.15rem, 1fr));
+  gap: 0.4rem;
 }
 
 .item {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 2.75rem;
-  min-height: 2.75rem;
-  padding: 0.45rem 0.7rem;
-  border: 1px solid var(--color-hairline-dark, rgba(236, 231, 218, 0.14));
-  background: transparent;
-  color: var(--color-bone, #ece7da);
+  min-width: 0;
+  min-height: 2.85rem;
+  padding: 0.5rem 0.35rem;
+  border: 1px solid rgba(236, 231, 218, 0.22);
+  background: rgba(236, 231, 218, 0.03);
+  color: var(--color-bone-muted, rgba(236, 231, 218, 0.72));
   text-decoration: none;
   cursor: pointer;
   font: inherit;
   font-size: 0.8125rem;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.06em;
   transition:
     border-color var(--duration-fast, 140ms) var(--ease-out, ease),
-    color var(--duration-fast, 140ms) var(--ease-out, ease);
+    color var(--duration-fast, 140ms) var(--ease-out, ease),
+    background var(--duration-fast, 140ms) var(--ease-out, ease);
 }
 
 .item:hover:not(:disabled) {
-  border-color: rgba(236, 231, 218, 0.45);
+  border-color: rgba(236, 231, 218, 0.48);
+  color: var(--color-bone, #ece7da);
+  background: rgba(236, 231, 218, 0.07);
   text-decoration: none;
 }
 
@@ -94,6 +97,7 @@
 .selected {
   border-color: var(--color-brass, #c2a878);
   color: var(--color-brass-strong, #d3bc8f);
+  background: rgba(194, 168, 120, 0.14);
 }
 
 .soldOut {

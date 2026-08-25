@@ -59,7 +59,7 @@ export default function Collections() {
         title="Limited"
         support="Short runs. Clear intent. When a drop is gone, it stays gone."
         imageSrc={heroLimited}
-        imageAlt="Afterstate campaign look — teal hoodie, peach tee, mustard cap"
+        imageAlt="Afterstate No Rush — sage tee, cream crew, and forest cap"
       />
 
       <CampaignLook

@@ -128,8 +128,8 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 18%;
-  filter: saturate(0.84) contrast(1.06) brightness(0.9);
+  object-position: var(--object-pos, center 18%);
+  filter: saturate(0.88) contrast(1.06) brightness(0.92);
   transition:
     transform 900ms var(--ease-out, ease),
     filter 600ms var(--ease-out, ease);
@@ -261,18 +261,6 @@
 .card:hover .cta span,
 .link:focus-visible .cta span {
   transform: translateX(0.2rem);
-}
-
-.teal .plate {
-  color: #9cbcbe;
-}
-
-.coral .plate {
-  color: #d4a8a4;
-}
-
-.mustard .plate {
-  color: var(--color-brass, #c2a878);
 }
 
 @media (prefers-reduced-motion: reduce) {

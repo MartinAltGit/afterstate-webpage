@@ -314,11 +314,34 @@ Mock.shop / unlinked stores cannot host your custom codes — use a real dev sto
 
 **How first-order tracking works:** Hydrogen does not count orders. Shopify does — at checkout, against the buyer’s email / customer record. Guests can attach the code on the cart; Shopify decides if it discounts when they check out.
 
-### Newsletter + demand webhook
+### Newsletter + demand (Klaviyo)
 
-Forms POST to `/subscribe`. To store emails (Klaviyo, Shopify Email via Zapier/Make, etc.):
+Forms POST to `/subscribe`. The server creates/updates a Klaviyo profile, records email marketing consent, and adds them to a list (so “Added to list” welcome flows can run).
 
-1. Create a webhook endpoint that accepts JSON:
+`intent` is `newsletter` or `demand`. Demand signups also store `demand_product_handle` / `demand_product_title` on the profile.
+
+#### Klaviyo setup
+
+1. In Klaviyo: **Audience → Lists & segments → Create list** — e.g. `Afterstate Newsletter`. Turn **double opt-in** on (UK/EU).
+2. Optional: a second list for sold-out **Make a demand** waitlist emails.
+3. Copy each list ID from the list URL (`/list/XXXXXX`) or the list settings page.
+4. **Settings → Account → API keys → Create private API key** with `lists:write`, `profiles:write`, and `subscriptions:write`.
+5. Install Klaviyo’s **Shopify** integration as well — that syncs orders/catalog. The Hydrogen form does **not** go through Shopify customers; it needs the API key below.
+6. Set Oxygen + local env (never prefix the key with `PUBLIC_`):
+
+```bash
+KLAVIYO_PRIVATE_API_KEY=pk_...
+KLAVIYO_NEWSLETTER_LIST_ID=XXXXXX
+KLAVIYO_DEMAND_LIST_ID=YYYYYY   # optional — defaults to the newsletter list
+```
+
+Without the key + newsletter list ID, subscribe/demand forms fail closed (no false success). Set them before launch.
+
+If the list uses double opt-in, the form can succeed while the profile stays pending until they confirm the Klaviyo email.
+
+#### Webhook fallback
+
+If Klaviyo is not configured, you can still set `NEWSLETTER_WEBHOOK_URL` (Zapier / Make). Payload:
 
 ```json
 {
@@ -330,16 +353,6 @@ Forms POST to `/subscribe`. To store emails (Klaviyo, Shopify Email via Zapier/M
   "capturedAt": "ISO-8601"
 }
 ```
-
-`intent` is `newsletter` or `demand`.
-
-2. Set Oxygen / local env:
-
-```bash
-NEWSLETTER_WEBHOOK_URL=https://hooks.zapier.com/hooks/catch/...
-```
-
-Without this variable, subscribe/demand forms fail closed (no false success, no email logged). Set the webhook before launch — required for capture to work.
 
 Checkout email + marketing consent still collect buyers automatically — this path is for visitors who have not purchased yet.
 
@@ -366,6 +379,23 @@ Also on the Hydrogen site (no Shopify paste required):
 **Final sale products:** add the product tag `Final Sale` (or badge text containing “Final Sale”). The PDP will show a non-returnable note under add to cart.
 
 Replace company number / registered address placeholders in the legal pack before publishing.
+
+---
+
+## 9. Checkout + sender email
+
+Checkout is **Shopify-hosted**. The Hydrogen cart already sends buyers to `cart.checkoutUrl` — there is no custom checkout page in this app.
+
+Set `hello@afterstate.store` in Admin so order mail and checkout legal copy match the site:
+
+1. **Settings → Store details** — Customer email / store contact: `hello@afterstate.store`
+2. **Settings → Notifications → Sender email** — send from Afterstate (`hello@afterstate.store`). Shopify will ask you to verify `afterstate.store` (SPF / DKIM / CNAME).
+3. **Settings → Checkout** — payments live (not test) when you launch; shipping rates for UK + Europe; require a phone number if carriers need it
+4. **Settings → Policies** — re-paste Contact information, Legal notice, Privacy, Terms, Shipping, and Refund from [LEGAL_POLICIES.md](./LEGAL_POLICIES.md). Shopify’s copies are independent of the Hydrogen fallback.
+5. **Settings → Shipping and delivery** — at least one rate per market you sell to, or checkout will block
+6. **Settings → Payments** — Shopify Payments (or your provider) activated for the markets you sell in
+
+Without a verified sender domain, confirmation and shipping emails still go out from a `*.myshopify.com` address.
 
 ---
 

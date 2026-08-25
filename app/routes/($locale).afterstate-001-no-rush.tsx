@@ -1,5 +1,6 @@
 import {Link, useLoaderData} from 'react-router';
 import type {Route} from './+types/($locale).afterstate-001-no-rush';
+import campaignHero from '~/assets/mockups/hero-campaign.jpg';
 import {CampaignHero} from '~/components/content/CampaignHero';
 import {ManifestoBlock} from '~/components/content/ManifestoBlock';
 import {ProductRow} from '~/components/content/ProductRow';
@@ -64,6 +65,7 @@ export default function Afterstate001NoRush() {
         subtitle="A slower pace for clothes made to last beyond the season."
         ctaLabel="Shop the collection"
         ctaTo={SHOP_PATH}
+        imageSrc={campaignHero}
       />
 
       <PageContainer>

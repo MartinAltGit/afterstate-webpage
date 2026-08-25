@@ -12,12 +12,14 @@ import {
   useLocation,
   Link,
   Await,
+  data,
 } from 'react-router';
 import {Suspense} from 'react';
 import type {Route} from './+types/root';
 import favicon from '~/assets/favicon.svg';
 import logoPng from '~/assets/logo-afterstate.png';
 import {FOOTER_QUERY, HEADER_QUERY} from '~/lib/fragments';
+import {RECOMMENDED_PRODUCTS_QUERY} from '~/graphql/queries/homepage';
 import resetStyles from '~/styles/reset.css?url';
 import appStyles from '~/styles/app.css?url';
 import '~/styles/pin-shared-css';
@@ -30,6 +32,8 @@ import {NotFoundState} from '~/components/feedback/NotFoundState';
 import {ErrorState} from '~/components/feedback/ErrorState';
 import {CartBuyerIdentitySync} from '~/components/commerce/CartBuyerIdentitySync';
 import type {I18nLocale} from '~/lib/i18n';
+import {localeCookieHeaderFromRequest} from '~/lib/i18n';
+import {uiLangFromPathname} from '~/lib/ui-copy';
 import {
   buildDocumentSeoMeta,
   getSiteOrigin,
@@ -133,8 +137,9 @@ export async function loader(args: Route.LoaderArgs) {
 
   const {storefront, env} = args.context;
   const i18n = storefront.i18n as I18nLocale;
+  const localeCookie = localeCookieHeaderFromRequest(args.request);
 
-  return {
+  const payload = {
     ...deferredData,
     ...criticalData,
     publicStoreDomain: env.PUBLIC_STORE_DOMAIN,
@@ -157,6 +162,12 @@ export async function loader(args: Route.LoaderArgs) {
       language: i18n.language,
     },
   };
+
+  if (!localeCookie) return payload;
+
+  return data(payload, {
+    headers: {'Set-Cookie': localeCookie},
+  });
 }
 
 /**
@@ -200,17 +211,33 @@ function loadDeferredData({context}: Route.LoaderArgs) {
       console.error(error);
       return null;
     });
+
+  const recommendedProducts = storefront
+    .query(RECOMMENDED_PRODUCTS_QUERY, {
+      cache: storefront.CacheShort(),
+    })
+    .catch((error: Error) => {
+      console.error(error);
+      return null;
+    });
+
   return {
     cart: cart.get(),
     isLoggedIn: customerAccount.isLoggedIn(),
     footer,
+    recommendedProducts,
   };
 }
 
 export function Layout({children}: {children?: React.ReactNode}) {
   const nonce = useNonce();
   const data = useRouteLoaderData<RootLoader>('root');
-  const lang = htmlLangFromLanguage(data?.i18n?.language);
+  const {pathname} = useLocation();
+  const langFromPath = uiLangFromPathname(pathname);
+  const lang =
+    langFromPath !== 'en'
+      ? langFromPath
+      : htmlLangFromLanguage(data?.i18n?.language);
 
   return (
     <html lang={lang}>

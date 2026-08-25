@@ -1,5 +1,6 @@
 import {NavLink} from 'react-router';
 import {prefixPathWithLocale, useLocalePathPrefix} from '~/lib/locale';
+import {navLabelForPath, useUiCopy} from '~/lib/ui-copy';
 import styles from './MainNavigation.module.css';
 
 export type MainNavItem = {
@@ -39,11 +40,12 @@ export function MainNavigation({
   onNavigate,
 }: MainNavigationProps) {
   const localePrefix = useLocalePathPrefix();
+  const copy = useUiCopy();
 
   return (
     <nav
       className={[styles.root, className].filter(Boolean).join(' ')}
-      aria-label="Primary"
+      aria-label={copy.a11y.primary}
     >
       <ul className={styles.list}>
         {items.map((item) => (
@@ -59,7 +61,7 @@ export function MainNavigation({
               prefetch="intent"
               to={prefixPathWithLocale(item.to, localePrefix)}
             >
-              {item.label}
+              {navLabelForPath(item.to, copy)}
             </NavLink>
           </li>
         ))}

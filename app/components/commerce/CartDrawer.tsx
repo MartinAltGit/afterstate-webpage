@@ -1,7 +1,7 @@
 import {useResolvedCart} from '~/hooks/useResolvedCart';
 import {useAside} from '~/components/Aside';
-import {LocaleAwareLink} from '~/components/navigation/LocaleAwareLink';
 import type {CartApiQueryFragment} from 'storefrontapi.generated';
+import {CartEmpty} from './CartEmpty';
 import {CartLine} from './CartLine';
 import {CartSummary} from './CartSummary';
 import styles from './CartDrawer.module.css';
@@ -34,20 +34,7 @@ export function CartDrawer({cart: originalCart, className}: CartDrawerProps) {
       aria-label="Cart"
     >
       {!hasItems ? (
-        <div className={styles.empty}>
-          <p className={styles.emptyTitle}>Your cart is empty</p>
-          <p className={styles.emptyCopy}>
-            When something fits the pace, it lands here.
-          </p>
-          <LocaleAwareLink
-            to="/shop"
-            onClick={close}
-            prefetch="intent"
-            className={styles.continue}
-          >
-            Continue shopping
-          </LocaleAwareLink>
-        </div>
+        <CartEmpty onNavigate={close} />
       ) : (
         <>
           <ul className={styles.lines}>

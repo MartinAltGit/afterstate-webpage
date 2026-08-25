@@ -51,7 +51,7 @@ export const FALLBACK_JOURNAL_ARTICLES: Record<string, FallbackJournalArticle> =
       hero: img(
         'no-rush-hero',
         campaignLookAlt,
-        'Model in Afterstate 001 No Rush campaign hoodie at dusk',
+        'Model in Afterstate 001 No Rush cream crew and forest cap',
       ),
       relatedHandles: ['life-beyond-the-rush', 'the-weight-of-quiet-clothing'],
     },
@@ -68,7 +68,7 @@ export const FALLBACK_JOURNAL_ARTICLES: Record<string, FallbackJournalArticle> =
       hero: img(
         'beyond-hero',
         campaignLook,
-        'Afterstate campaign look in quiet evening light',
+        'Model in Afterstate After This cream tee and bone cap',
       ),
       relatedHandles: ['no-rush', 'the-weight-of-quiet-clothing'],
     },
@@ -85,7 +85,7 @@ export const FALLBACK_JOURNAL_ARTICLES: Record<string, FallbackJournalArticle> =
       hero: img(
         'quiet-hero',
         lookbook01,
-        'Close look at Afterstate muted teal outerwear fabric and AS mark',
+        'Two models in Afterstate After This cream tee and forest hoodie',
       ),
       relatedHandles: ['no-rush', 'life-beyond-the-rush'],
     },
@@ -97,37 +97,37 @@ export const JOURNAL_IMAGES = {
   campaignLookAlt: img(
     'campaign-look-alt',
     campaignLookAlt,
-    'Afterstate No Rush campaign at dusk',
+    'Model in Afterstate 001 No Rush cream crew and forest cap',
   ),
   campaignLook: img(
     'campaign-look',
     campaignLook,
-    'Afterstate campaign look in evening light',
+    'Model in Afterstate After This cream tee and bone cap',
   ),
   lookbook01: img(
     'lookbook-01',
     lookbook01,
-    'Afterstate fabric detail and AS mark',
+    'Two models in Afterstate After This cream tee and forest hoodie',
   ),
   lookbook02: img(
     'lookbook-02',
     lookbook02,
-    'Afterstate lookbook frame — quiet silhouette',
+    'Model in Afterstate No Rush sage tee and forest cap',
   ),
   lookbook03: img(
     'lookbook-03',
     lookbook03,
-    'Afterstate lookbook frame — street evening',
+    'Model in Afterstate Say Less navy hoodie and burgundy cap',
   ),
   heroHoodies: img(
     'hero-hoodies',
     heroHoodies,
-    'Afterstate hoodies from the No Rush campaign',
+    'Afterstate Not Yet navy tee and burgundy crew',
   ),
   heroCaps: img(
     'hero-caps',
     heroCaps,
-    'Afterstate caps from the No Rush campaign',
+    'Afterstate Say Less brick tee and navy hoodie',
   ),
 } as const;
 

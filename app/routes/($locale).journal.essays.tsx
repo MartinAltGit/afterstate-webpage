@@ -7,6 +7,7 @@ import {NewsletterForm} from '~/components/content/NewsletterForm';
 import {QuoteBlock} from '~/components/content/QuoteBlock';
 import {CustomerVoices} from '~/components/journal/CustomerVoices';
 import {IconPrinciples} from '~/components/journal/IconPrinciples';
+import type {JournalIconName} from '~/components/journal/JournalIcons';
 import journalWorld from '~/components/journal/journalWorld.module.css';
 import {EditorialStage} from '~/components/layout/EditorialStage';
 import stageStyles from '~/components/layout/EditorialStage.module.css';
@@ -16,15 +17,15 @@ import {buildMetaTags} from '~/components/seo';
 import {OpeningStatement} from '~/sections/OpeningStatement';
 import {JOURNAL_INDEX_QUERY} from '~/graphql/queries/journal';
 import {FALLBACK_JOURNAL_LIST} from '~/lib/journal/fallback';
+import {getUiCopy, useUiCopy} from '~/lib/ui-copy';
 import styles from '~/components/content/JournalIndexGrid.module.css';
 import indexStyles from '~/components/content/JournalIndexPage.module.css';
 
-export const meta: Route.MetaFunction = ({data}) => {
+export const meta: Route.MetaFunction = ({data, location}) => {
+  const copy = getUiCopy(location.pathname);
   return buildMetaTags({
-    title: data?.blog?.seo?.title || data?.blog?.title || 'Essays',
-    description:
-      data?.blog?.seo?.description ||
-      'Notes from Afterstate — the brand story, quality standards, and the quieter thinking behind the clothes.',
+    title: data?.blog?.seo?.title || data?.blog?.title || copy.essays.metaTitle,
+    description: data?.blog?.seo?.description || copy.essays.metaDescription,
   });
 };
 
@@ -46,6 +47,7 @@ export async function loader({context, request}: Route.LoaderArgs) {
 
 export default function JournalEssays() {
   const {blog} = useLoaderData<typeof loader>();
+  const copy = useUiCopy();
   const liveArticles = blog?.articles?.nodes ?? [];
   const hasLiveArticles = liveArticles.length > 0;
 
@@ -55,32 +57,38 @@ export default function JournalEssays() {
         to: `/journal/${article.handle}`,
         title: article.title,
         eyebrow: article.publishedAt
-          ? new Intl.DateTimeFormat('en-US', {
+          ? new Intl.DateTimeFormat(copy.dateLocale, {
               year: 'numeric',
               month: 'long',
               day: 'numeric',
             }).format(new Date(article.publishedAt))
-          : 'Journal',
+          : copy.essays.eyebrow,
         excerpt: article.excerpt ?? undefined,
         image: article.image,
       }))
-    : FALLBACK_JOURNAL_LIST.map((article) => ({
-        id: article.handle,
-        to: `/journal/${article.handle}`,
-        title: article.title,
-        eyebrow: article.eyebrow,
-        excerpt: article.excerpt,
-        image: article.hero,
-      }));
+    : FALLBACK_JOURNAL_LIST.map((article) => {
+        const localized =
+          copy.essays.articles[
+            article.handle as keyof typeof copy.essays.articles
+          ];
+        return {
+          id: article.handle,
+          to: `/journal/${article.handle}`,
+          title: localized?.title ?? article.title,
+          eyebrow: localized?.eyebrow ?? article.eyebrow,
+          excerpt: localized?.excerpt ?? article.excerpt,
+          image: article.hero,
+        };
+      });
 
   return (
     <div className={`journal-index ${journalWorld.journalWorld}`}>
       <PageHero
-        eyebrow="Journal"
-        title="Essays"
-        support="Brand story, quality standards, and the quieter thinking behind the clothes."
+        eyebrow={copy.essays.eyebrow}
+        title={copy.essays.title}
+        support={copy.essays.support}
         imageSrc={heroJournal}
-        imageAlt="Model in Afterstate 001 No Rush campaign hoodie at dusk"
+        imageAlt={copy.essays.imageAlt}
       />
 
       <Reveal>
@@ -88,41 +96,30 @@ export default function JournalEssays() {
           className={indexStyles.intro}
           aria-labelledby="journal-intro-title"
         >
-          <p className={indexStyles.introEyebrow}>Studio notes</p>
+          <p className={indexStyles.introEyebrow}>{copy.essays.introEyebrow}</p>
           <h2 id="journal-intro-title" className={indexStyles.introTitle}>
-            After the noise, the clothes still have to mean something
+            {copy.essays.introTitle}
           </h2>
           <div className={indexStyles.introBody}>
-            <p>
-              Afterstate began as a refusal: fewer drops, denser fabric, and a
-              pace that lets a garment become yours. The journal is where that
-              fiction lives in full — origin nights, material decisions, and the
-              practice of dressing without urgency.
-            </p>
-            <p>
-              Read it like a lookbook with sentences. Nothing here is trend
-              forecasting. Everything here is intent.
-            </p>
+            <p>{copy.essays.introP1}</p>
+            <p>{copy.essays.introP2}</p>
           </div>
         </section>
       </Reveal>
 
       <Reveal delayMs={40}>
         <QuoteBlock
-          quote="Life beyond the rush is not a slogan. It is a wardrobe that stops asking for more."
-          attribution="Afterstate Journal"
+          quote={copy.essays.quote}
+          attribution={copy.essays.quoteAttr}
         />
       </Reveal>
 
       <EditorialStage>
         <div className={stageStyles.section}>
           <header className={stageStyles.header}>
-            <p className={stageStyles.eyebrow}>Essays</p>
-            <h2 className={stageStyles.title}>From the journal</h2>
-            <p className={stageStyles.lede}>
-              Three starting chapters — origin, pace, and the weight of quiet
-              cloth.
-            </p>
+            <p className={stageStyles.eyebrow}>{copy.essays.fromEyebrow}</p>
+            <h2 className={stageStyles.title}>{copy.essays.fromTitle}</h2>
+            <p className={stageStyles.lede}>{copy.essays.fromLede}</p>
           </header>
 
           <div className={styles.grid}>
@@ -146,43 +143,23 @@ export default function JournalEssays() {
 
       <Reveal delayMs={60}>
         <IconPrinciples
-          eyebrow="Standards"
-          title="What we stand behind"
-          principles={[
-            {
-              id: 'limited',
-              icon: 'limited',
-              label: 'Limited editions only',
-              body: 'Short runs. No restocks. When a piece sells through, its chapter closes — scarcity as honesty, not hype.',
-            },
-            {
-              id: 'fabric',
-              icon: 'fabric',
-              label: 'Fabric you can feel',
-              body: 'Heavy cotton and brushed fleece chosen for hand-feel and years of wear, not for a single campaign frame.',
-            },
-            {
-              id: 'stitch',
-              icon: 'stitch',
-              label: 'Construction for the long wear',
-              body: 'Seams, finishes, and hardware tuned so the garment softens into your life instead of falling apart out of it.',
-            },
-            {
-              id: 'mark',
-              icon: 'mark',
-              label: 'A quieter mark',
-              body: 'The AS sits small. Colour stays grounded. The silhouette does the speaking.',
-            },
-          ]}
+          eyebrow={copy.essays.standardsEyebrow}
+          title={copy.essays.standardsTitle}
+          principles={copy.essays.principles.map((item) => ({
+            id: item.id,
+            icon: item.id as JournalIconName,
+            label: item.label,
+            body: item.body,
+          }))}
         />
       </Reveal>
 
       <Reveal delayMs={40}>
         <NewsletterForm
-          eyebrow="Stay close"
-          title="Journal + drop notes"
-          description="New essays, limited runs, and quiet updates — never a rush of noise."
-          submitLabel="Join"
+          eyebrow={copy.essays.newsletterEyebrow}
+          title={copy.essays.newsletterTitle}
+          description={copy.essays.newsletterDesc}
+          submitLabel={copy.essays.join}
           source="journal"
         />
       </Reveal>
@@ -192,8 +169,8 @@ export default function JournalEssays() {
           id: 'journal-closing',
           type: 'closing_statement',
           brand: 'Afterstate',
-          tagline: 'Life beyond the rush.',
-          body: 'Every piece is limited edition. Short runs. No restocks.',
+          tagline: copy.essays.closingTagline,
+          body: copy.essays.closingBody,
         }}
       />
     </div>

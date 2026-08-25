@@ -31,6 +31,8 @@ export type BuyControlsProps = {
   /** Show final-sale / returns note under the CTA. */
   finalSale?: boolean;
   shippingNote?: string | null;
+  /** Overlay splits sizes and CTA into separate floating cards. */
+  tone?: 'default' | 'overlay';
 };
 
 /**
@@ -48,6 +50,7 @@ export function BuyControls({
   productTitle,
   finalSale = false,
   shippingNote,
+  tone = 'default',
 }: BuyControlsProps) {
   const available = Boolean(selectedVariant?.availableForSale);
   const lines: OptimisticCartLineInput[] = selectedVariant
@@ -67,15 +70,28 @@ export function BuyControls({
     !available &&
     Boolean(productHandle) &&
     Boolean(productTitle);
+  const hasOptions = otherOptions.length > 0 || sizeOptions.length > 0;
 
   return (
-    <div className={[styles.root, className].filter(Boolean).join(' ')}>
-      {otherOptions.map((option) => (
-        <VariantSelector key={option.name} option={option} />
-      ))}
-      {sizeOptions.map((option) => (
-        <SizeSelector key={option.name} option={option} />
-      ))}
+    <div
+      className={[
+        styles.root,
+        tone === 'overlay' ? styles.overlay : '',
+        className,
+      ]
+        .filter(Boolean)
+        .join(' ')}
+    >
+      {hasOptions ? (
+        <div className={styles.options}>
+          {otherOptions.map((option) => (
+            <VariantSelector key={option.name} option={option} />
+          ))}
+          {sizeOptions.map((option) => (
+            <SizeSelector key={option.name} option={option} />
+          ))}
+        </div>
+      ) : null}
 
       <div id="product-buy-cta" className={styles.ctaBlock}>
         {showDemand ? (
@@ -94,18 +110,25 @@ export function BuyControls({
             {available ? addToCartLabel : soldOutLabel}
           </AddToCartButton>
         )}
-        <p className={styles.ctaHint} aria-live="polite">
+        <p
+          className={[
+            styles.ctaHint,
+            selectedVariant && available ? styles.inStock : '',
+          ]
+            .filter(Boolean)
+            .join(' ')}
+          aria-live="polite"
+        >
           {selectedVariant
             ? available
-              ? 'In stock · Dispatch in 1–3 UK days'
+              ? 'In stock · Dispatches in 1–3 working days'
               : 'Unavailable'
-            : 'Select options'}
+            : 'Select a size'}
         </p>
+        {finalSale || shippingNote ? (
+          <PurchaseNote finalSale={finalSale} shippingNote={shippingNote} />
+        ) : null}
       </div>
-
-      {finalSale || shippingNote ? (
-        <PurchaseNote finalSale={finalSale} shippingNote={shippingNote} />
-      ) : null}
     </div>
   );
 }

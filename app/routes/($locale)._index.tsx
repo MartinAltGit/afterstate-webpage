@@ -2,9 +2,8 @@ import {Await, useLoaderData} from 'react-router';
 import type {Route} from './+types/($locale)._index';
 import {Suspense} from 'react';
 import {HomepageSections} from '~/sections';
-import {ProductItem} from '~/components/ProductItem';
 import {RECOMMENDED_PRODUCTS_QUERY} from '~/graphql/queries/homepage';
-import type {ProductCardFragment} from 'storefrontapi.generated';
+import type {CollectionGridProduct} from '~/components/collection/CollectionProductGrid';
 import {OrganizationJsonLd, buildMetaTags} from '~/components/seo';
 import {useAbsoluteSeoUrl} from '~/lib/seo/useAbsoluteSeoUrl';
 
@@ -52,13 +51,8 @@ export default function Homepage() {
           {(response) => (
             <HomepageSections
               products={
-                response
-                  ? response.products.nodes.map(
-                      (product: ProductCardFragment) => (
-                        <ProductItem key={product.id} product={product} />
-                      ),
-                    )
-                  : null
+                (response?.products.nodes as CollectionGridProduct[] | undefined) ??
+                null
               }
             />
           )}

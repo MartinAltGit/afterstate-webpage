@@ -3,13 +3,14 @@ import heroPhilosophy from '~/assets/mockups/campaign-look.jpg';
 import {PageHero} from '~/components/layout/PageHero';
 import {Reveal} from '~/components/motion/Reveal';
 import {buildMetaTags} from '~/components/seo';
+import {getUiCopy, useUiCopy} from '~/lib/ui-copy';
 import styles from '~/components/content/QuietPage.module.css';
 
-export const meta: Route.MetaFunction = () => {
+export const meta: Route.MetaFunction = ({location}) => {
+  const copy = getUiCopy(location.pathname);
   return buildMetaTags({
-    title: 'Philosophy',
-    description:
-      'Calm, intentional clothing. Afterstate is about pace, permanence, and choosing less with care — enough, and nothing extra.',
+    title: copy.philosophy.metaTitle,
+    description: copy.philosophy.metaDescription,
   });
 };
 
@@ -18,30 +19,25 @@ export async function loader(_args: Route.LoaderArgs) {
 }
 
 export default function PhilosophyPage() {
+  const copy = useUiCopy();
+
   return (
     <div className={styles.world}>
       <PageHero
-        eyebrow="Philosophy"
-        title="Enough"
-        support="Enough quality, enough thought, enough time to live in what you wear."
+        eyebrow={copy.philosophy.eyebrow}
+        title={copy.philosophy.title}
+        support={copy.philosophy.support}
         imageSrc={heroPhilosophy}
-        imageAlt="Afterstate campaign look — no rush"
+        imageAlt={copy.philosophy.imageAlt}
       />
 
       <Reveal>
         <div className={styles.root}>
           <header className={styles.intro}>
-            <p className={styles.eyebrow}>Meaning</p>
-            <p className={styles.lede}>
-              Afterstate is not about more. We design for calm intent — pieces
-              that do not shout, and do not need replacing when the calendar
-              turns.
-            </p>
+            <p className={styles.eyebrow}>{copy.philosophy.meaningEyebrow}</p>
+            <p className={styles.lede}>{copy.philosophy.lede}</p>
             <hr className={styles.rule} />
-            <p className={styles.note}>
-              No Rush is the practice: slow the drop, respect the material, and
-              leave room for the garment to become yours.
-            </p>
+            <p className={styles.note}>{copy.philosophy.note}</p>
           </header>
         </div>
       </Reveal>

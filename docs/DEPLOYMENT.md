@@ -53,6 +53,10 @@ Writes / updates `.env` from the linked Oxygen storefront. **Do not commit `.env
 | `PUBLIC_CUSTOMER_ACCOUNT_API_URL` | Account |
 | `PUBLIC_SITE_URL` | Production canonical origin (set for prod) |
 | `STOREFRONT_PASSWORD` | Optional temporary storefront lock. Set to require a password; remove to open the store. Server-only — do not prefix with `PUBLIC_`. |
+| `KLAVIYO_PRIVATE_API_KEY` | Klaviyo private API key for newsletter / demand. Server-only. |
+| `KLAVIYO_NEWSLETTER_LIST_ID` | Klaviyo list ID for newsletter signups |
+| `KLAVIYO_DEMAND_LIST_ID` | Optional demand list; defaults to the newsletter list |
+| `NEWSLETTER_WEBHOOK_URL` | Optional Zapier / Make fallback if Klaviyo is unset |
 
 Set / rotate secrets in the Oxygen / Hydrogen storefront environment UI as well as locally. Preview and production should differ where needed (`PUBLIC_SITE_URL`, indexing behavior).
 
@@ -113,6 +117,7 @@ Production and stable preview URLs must be allowlisted for Customer Account API 
 - [ ] Preview is `noindex`; production is intentional
 - [ ] Locale prefix market URLs resolve
 - [ ] Env secrets present (no boot error on `SESSION_SECRET`)
+- [ ] Newsletter / demand form lands the email in Klaviyo (`KLAVIYO_*` set)
 - [ ] Consent / analytics stubs behave as expected for the environment
 
 ---

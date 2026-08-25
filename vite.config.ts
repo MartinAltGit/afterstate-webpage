@@ -1,11 +1,46 @@
 import {fileURLToPath} from 'node:url';
-import {defineConfig} from 'vite';
+import {defineConfig, type Plugin} from 'vite';
 import {hydrogen} from '@shopify/hydrogen/vite';
 import {oxygen} from '@shopify/mini-oxygen/vite';
 import {reactRouter} from '@react-router/dev/vite';
 
+type DevCssHooks = {
+  getCriticalCss?: (...args: unknown[]) => unknown;
+};
+
+type DevHookGlobals = typeof globalThis & {
+  __remix_devServerHooks?: DevCssHooks;
+  __reactRouterDevServerHooks?: DevCssHooks;
+};
+
+/**
+ * Hydrogen still forwards critical CSS through `__remix_devServerHooks`.
+ * React Router 7 reads `__reactRouterDevServerHooks`. Without this alias,
+ * SSR HTML ships without CSS-module styles and the first paint looks crashed
+ * until client JS injects them (~0.5s).
+ */
+function afterstateCriticalCssHooks(): Plugin {
+  const alias = () => {
+    const g = globalThis as DevHookGlobals;
+    const fromRouter = g.__reactRouterDevServerHooks?.getCriticalCss;
+    if (!fromRouter) return;
+    g.__remix_devServerHooks = {
+      ...g.__remix_devServerHooks,
+      getCriticalCss: (...args: unknown[]) => fromRouter(...args),
+    };
+  };
+
+  return {
+    name: 'afterstate-critical-css-hooks',
+    configureServer() {
+      alias();
+      return () => alias();
+    },
+  };
+}
+
 export default defineConfig({
-  plugins: [hydrogen(), oxygen(), reactRouter()],
+  plugins: [hydrogen(), oxygen(), reactRouter(), afterstateCriticalCssHooks()],
   resolve: {
     alias: {
       // Vite's native tsconfig path resolver does not cover JavaScript
@@ -44,5 +79,11 @@ export default defineConfig({
   },
   server: {
     allowedHosts: ['.tryhydrogen.dev'],
+    watch: {
+      // Do not watch binary mockups. On Windows, attaching fs.watch to a JPEG
+      // that is still being written throws EBUSY and kills Hydrogen. Polling
+      // the same tree is worse — it restats every image and retriggers SSR.
+      ignored: ['**/app/assets/**', '**/_candidates/**'],
+    },
   },
 });

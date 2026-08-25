@@ -16,6 +16,7 @@ import {
 } from '~/components/layout/MainNavigation';
 import {VisuallyHidden} from '~/components/primitives/VisuallyHidden';
 import {prefixPathWithLocale, useLocalePathPrefix} from '~/lib/locale';
+import {useUiCopy} from '~/lib/ui-copy';
 import {useResolvedCart} from '~/hooks/useResolvedCart';
 import styles from './SiteHeader.module.css';
 
@@ -38,6 +39,7 @@ export function SiteHeader({
   className,
 }: SiteHeaderProps) {
   const localePrefix = useLocalePathPrefix();
+  const copy = useUiCopy();
 
   return (
     <header className={[styles.root, className].filter(Boolean).join(' ')}>
@@ -67,7 +69,7 @@ export function SiteHeader({
             prefetch="intent"
             to={prefixPathWithLocale(JOURNAL_NAV_ITEM.to, localePrefix)}
           >
-            {JOURNAL_NAV_ITEM.label}
+            {copy.nav.journal}
           </NavLink>
           {languageSelector ? (
             <div className={[styles.language, styles.desktopOnly].join(' ')}>
@@ -116,12 +118,13 @@ function CartBanner() {
 function CartBadge({count}: {count: number}) {
   const {open} = useAside();
   const {publish, shop, cart, prevCart} = useAnalytics();
+  const copy = useUiCopy();
 
   return (
     <button
       type="button"
       className={styles.iconButton}
-      aria-label={count > 0 ? `Cart, ${count} items` : 'Cart'}
+      aria-label={count > 0 ? copy.a11y.cartCount(count) : copy.a11y.cart}
       onClick={() => {
         open('cart');
         publish('cart_viewed', {

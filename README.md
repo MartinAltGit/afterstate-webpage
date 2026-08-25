@@ -72,7 +72,10 @@ Do not commit `.env`. Pull from Oxygen after linking, or set locally:
 | `PUBLIC_CUSTOMER_ACCOUNT_API_CLIENT_ID` | Account | Customer Account API client |
 | `PUBLIC_CUSTOMER_ACCOUNT_API_URL` | Account | Customer Account API URL |
 | `PUBLIC_SITE_URL` | Production SEO | Absolute site origin for canonicals (`https://afterstate.store`) |
-| `NEWSLETTER_WEBHOOK_URL` | Required for subscribe/demand | Zapier / Make / Klaviyo webhook for newsletter + demand emails |
+| `KLAVIYO_PRIVATE_API_KEY` | Required for subscribe/demand | Klaviyo private API key (`pk_…`). Server-only — never `PUBLIC_`. |
+| `KLAVIYO_NEWSLETTER_LIST_ID` | Required with Klaviyo | List ID for newsletter signups (Audience → Lists) |
+| `KLAVIYO_DEMAND_LIST_ID` | Optional | Sold-out “Make a demand” list; falls back to the newsletter list |
+| `NEWSLETTER_WEBHOOK_URL` | Fallback only | Zapier / Make webhook if Klaviyo is not configured |
 | `STOREFRONT_PASSWORD` | Temporary lock | When set, visitors must enter this password. Unset to open the store. Never prefix with `PUBLIC_`. |
 
 \*Injected / optional when running against Mock.shop via Hydrogen CLI defaults.

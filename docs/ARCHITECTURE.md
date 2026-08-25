@@ -297,6 +297,10 @@ Do not assert meaningless static marketing copy.
 | `PUBLIC_CUSTOMER_ACCOUNT_API_URL` | Customer Account API URL |
 | `PUBLIC_SITE_URL` | Absolute canonical base (production) |
 | `STOREFRONT_PASSWORD` | Optional temporary storefront password |
+| `KLAVIYO_PRIVATE_API_KEY` | Klaviyo private API key (newsletter / demand) |
+| `KLAVIYO_NEWSLETTER_LIST_ID` | Klaviyo newsletter list ID |
+| `KLAVIYO_DEMAND_LIST_ID` | Optional Klaviyo demand list ID |
+| `NEWSLETTER_WEBHOOK_URL` | Optional webhook fallback if Klaviyo is unset |
 
 Local foundation may use Mock.shop defaults injected by Hydrogen CLI when not fully linked.
 

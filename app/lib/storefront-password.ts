@@ -1,9 +1,14 @@
 /**
  * Temporary storefront password gate.
  *
- * Set `STOREFRONT_PASSWORD` (server-only — never `PUBLIC_`) to lock the
- * Hydrogen storefront. Unset it to open the store again.
+ * The store is public. Leave this `false` so a leftover
+ * `STOREFRONT_PASSWORD` on Oxygen cannot lock the site or send
+ * `noindex` / `Disallow: /` to crawlers.
+ *
+ * Set to `true` only for a private preview; still requires
+ * `STOREFRONT_PASSWORD` (server-only — never `PUBLIC_`).
  */
+const STOREFRONT_PASSWORD_GATE_ENABLED = false;
 
 export const STOREFRONT_PASSWORD_PATH = '/password';
 export const STOREFRONT_UNLOCK_SESSION_KEY = 'storefrontUnlock';
@@ -17,6 +22,7 @@ type SessionReader = {
 export function storefrontPasswordFromEnv(env: {
   STOREFRONT_PASSWORD?: string;
 }): string {
+  if (!STOREFRONT_PASSWORD_GATE_ENABLED) return '';
   return env.STOREFRONT_PASSWORD?.trim() ?? '';
 }
 

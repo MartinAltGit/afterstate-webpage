@@ -1,0 +1,241 @@
+.card {
+  display: block;
+  height: 100%;
+  text-decoration: none;
+  color: inherit;
+}
+
+.card:hover {
+  text-decoration: none;
+}
+
+.card:focus-visible {
+  outline: 2px solid var(--color-brass, #c2a878);
+  outline-offset: 4px;
+}
+
+.frame {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 4 / 5;
+  background: var(--color-night-raised, #121814);
+  border: 1px solid var(--color-hairline-dark-subtle, rgba(236, 231, 218, 0.08));
+  isolation: isolate;
+  transition: border-color var(--duration-base, 220ms) var(--ease-out, ease);
+}
+
+.card:hover .frame {
+  border-color: var(--color-hairline-dark, rgba(236, 231, 218, 0.22));
+}
+
+.image,
+.hoverImage {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition:
+    transform 700ms var(--ease-out, ease),
+    opacity 360ms var(--ease-out, ease);
+}
+
+.cardGarment .image,
+.cardGarment .hoverImage {
+  object-fit: contain;
+  object-position: center 42%;
+  padding: 8%;
+  filter: drop-shadow(0 16px 24px rgba(0, 0, 0, 0.5));
+}
+
+.card:hover .image {
+  transform: scale(1.045);
+}
+
+.hoverImage {
+  opacity: 0;
+}
+
+.card:hover .hoverImage {
+  opacity: 1;
+}
+
+.placeholder {
+  position: absolute;
+  inset: 18%;
+  background:
+    linear-gradient(
+      135deg,
+      transparent 49.5%,
+      rgba(236, 231, 218, 0.14) 49.5%,
+      rgba(236, 231, 218, 0.14) 50.5%,
+      transparent 50.5%
+    );
+}
+
+.veil {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(8, 12, 10, 0.28) 0%,
+      transparent 28%,
+      transparent 48%,
+      rgba(8, 12, 10, 0.78) 100%
+    );
+}
+
+.formChip,
+.priceChip {
+  position: absolute;
+  z-index: 2;
+  margin: 0;
+  padding: 0.32rem 0.55rem;
+  font-size: 0.625rem;
+  font-weight: var(--font-weight-medium, 500);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-bone, #ece7da);
+  background: rgba(11, 16, 14, 0.58);
+  border: 1px solid rgba(236, 231, 218, 0.12);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.formChip {
+  top: 0.75rem;
+  left: 0.75rem;
+}
+
+.priceChip {
+  top: 0.75rem;
+  right: 0.75rem;
+  letter-spacing: 0.04em;
+  text-transform: none;
+  font-variant-numeric: tabular-nums;
+}
+
+.badge,
+.soldBadge {
+  position: absolute;
+  top: 2.85rem;
+  left: 0.75rem;
+  z-index: 2;
+  margin: 0;
+  padding: 0.28rem 0.5rem;
+  font-size: 0.5625rem;
+  font-weight: var(--font-weight-medium, 500);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-night, #0b100e);
+  background: var(--color-brass, #c2a878);
+}
+
+.soldBadge {
+  color: var(--color-bone, #ece7da);
+  background: rgba(11, 16, 14, 0.72);
+  border: 1px solid var(--color-hairline-dark, rgba(236, 231, 218, 0.14));
+}
+
+.cardSoldOut .image {
+  opacity: 0.62;
+}
+
+.overlay {
+  position: absolute;
+  right: 0.75rem;
+  bottom: 0.75rem;
+  left: 0.75rem;
+  z-index: 2;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.05rem, 0.92rem + 0.55vw, 1.28rem);
+  font-weight: var(--font-weight-medium, 500);
+  letter-spacing: var(--tracking-snug, -0.018em);
+  line-height: 1.12;
+  color: var(--color-bone, #ece7da);
+}
+
+.sizes {
+  margin: 0 0 0.2rem;
+  font-size: 0.625rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-bone-muted, rgba(236, 231, 218, 0.64));
+}
+
+.cta,
+.ctaMuted {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-top: 0.35rem;
+  padding: 0.72rem 0.9rem;
+  font-size: 0.6875rem;
+  font-weight: var(--font-weight-medium, 500);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  border: 1px solid rgba(236, 231, 218, 0.22);
+  background: rgba(11, 16, 14, 0.28);
+  color: var(--color-bone, #ece7da);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition:
+    background-color var(--duration-fast, 140ms) var(--ease-out, ease),
+    border-color var(--duration-fast, 140ms) var(--ease-out, ease),
+    color var(--duration-fast, 140ms) var(--ease-out, ease);
+}
+
+.card:hover .cta {
+  background: var(--color-brass, #c2a878);
+  border-color: var(--color-brass, #c2a878);
+  color: var(--color-night, #0b100e);
+}
+
+.ctaMuted {
+  opacity: 0.7;
+}
+
+@media (min-width: 45em) {
+  .formChip,
+  .priceChip {
+    top: 0.9rem;
+  }
+
+  .formChip {
+    left: 0.9rem;
+  }
+
+  .priceChip {
+    right: 0.9rem;
+  }
+
+  .overlay {
+    right: 0.9rem;
+    bottom: 0.9rem;
+    left: 0.9rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .image,
+  .hoverImage,
+  .frame,
+  .cta {
+    transition: none;
+  }
+
+  .card:hover .image {
+    transform: none;
+  }
+}

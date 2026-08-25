@@ -5,9 +5,8 @@ import {LocaleAwareLink} from '~/components/navigation/LocaleAwareLink';
 import {PageHero} from '~/components/layout/PageHero';
 import {Reveal} from '~/components/motion/Reveal';
 import {buildMetaTags} from '~/components/seo';
+import {SUPPORT_EMAIL} from '~/lib/contact';
 import styles from '~/components/content/QuietPage.module.css';
-
-const CONTACT_EMAIL = 'info@upvision.uk';
 
 export const meta: Route.MetaFunction = () => {
   return buildMetaTags({
@@ -37,7 +36,7 @@ export default function ContactPage() {
       [`From: ${name || '—'}`, `Email: ${email || '—'}`, '', message].join('\n'),
     );
 
-    window.location.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
+    window.location.href = `mailto:${SUPPORT_EMAIL}?subject=${subject}&body=${body}`;
   }
 
   return (
@@ -56,8 +55,8 @@ export default function ContactPage() {
             <p className={styles.eyebrow}>Message</p>
             <p className={styles.note}>
               Prefer email?{' '}
-              <a className={styles.mailLink} href={`mailto:${CONTACT_EMAIL}`}>
-                {CONTACT_EMAIL}
+              <a className={styles.mailLink} href={`mailto:${SUPPORT_EMAIL}`}>
+                {SUPPORT_EMAIL}
               </a>
             </p>
           </header>
@@ -96,7 +95,7 @@ export default function ContactPage() {
               Send message
             </button>
             <p className={styles.formNote}>
-              Opens your email client with a draft to {CONTACT_EMAIL}. Nothing is
+              Opens your email client with a draft to {SUPPORT_EMAIL}. Nothing is
               stored on this form.
             </p>
           </form>

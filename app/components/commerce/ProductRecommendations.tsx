@@ -1,24 +1,15 @@
 import {ProductCard} from './ProductCard';
 import {useVariantUrl} from '~/lib/variants';
-import type {MoneyV2, Image as ImageType} from '@shopify/hydrogen/storefront-api-types';
+import {getProductMetafields, getProductSubtitle} from '~/lib/metafields';
+import {
+  getHoverImage,
+  getProductSwatches,
+  getProductTypeLabel,
+} from '~/lib/shop-catalog';
+import type {CollectionGridProduct} from '~/components/collection/CollectionProductGrid';
 import styles from './ProductRecommendations.module.css';
 
-export type RecommendedProduct = {
-  id: string;
-  handle: string;
-  title: string;
-  subtitle?: string | null;
-  featuredImage?: Pick<
-    ImageType,
-    'id' | 'url' | 'altText' | 'width' | 'height'
-  > | null;
-  priceRange?: {
-    minVariantPrice: MoneyV2;
-  };
-  compareAtPriceRange?: {
-    minVariantPrice?: MoneyV2 | null;
-  } | null;
-};
+export type RecommendedProduct = CollectionGridProduct;
 
 export type ProductRecommendationsProps = {
   products: RecommendedProduct[];
@@ -28,14 +19,21 @@ export type ProductRecommendationsProps = {
 
 function RecommendationCard({product}: {product: RecommendedProduct}) {
   const to = useVariantUrl(product.handle);
+  const metafields = getProductMetafields(product);
+
   return (
     <ProductCard
       to={to}
       title={product.title}
-      subtitle={product.subtitle}
+      subtitle={getProductSubtitle(product)}
       image={product.featuredImage}
+      hoverImage={getHoverImage(product)}
       price={product.priceRange?.minVariantPrice}
       compareAtPrice={product.compareAtPriceRange?.minVariantPrice}
+      typeLabel={getProductTypeLabel(product)}
+      badge={metafields.productBadge}
+      availableForSale={product.availableForSale !== false}
+      swatches={getProductSwatches(product)}
     />
   );
 }

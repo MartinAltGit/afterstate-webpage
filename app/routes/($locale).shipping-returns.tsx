@@ -4,6 +4,7 @@ import {LocaleAwareLink} from '~/components/navigation/LocaleAwareLink';
 import {PageHero} from '~/components/layout/PageHero';
 import {Reveal} from '~/components/motion/Reveal';
 import {buildMetaTags} from '~/components/seo';
+import {SUPPORT_EMAIL, SUPPORT_MAILTO} from '~/lib/contact';
 import styles from '~/components/content/QuietPage.module.css';
 
 export const meta: Route.MetaFunction = () => {
@@ -26,7 +27,7 @@ export default function ShippingReturnsPage() {
         title="Shipping & returns"
         support="UK and Europe — tracking by email, 14-day returns with tags on."
         imageSrc={heroShipping}
-        imageAlt="Afterstate caps — campaign still"
+        imageAlt="Afterstate Say Less — brick tee, navy hoodie, and burgundy cap"
       />
 
       <Reveal>
@@ -55,8 +56,8 @@ export default function ShippingReturnsPage() {
             <p className={styles.note}>
               Unworn items with tags may be returned within{' '}
               <strong>14 days of delivery</strong>. Email{' '}
-              <a className={styles.mailLink} href="mailto:info@upvision.uk">
-                info@upvision.uk
+              <a className={styles.mailLink} href={SUPPORT_MAILTO}>
+                {SUPPORT_EMAIL}
               </a>{' '}
               with your order number to start a return.
             </p>

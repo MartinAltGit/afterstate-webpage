@@ -1,59 +1,40 @@
 import {useRef, type CSSProperties, type MouseEvent} from 'react';
-import lookbook01 from '~/assets/mockups/lookbook-01.jpg';
-import lookbook02 from '~/assets/mockups/lookbook-02.jpg';
-import lookbook03 from '~/assets/mockups/lookbook-03.jpg';
+import afterThisCapWorn from '~/assets/mockups/product-stage/after-this-cap/worn.jpg';
+import noRushTeeWorn from '~/assets/mockups/product-stage/no-rush-t-shirt/worn.jpg';
+import sayLessHoodieWorn from '~/assets/mockups/product-stage/say-less-hoodie/worn.jpg';
 import {LocaleAwareLink} from '~/components/navigation/LocaleAwareLink';
 import {Reveal} from '~/components/motion/Reveal';
 import {usePrefersReducedMotion} from '~/hooks/usePrefersReducedMotion';
+import {useUiCopy} from '~/lib/ui-copy';
+import {shopCatalogSearch} from '~/lib/shop-catalog';
 import styles from './StreetwearMockups.module.css';
 
-type MockupItem = {
-  id: string;
-  index: string;
-  label: string;
-  detail: string;
-  cta: string;
-  to: string;
-  tone: 'teal' | 'coral' | 'mustard';
-  src: string;
-  alt: string;
-};
-
-const MOCKUPS: MockupItem[] = [
+const MOCKUP_MEDIA = [
   {
-    id: 'look-01',
+    id: 'tees',
     index: '01',
-    label: 'Everyday',
-    detail: 'All day. No rush.',
-    cta: 'Shop',
-    to: '/shop',
-    tone: 'teal',
-    src: lookbook01,
-    alt: 'Model in Afterstate muted teal outerwear with AS logo',
+    to: `/shop${shopCatalogSearch('tee')}`,
+    objectPosition: '58% 18%',
+    src: noRushTeeWorn,
+    alt: 'Woman mid-turn in the sage No Rush tee against dark stone.',
   },
   {
-    id: 'look-02',
+    id: 'hoodies',
     index: '02',
-    label: 'The drop',
-    detail: '001 · No Rush',
-    cta: 'See the drop',
-    to: '/afterstate-001-no-rush',
-    tone: 'coral',
-    src: lookbook02,
-    alt: 'Model in Afterstate oversized black jacket with AS logo',
+    to: `/shop${shopCatalogSearch('hoodie')}`,
+    objectPosition: '48% 16%',
+    src: sayLessHoodieWorn,
+    alt: 'Woman in the navy Say Less hoodie against a dark stone wall.',
   },
   {
-    id: 'look-03',
+    id: 'caps',
     index: '03',
-    label: 'Journal',
-    detail: 'Notes from the brand',
-    cta: 'Read',
-    to: '/journal',
-    tone: 'mustard',
-    src: lookbook03,
-    alt: 'Two models in Afterstate sage shirts with AS logo',
+    to: `/shop${shopCatalogSearch('cap')}`,
+    objectPosition: '28% 18%',
+    src: afterThisCapWorn,
+    alt: 'Woman looking back in the bone After This cap against dark stone.',
   },
-];
+] as const;
 
 export type StreetwearMockupsProps = {
   eyebrow?: string;
@@ -62,11 +43,17 @@ export type StreetwearMockupsProps = {
   className?: string;
 };
 
+type ChapterItem = (typeof MOCKUP_MEDIA)[number] & {
+  label: string;
+  detail: string;
+  cta: string;
+};
+
 function ChapterCard({
   item,
   index,
 }: {
-  item: MockupItem;
+  item: ChapterItem;
   index: number;
 }) {
   const cardRef = useRef<HTMLElement>(null);
@@ -88,11 +75,7 @@ function ChapterCard({
   };
 
   return (
-    <Reveal
-      as="li"
-      delayMs={index * 90}
-      className={[styles.item, styles[item.tone]].join(' ')}
-    >
+    <Reveal as="li" delayMs={index * 90} className={styles.item}>
       <article
         ref={cardRef}
         className={styles.card}
@@ -102,6 +85,7 @@ function ChapterCard({
           {
             '--shine-x': '50%',
             '--shine-y': '40%',
+            '--object-pos': item.objectPosition,
           } as CSSProperties
         }
       >
@@ -116,8 +100,8 @@ function ChapterCard({
                 className={styles.image}
                 src={item.src}
                 alt={item.alt}
-                width={900}
-                height={1200}
+                width={2752}
+                height={1536}
                 loading="lazy"
                 decoding="async"
               />
@@ -144,37 +128,53 @@ function ChapterCard({
 }
 
 /**
- * Shoppable lifestyle chapters under the hero.
+ * Wardrobe chapters — tees, hoodies, caps from the drop stills.
  */
 export function StreetwearMockups({
-  eyebrow = 'The wardrobe',
-  title = 'Not just clothes.',
-  accent = 'A slower pace.',
+  eyebrow,
+  title,
+  accent,
   className,
 }: StreetwearMockupsProps) {
+  const copy = useUiCopy();
+  const resolvedEyebrow = eyebrow ?? copy.wardrobe.eyebrow;
+  const resolvedTitle = title ?? copy.wardrobe.title;
+  const resolvedAccent = accent ?? copy.wardrobe.accent;
+  const chapters = MOCKUP_MEDIA.map((media) => {
+    const chapter =
+      copy.wardrobe.chapters.find((entry) => entry.id === media.id) ??
+      copy.wardrobe.chapters[0];
+    return {
+      ...media,
+      label: chapter.label,
+      detail: chapter.detail,
+      cta: chapter.cta,
+    };
+  });
+
   return (
     <section
       className={[styles.root, className].filter(Boolean).join(' ')}
       aria-labelledby="streetwear-title"
     >
       <Reveal as="header" className={styles.header}>
-        {eyebrow ? <p className={styles.eyebrow}>{eyebrow}</p> : null}
+        {resolvedEyebrow ? (
+          <p className={styles.eyebrow}>{resolvedEyebrow}</p>
+        ) : null}
         <h2 id="streetwear-title" className={styles.title}>
-          {title}
-          {accent ? (
+          {resolvedTitle}
+          {resolvedAccent ? (
             <>
               {' '}
-              <span className={styles.accent}>{accent}</span>
+              <span className={styles.accent}>{resolvedAccent}</span>
             </>
           ) : null}
         </h2>
-        <p className={styles.lede}>
-          Three ways in — the catalog, the current drop, and the journal.
-        </p>
+        <p className={styles.lede}>{copy.wardrobe.lede}</p>
       </Reveal>
 
-      <ul className={styles.grid} aria-label="Wardrobe chapters">
-        {MOCKUPS.map((item, index) => (
+      <ul className={styles.grid} aria-label={copy.wardrobe.aria}>
+        {chapters.map((item, index) => (
           <ChapterCard key={item.id} item={item} index={index} />
         ))}
       </ul>

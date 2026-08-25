@@ -20,6 +20,10 @@
   object-fit: cover;
 }
 
+.image {
+  object-position: 62% 22%;
+}
+
 .placeholder {
   background:
     linear-gradient(

@@ -1,5 +1,6 @@
 import {Link, useLocation} from 'react-router';
 import {replaceLocaleInPath} from '~/lib/locale-path';
+import {persistLocaleCookie} from '~/lib/i18n';
 import styles from './LanguageSelector.module.css';
 
 export type LanguageOption = {
@@ -81,6 +82,7 @@ export function LanguageSelector({
                   .join(' ')}
                 hrefLang={lang.hreflang}
                 onClick={(event) => {
+                  persistLocaleCookie(lang.pathPrefix);
                   const details = event.currentTarget.closest('details');
                   if (details) details.open = false;
                 }}

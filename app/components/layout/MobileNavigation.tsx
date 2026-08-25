@@ -12,6 +12,7 @@ import {
   type MainNavItem,
 } from '~/components/layout/MainNavigation';
 import {prefixPathWithLocale, useLocalePathPrefix} from '~/lib/locale';
+import {navLabelForPath, useUiCopy} from '~/lib/ui-copy';
 import styles from './MobileNavigation.module.css';
 
 type DestinationMeta = {
@@ -62,6 +63,7 @@ export function MobileNavigation({
   className,
 }: MobileNavigationProps) {
   const localePrefix = useLocalePathPrefix();
+  const copy = useUiCopy();
   const {type} = useAside();
   const revealed = type === 'mobile';
 
@@ -113,9 +115,19 @@ export function MobileNavigation({
                 ) : null}
                 <span className={styles.copy}>
                   <span className={styles.kicker}>{kicker}</span>
-                  <span className={styles.title}>{item.label}</span>
+                  <span className={styles.title}>
+                    {navLabelForPath(item.to, copy)}
+                  </span>
                   {meta ? (
-                    <span className={styles.support}>{meta.support}</span>
+                    <span className={styles.support}>
+                      {item.to === '/'
+                        ? copy.footer.tagline
+                        : item.to === '/shop'
+                          ? copy.landing.dropLede
+                          : item.to === '/collections'
+                            ? copy.footer.limited
+                            : copy.hero.journalCta}
+                    </span>
                   ) : null}
                 </span>
               </NavLink>

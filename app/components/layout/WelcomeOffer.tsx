@@ -2,8 +2,8 @@ import {LocaleAwareLink} from '~/components/navigation/LocaleAwareLink';
 import {prefixPathWithLocale, useLocalePathPrefix} from '~/lib/locale';
 import {
   WELCOME_DISCOUNT_CODE,
-  WELCOME_DISCOUNT_LABEL,
 } from '~/lib/welcomeOffer';
+import {useUiCopy} from '~/lib/ui-copy';
 import styles from './WelcomeOffer.module.css';
 
 /**
@@ -11,12 +11,13 @@ import styles from './WelcomeOffer.module.css';
  */
 export function WelcomeOffer() {
   const localePrefix = useLocalePathPrefix();
+  const copy = useUiCopy();
   const shopPath = prefixPathWithLocale('/shop', localePrefix);
 
   return (
     <p className={styles.root}>
-      <span className={styles.kicker}>New here? </span>
-      <span className={styles.offer}>{WELCOME_DISCOUNT_LABEL}</span>
+      <span className={styles.kicker}>{copy.welcome.kicker}</span>
+      <span className={styles.offer}>{copy.welcome.offer}</span>
       <span className={styles.sep} aria-hidden="true">
         {' — '}
       </span>
@@ -25,7 +26,7 @@ export function WelcomeOffer() {
         prefetch="intent"
         to={`/discount/${WELCOME_DISCOUNT_CODE}?redirect=${encodeURIComponent(shopPath)}`}
       >
-        Apply {WELCOME_DISCOUNT_CODE}
+        {copy.welcome.apply} {WELCOME_DISCOUNT_CODE}
       </LocaleAwareLink>
     </p>
   );

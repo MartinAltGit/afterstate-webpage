@@ -4,21 +4,10 @@ import heroBlog from '~/assets/mockups/lookbook-02.jpg';
 import {LocaleAwareLink} from '~/components/navigation/LocaleAwareLink';
 import {VisuallyHidden} from '~/components/primitives/VisuallyHidden';
 import {JOURNAL_ESSAYS_PATH} from '~/lib/content-paths';
+import {useUiCopy} from '~/lib/ui-copy';
 import styles from './JournalHub.module.css';
 
 type HubTileId = 'journal' | 'about' | 'blog';
-
-type HubTile = {
-  id: HubTileId;
-  to: string;
-  eyebrow: string;
-  title: string;
-  support: string;
-  cta: string;
-  imageSrc: string;
-  imageAlt: string;
-  priority?: boolean;
-};
 
 const TILE_CLASS: Record<HubTileId, string> = {
   journal: styles.journal,
@@ -26,50 +15,46 @@ const TILE_CLASS: Record<HubTileId, string> = {
   blog: styles.blog,
 };
 
-const TILES: HubTile[] = [
-  {
-    id: 'journal',
-    to: JOURNAL_ESSAYS_PATH,
-    eyebrow: 'Studio notes',
-    title: 'Journal',
-    support: 'Brand story, quality, and the quieter thinking behind the clothes.',
-    cta: 'Enter',
-    imageSrc: heroJournal,
-    imageAlt: 'Model in Afterstate 001 No Rush campaign hoodie at dusk',
-    priority: true,
-  },
-  {
-    id: 'about',
-    to: '/about',
-    eyebrow: 'The brand',
-    title: 'About',
-    support: 'Clothes for the part of life that comes after the noise.',
-    cta: 'Enter',
-    imageSrc: heroAbout,
-    imageAlt: 'Afterstate lookbook — quiet silhouette against soft light',
-  },
-  {
-    id: 'blog',
-    to: '/blog',
-    eyebrow: 'Fashion world',
-    title: 'Blog',
-    support: 'Trends, stories, and culture — written for the wider fashion world.',
-    cta: 'Enter',
-    imageSrc: heroBlog,
-    imageAlt: 'Editorial fashion imagery for the Afterstate blog',
-    priority: true,
-  },
-];
+const TILE_MEDIA: Record<
+  HubTileId,
+  {to: string; imageSrc: string; priority?: boolean}
+> = {
+  journal: {to: JOURNAL_ESSAYS_PATH, imageSrc: heroJournal, priority: true},
+  about: {to: '/about', imageSrc: heroAbout},
+  blog: {to: '/blog', imageSrc: heroBlog, priority: true},
+};
 
 /**
  * Journal world entrance — stacked Journal / About on the left, tall Blog on the right.
  */
 export function JournalHub() {
+  const copy = useUiCopy();
+  const tiles: Array<{
+    id: HubTileId;
+    to: string;
+    eyebrow: string;
+    title: string;
+    support: string;
+    cta: string;
+    imageSrc: string;
+    imageAlt: string;
+    priority?: boolean;
+  }> = (
+    ['journal', 'about', 'blog'] as const
+  ).map((id) => ({
+    id,
+    to: TILE_MEDIA[id].to,
+    imageSrc: TILE_MEDIA[id].imageSrc,
+    priority: TILE_MEDIA[id].priority,
+    cta: copy.hub.enter,
+    ...copy.hub[id],
+  }));
+
   return (
     <div className={styles.world}>
-      <VisuallyHidden as="h1">Journal</VisuallyHidden>
+      <VisuallyHidden as="h1">{copy.hub.pageTitle}</VisuallyHidden>
       <div className={styles.grid}>
-        {TILES.map((tile) => (
+        {tiles.map((tile) => (
           <LocaleAwareLink
             key={tile.id}
             className={[styles.tile, TILE_CLASS[tile.id]].join(' ')}

@@ -4,6 +4,8 @@ import {SocialLinks} from '~/components/brand/SocialLinks';
 import {LocaleAwareLink} from '~/components/navigation/LocaleAwareLink';
 import {PageContainer} from '~/components/layout/PageContainer';
 import {Reveal} from '~/components/motion/Reveal';
+import {SUPPORT_EMAIL, SUPPORT_MAILTO} from '~/lib/contact';
+import {useUiCopy, type UiCopy} from '~/lib/ui-copy';
 import styles from './SiteFooter.module.css';
 
 export type FooterLink = {
@@ -40,6 +42,8 @@ type SiteFooterProps = {
  * Afterstate site footer — tagline, editorial links, newsletter slot.
  */
 export function SiteFooter({newsletter, className}: SiteFooterProps) {
+  const copy = useUiCopy();
+
   return (
     <footer className={[styles.root, className].filter(Boolean).join(' ')}>
       <PageContainer>
@@ -53,11 +57,11 @@ export function SiteFooter({newsletter, className}: SiteFooterProps) {
             >
               <BrandLogo variant="wordmark" size="lg" />
             </LocaleAwareLink>
-            <p className={styles.tagline}>Life beyond the rush.</p>
+            <p className={styles.tagline}>{copy.footer.tagline}</p>
           </Reveal>
 
-          <Reveal as="nav" className={styles.column} delayMs={70} aria-label="Shop">
-            <p className={styles.heading}>Explore</p>
+          <Reveal as="nav" className={styles.column} delayMs={70} aria-label={copy.footer.explore}>
+            <p className={styles.heading}>{copy.footer.explore}</p>
             <ul className={styles.list}>
               {SHOP_LINKS.map((link) => (
                 <li key={link.to}>
@@ -66,7 +70,7 @@ export function SiteFooter({newsletter, className}: SiteFooterProps) {
                     prefetch="intent"
                     to={link.to}
                   >
-                    {link.label}
+                    {footerLabel(link.to, copy)}
                   </LocaleAwareLink>
                 </li>
               ))}
@@ -77,9 +81,9 @@ export function SiteFooter({newsletter, className}: SiteFooterProps) {
             as="nav"
             className={styles.column}
             delayMs={120}
-            aria-label="Support"
+            aria-label={copy.footer.support}
           >
-            <p className={styles.heading}>Support</p>
+            <p className={styles.heading}>{copy.footer.support}</p>
             <ul className={styles.list}>
               {SUPPORT_LINKS.map((link) => (
                 <li key={link.to}>
@@ -88,18 +92,23 @@ export function SiteFooter({newsletter, className}: SiteFooterProps) {
                     prefetch="intent"
                     to={link.to}
                   >
-                    {link.label}
+                    {footerLabel(link.to, copy)}
                   </LocaleAwareLink>
                 </li>
               ))}
+              <li>
+                <a className={styles.link} href={SUPPORT_MAILTO}>
+                  {SUPPORT_EMAIL}
+                </a>
+              </li>
             </ul>
           </Reveal>
 
           <Reveal className={styles.newsletter} delayMs={160}>
-            <p className={styles.heading}>Newsletter</p>
+            <p className={styles.heading}>{copy.footer.newsletter}</p>
             {newsletter ?? (
               <p className={styles.newsletterPlaceholder}>
-                Join for drops and journal notes.
+                {copy.footer.newsletterHint}
               </p>
             )}
           </Reveal>
@@ -119,7 +128,7 @@ export function SiteFooter({newsletter, className}: SiteFooterProps) {
 
         <Reveal delayMs={240} className={styles.meta}>
           <p className={styles.copyright}>
-            © {new Date().getFullYear()} Afterstate. All rights reserved.
+            © {new Date().getFullYear()} Afterstate. {copy.footer.rights}
             London, United Kingdom.
           </p>
           <nav className={styles.legalNav} aria-label="Legal">
@@ -128,32 +137,69 @@ export function SiteFooter({newsletter, className}: SiteFooterProps) {
               prefetch="intent"
               to="/policies/privacy-policy"
             >
-              Privacy
+              {copy.footer.privacy}
             </LocaleAwareLink>
             <LocaleAwareLink
               className={styles.legalLink}
               prefetch="intent"
               to="/policies/terms-of-service"
             >
-              Terms
+              {copy.footer.terms}
             </LocaleAwareLink>
             <LocaleAwareLink
               className={styles.legalLink}
               prefetch="intent"
               to="/policies/shipping-policy"
             >
-              Shipping
+              {copy.footer.shipping}
             </LocaleAwareLink>
             <LocaleAwareLink
               className={styles.legalLink}
               prefetch="intent"
               to="/copyright"
             >
-              Copyright
+              {copy.footer.copyright}
             </LocaleAwareLink>
           </nav>
         </Reveal>
       </PageContainer>
     </footer>
   );
+}
+
+function footerLabel(to: string, copy: UiCopy): string {
+  switch (to) {
+    case '/shop':
+      return copy.footer.shop;
+    case '/collections':
+      return copy.footer.limited;
+    case '/journal':
+      return copy.footer.journal;
+    case '/blog':
+      return copy.footer.blog;
+    case '/about':
+      return copy.footer.about;
+    case '/size-guide':
+      return copy.footer.sizeGuide;
+    case '/care':
+      return copy.footer.care;
+    case '/shipping-returns':
+      return copy.footer.shippingReturns;
+    case '/contact':
+      return copy.footer.contact;
+    case '/policies/privacy-policy':
+      return copy.footer.privacy;
+    case '/policies/terms-of-service':
+      return copy.footer.terms;
+    case '/policies/refund-policy':
+      return copy.footer.refunds;
+    case '/copyright':
+      return copy.footer.copyright;
+    default:
+      return (
+        SHOP_LINKS.find((link) => link.to === to)?.label ??
+        SUPPORT_LINKS.find((link) => link.to === to)?.label ??
+        to
+      );
+  }
 }

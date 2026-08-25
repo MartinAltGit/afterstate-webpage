@@ -26,7 +26,7 @@ export default function SizeGuidePage() {
         title="Size guide"
         support="Cut for ease without bulk — measured, considered, easy to live in."
         imageSrc={heroSize}
-        imageAlt="Afterstate hoodies — fit and drape"
+        imageAlt="Afterstate Not Yet — navy tee, burgundy crew, and navy cap"
       />
 
       <Reveal>

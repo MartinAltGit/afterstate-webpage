@@ -1,21 +1,20 @@
-import type {ReactNode} from 'react';
-import campaignLook from '~/assets/mockups/campaign-look-new.jpg';
 import journalOnNoRush from '~/assets/mockups/campaign-look-alt.jpg';
 import journalBeyondRush from '~/assets/mockups/campaign-look.jpg';
 import journalQuietClothing from '~/assets/mockups/lookbook-01.jpg';
+import type {CollectionGridProduct} from '~/components/collection/CollectionProductGrid';
 import {Reveal} from '~/components/motion/Reveal';
-import {CampaignLook} from './CampaignLook';
+import {LandingCollections} from './LandingCollections';
 import {LandingHero} from './LandingHero';
+import {LandingProducts} from './LandingProducts';
 import {StreetwearMockups} from './StreetwearMockups';
 import {TrustStrip} from './TrustStrip';
 import {WelcomeBand} from './WelcomeBand';
 import {renderHomepageSection} from './registry';
-import type {HomepageSection, ProductRowSection} from './types';
+import type {HomepageSection} from './types';
 
 export type HomepageSectionsProps = {
   sections?: HomepageSection[] | null;
-  /** Product cards (or other nodes) injected into the default product_row */
-  products?: ReactNode;
+  products?: CollectionGridProduct[] | null;
   className?: string;
 };
 
@@ -28,23 +27,10 @@ const SELF_ANIMATED = new Set<HomepageSection['type']>([
 ]);
 
 /**
- * Premium logo-led homepage when CMS sections are empty.
+ * Logo-led homepage when CMS sections are empty — products, collections, wardrobe.
  */
-export function buildDefaultHomepageSections(
-  products?: ReactNode,
-): HomepageSection[] {
-  const productRow: ProductRowSection = {
-    id: 'default-product-row',
-    type: 'product_row',
-    eyebrow: 'Limited collection',
-    title: 'Afterstate 001 — No Rush',
-    ctaLabel: 'View limited drop',
-    ctaTo: '/shop',
-    children: products,
-  };
-
+export function buildDefaultHomepageSections(): HomepageSection[] {
   return [
-    productRow,
     {
       id: 'default-journal',
       type: 'journal_articles',
@@ -62,7 +48,7 @@ export function buildDefaultHomepageSections(
             id: 'journal-no-rush-image',
             url: journalOnNoRush,
             altText:
-              'Model in Afterstate 001 No Rush campaign hoodie at dusk',
+              'Model in Afterstate 001 No Rush cream crew and forest cap',
             width: 1200,
             height: 900,
           },
@@ -77,7 +63,7 @@ export function buildDefaultHomepageSections(
           image: {
             id: 'journal-beyond-image',
             url: journalBeyondRush,
-            altText: 'Afterstate campaign look in quiet evening light',
+            altText: 'Model in Afterstate After This cream tee and bone cap',
             width: 1200,
             height: 900,
           },
@@ -93,7 +79,7 @@ export function buildDefaultHomepageSections(
             id: 'journal-quiet-clothing-image',
             url: journalQuietClothing,
             altText:
-              'Close look at Afterstate muted teal outerwear fabric and AS mark',
+              'Two models in Afterstate After This cream tee and forest hoodie',
             width: 1200,
             height: 900,
           },
@@ -144,7 +130,7 @@ export function HomepageSections({
   const hasCmsSections = Boolean(sections && sections.length > 0);
   const resolved = hasCmsSections
     ? sections!
-    : buildDefaultHomepageSections(products);
+    : buildDefaultHomepageSections();
 
   if (!hasCmsSections) {
     const story = resolved.filter(
@@ -158,8 +144,9 @@ export function HomepageSections({
       <div className={className}>
         <LandingHero />
         <TrustStrip />
+        <LandingProducts products={products} />
+        <LandingCollections />
         <StreetwearMockups />
-        <CampaignLook imageSrc={campaignLook} />
         {story.map((section, index) => (
           <SectionReveal key={section.id} section={section} index={index} />
         ))}

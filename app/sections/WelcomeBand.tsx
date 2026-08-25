@@ -1,9 +1,7 @@
 import {MagneticLink} from '~/components/motion/MagneticLink';
 import {prefixPathWithLocale, useLocalePathPrefix} from '~/lib/locale';
-import {
-  WELCOME_DISCOUNT_CODE,
-  WELCOME_DISCOUNT_LABEL,
-} from '~/lib/welcomeOffer';
+import {WELCOME_DISCOUNT_CODE} from '~/lib/welcomeOffer';
+import {useUiCopy} from '~/lib/ui-copy';
 import styles from './WelcomeBand.module.css';
 
 /**
@@ -11,6 +9,7 @@ import styles from './WelcomeBand.module.css';
  */
 export function WelcomeBand({className}: {className?: string}) {
   const localePrefix = useLocalePathPrefix();
+  const copy = useUiCopy();
   const shopPath = prefixPathWithLocale('/shop', localePrefix);
   const applyTo = `/discount/${WELCOME_DISCOUNT_CODE}?redirect=${encodeURIComponent(shopPath)}`;
 
@@ -24,9 +23,9 @@ export function WelcomeBand({className}: {className?: string}) {
           20%
         </div>
         <div className={styles.copy}>
-          <p className={styles.eyebrow}>New here</p>
+          <p className={styles.eyebrow}>{copy.welcome.kicker.trim()}</p>
           <h2 id="welcome-band-title" className={styles.title}>
-            {WELCOME_DISCOUNT_LABEL}
+            {copy.welcome.offer}
           </h2>
         </div>
         <MagneticLink
@@ -34,7 +33,7 @@ export function WelcomeBand({className}: {className?: string}) {
           variant="solid"
           to={prefixPathWithLocale(applyTo, localePrefix)}
         >
-          Apply {WELCOME_DISCOUNT_CODE}
+          {copy.welcome.apply} {WELCOME_DISCOUNT_CODE}
         </MagneticLink>
       </div>
     </section>

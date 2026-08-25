@@ -4,9 +4,9 @@ import {LocaleAwareLink} from '~/components/navigation/LocaleAwareLink';
 import {PageHero} from '~/components/layout/PageHero';
 import {Reveal} from '~/components/motion/Reveal';
 import {buildMetaTags} from '~/components/seo';
+import {SUPPORT_EMAIL} from '~/lib/contact';
 import styles from '~/components/content/QuietPage.module.css';
 
-const SUPPORT_EMAIL = 'info@upvision.uk';
 const YEAR = new Date().getFullYear();
 
 export const meta: Route.MetaFunction = () => {

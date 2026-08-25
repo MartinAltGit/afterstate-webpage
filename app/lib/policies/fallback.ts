@@ -1,3 +1,5 @@
+import {SUPPORT_EMAIL, SUPPORT_MAILTO} from '~/lib/contact';
+
 /**
  * Local legal copy for /policies/* when Shopify bodies are empty
  * or still contain the markdown paste-pack wrappers.
@@ -18,7 +20,7 @@ export type FallbackPolicy = {
   body: string;
 };
 
-const LAST_UPDATED = '12 August 2026';
+const LAST_UPDATED = '22 August 2026';
 
 export const FALLBACK_POLICIES: Record<PolicyHandle, FallbackPolicy> = {
   'privacy-policy': {
@@ -26,10 +28,10 @@ export const FALLBACK_POLICIES: Record<PolicyHandle, FallbackPolicy> = {
     title: 'Privacy Policy',
     body: `
 <p><em>Last updated: ${LAST_UPDATED}</em></p>
-<p><strong>Afterstate</strong> (“we”, “us”, “our”) is the trading name of <strong>KKOSTOV LTD</strong>, registered at 71-75 Shelton Street, Covent Garden, London, United Kingdom, WC2H 9JQ. This Privacy Policy explains how we collect, use, and protect personal data when you use afterstate.com and related services.</p>
+<p><strong>Afterstate</strong> (“we”, “us”, “our”) is the trading name of <strong>KKOSTOV LTD</strong>, registered at 71-75 Shelton Street, Covent Garden, London, United Kingdom, WC2H 9JQ. This Privacy Policy explains how we collect, use, and protect personal data when you use <a href="https://afterstate.store">afterstate.store</a> and related services.</p>
 
 <h3>1. Who we are</h3>
-<p>Controller: KKOSTOV LTD (company number 14964341), registered at 71-75 Shelton Street, Covent Garden, London, United Kingdom, WC2H 9JQ. Contact: <a href="mailto:info@upvision.uk">info@upvision.uk</a>.</p>
+<p>Controller: KKOSTOV LTD (company number 14964341), registered at 71-75 Shelton Street, Covent Garden, London, United Kingdom, WC2H 9JQ. Contact: <a href="${SUPPORT_MAILTO}">${SUPPORT_EMAIL}</a>.</p>
 
 <h3>2. Data we collect</h3>
 <ul>
@@ -50,7 +52,7 @@ export const FALLBACK_POLICIES: Record<PolicyHandle, FallbackPolicy> = {
 </ul>
 
 <h3>4. Sharing</h3>
-<p>We share data with service providers who help us run the shop, including Shopify, payment processors, shipping carriers, email tools, and analytics providers — only as needed to provide the service. We do not sell your personal data.</p>
+<p>We share data with service providers who help us run the shop, including Shopify (commerce and checkout), Klaviyo (email marketing if you subscribe), payment processors, shipping carriers, and analytics providers — only as needed to provide the service. We do not sell your personal data.</p>
 
 <h3>5. International transfers</h3>
 <p>Some providers may process data outside the UK/EEA. Where required, we rely on appropriate safeguards (e.g. standard contractual clauses) offered by those providers.</p>
@@ -59,7 +61,7 @@ export const FALLBACK_POLICIES: Record<PolicyHandle, FallbackPolicy> = {
 <p>We keep order and account records as long as needed for legal, tax, and dispute purposes, then delete or anonymise them. Marketing contacts are kept until you unsubscribe or we delete inactive lists.</p>
 
 <h3>7. Your rights (UK GDPR / GDPR)</h3>
-<p>Depending on your location, you may have rights to access, correct, delete, restrict, or object to certain processing, and to data portability. You may also withdraw consent where processing is based on consent. Contact <a href="mailto:info@upvision.uk">info@upvision.uk</a>. You can complain to the UK ICO (ico.org.uk) or your local EU supervisory authority.</p>
+<p>Depending on your location, you may have rights to access, correct, delete, restrict, or object to certain processing, and to data portability. You may also withdraw consent where processing is based on consent. Contact <a href="${SUPPORT_MAILTO}">${SUPPORT_EMAIL}</a>. You can complain to the UK ICO (ico.org.uk) or your local EU supervisory authority.</p>
 
 <h3>8. Cookies</h3>
 <p>We use essential cookies to run the cart and checkout, and optional analytics/marketing cookies where you consent. You can change preferences via our cookie banner (where shown) or browser settings.</p>
@@ -77,10 +79,10 @@ export const FALLBACK_POLICIES: Record<PolicyHandle, FallbackPolicy> = {
     title: 'Terms of Service',
     body: `
 <p><em>Last updated: ${LAST_UPDATED}</em></p>
-<p>These Terms govern purchases from <strong>Afterstate</strong> (afterstate.com), operated by <strong>KKOSTOV LTD</strong>. By placing an order you agree to them. Consumer rights under UK and applicable EU law still apply and are not excluded where they cannot be waived.</p>
+<p>These Terms govern purchases from <strong>Afterstate</strong> (<a href="https://afterstate.store">afterstate.store</a>), operated by <strong>KKOSTOV LTD</strong>. By placing an order you agree to them. Consumer rights under UK and applicable EU law still apply and are not excluded where they cannot be waived.</p>
 
 <h3>1. Who you are buying from</h3>
-<p>Seller: KKOSTOV LTD (company number 14964341), 71-75 Shelton Street, Covent Garden, London, United Kingdom, WC2H 9JQ. Contact: <a href="mailto:info@upvision.uk">info@upvision.uk</a>.</p>
+<p>Seller: KKOSTOV LTD (company number 14964341), 71-75 Shelton Street, Covent Garden, London, United Kingdom, WC2H 9JQ. Contact: <a href="${SUPPORT_MAILTO}">${SUPPORT_EMAIL}</a>.</p>
 
 <h3>2. Eligibility</h3>
 <p>You must be able to form a binding contract and provide accurate checkout details. We may refuse or cancel orders that appear fraudulent, abusive, or inventory-constrained.</p>
@@ -113,7 +115,7 @@ export const FALLBACK_POLICIES: Record<PolicyHandle, FallbackPolicy> = {
 <p>These Terms are governed by the laws of England and Wales. Courts of England and Wales have non-exclusive jurisdiction. If you are an EU consumer, you may also benefit from mandatory protections of your country of residence.</p>
 
 <h3>12. Contact</h3>
-<p>KKOSTOV LTD (company number 14964341), 71-75 Shelton Street, Covent Garden, London, United Kingdom, WC2H 9JQ<br /><a href="mailto:info@upvision.uk">info@upvision.uk</a></p>
+<p>KKOSTOV LTD (company number 14964341), 71-75 Shelton Street, Covent Garden, London, United Kingdom, WC2H 9JQ<br /><a href="https://afterstate.store">afterstate.store</a><br /><a href="${SUPPORT_MAILTO}">${SUPPORT_EMAIL}</a></p>
 `.trim(),
   },
 
@@ -141,7 +143,7 @@ export const FALLBACK_POLICIES: Record<PolicyHandle, FallbackPolicy> = {
 <p>Please ensure your address and phone are correct. If a parcel is returned to us as undeliverable, we may charge re-shipping or deduct carrier return costs from any refund.</p>
 
 <h3>5. Lost or damaged in transit</h3>
-<p>Contact us within 14 days of the expected delivery date with your order number and photos if damaged. We will work with the carrier to replace or refund eligible orders. Email: <a href="mailto:info@upvision.uk">info@upvision.uk</a>.</p>
+<p>Contact us within 14 days of the expected delivery date with your order number and photos if damaged. We will work with the carrier to replace or refund eligible orders. Email: <a href="${SUPPORT_MAILTO}">${SUPPORT_EMAIL}</a>.</p>
 `.trim(),
   },
 
@@ -156,7 +158,7 @@ export const FALLBACK_POLICIES: Record<PolicyHandle, FallbackPolicy> = {
 <p>If you change your mind, you may return eligible unworn items within <strong>14 days of delivery</strong>.</p>
 <ul>
   <li>Items must be unused, unwashed, with all original tags attached, in original packaging where provided.</li>
-  <li>Start a return by emailing <a href="mailto:info@upvision.uk">info@upvision.uk</a> with your order number.</li>
+  <li>Start a return by emailing <a href="${SUPPORT_MAILTO}">${SUPPORT_EMAIL}</a> with your order number.</li>
   <li><strong>You pay return shipping</strong> for change-of-mind returns. We recommend a tracked service; we are not responsible for returns lost in transit until we receive them.</li>
   <li>Once we inspect and accept the return, we refund the product price to your original payment method. <strong>Original outbound shipping is non-refundable</strong> unless required by law or the item was faulty/wrong.</li>
 </ul>
@@ -182,7 +184,7 @@ export const FALLBACK_POLICIES: Record<PolicyHandle, FallbackPolicy> = {
 <p>We do not guarantee size exchanges. Return the item under this policy and place a new order for the size you need (stock permitting).</p>
 
 <h3>7. Contact</h3>
-<p>KKOSTOV LTD (company number 14964341), 71-75 Shelton Street, Covent Garden, London, United Kingdom, WC2H 9JQ<br /><a href="mailto:info@upvision.uk">info@upvision.uk</a></p>
+<p>KKOSTOV LTD (company number 14964341), 71-75 Shelton Street, Covent Garden, London, United Kingdom, WC2H 9JQ<br /><a href="https://afterstate.store">afterstate.store</a><br /><a href="${SUPPORT_MAILTO}">${SUPPORT_EMAIL}</a></p>
 `.trim(),
   },
 };

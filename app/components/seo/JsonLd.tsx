@@ -1,3 +1,5 @@
+import {SUPPORT_EMAIL} from '~/lib/contact';
+
 type JsonLdProps = {
   data: Record<string, unknown> | Record<string, unknown>[];
 };
@@ -19,6 +21,7 @@ export type OrganizationJsonLdProps = {
   logoUrl?: string;
   sameAs?: string[];
   description?: string;
+  email?: string;
 };
 
 export function OrganizationJsonLd({
@@ -27,6 +30,7 @@ export function OrganizationJsonLd({
   logoUrl,
   sameAs,
   description = 'Afterstate — life beyond the rush.',
+  email = SUPPORT_EMAIL,
 }: OrganizationJsonLdProps) {
   const data: Record<string, unknown> = {
     '@context': 'https://schema.org',
@@ -34,6 +38,7 @@ export function OrganizationJsonLd({
     name,
     url,
     description,
+    email,
   };
   if (logoUrl) data.logo = logoUrl;
   if (sameAs?.length) data.sameAs = sameAs;

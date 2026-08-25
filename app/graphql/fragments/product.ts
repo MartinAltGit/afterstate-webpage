@@ -10,12 +10,24 @@ export const PRODUCT_CARD_FRAGMENT = `#graphql
     title
     handle
     vendor
+    productType
+    tags
+    availableForSale
     featuredImage {
       id
       url
       altText
       width
       height
+    }
+    images(first: 3) {
+      nodes {
+        id
+        url
+        altText
+        width
+        height
+      }
     }
     priceRange {
       minVariantPrice {
@@ -27,7 +39,23 @@ export const PRODUCT_CARD_FRAGMENT = `#graphql
         currencyCode
       }
     }
+    compareAtPriceRange {
+      minVariantPrice {
+        amount
+        currencyCode
+      }
+    }
+    options {
+      name
+      optionValues {
+        name
+      }
+    }
     subtitle: metafield(namespace: "custom", key: "subtitle") {
+      value
+      type
+    }
+    productBadge: metafield(namespace: "custom", key: "product_badge") {
       value
       type
     }

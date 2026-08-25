@@ -132,5 +132,8 @@ export function getProductMetafields(product: any): ProductMetafields {
 
 /** Convenience: subtitle only (e.g. product cards). */
 export function getProductSubtitle(product: any): string | null {
+  if (typeof product?.subtitle === 'string' && product.subtitle.trim()) {
+    return product.subtitle;
+  }
   return getProductMetafields(product).subtitle ?? null;
 }

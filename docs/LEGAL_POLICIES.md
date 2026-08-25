@@ -11,15 +11,17 @@ Hydrogen already renders them at `/policies/...`.
 | Legal entity | KKOSTOV LTD |
 | Registered address | 71-75 Shelton Street, Covent Garden, London, United Kingdom, WC2H 9JQ |
 | Company number | 14964341 |
-| Support email | info@upvision.uk *(temporary — swap to a brand inbox later)* |
+| Website | https://afterstate.store |
+| Support email | hello@afterstate.store |
 | Ships to | United Kingdom and Europe |
 | Change-of-mind returns | Customer pays return shipping |
 | Faulty / wrong item | Afterstate pays return shipping |
 
 > Not legal advice. Have a UK solicitor review before launch.
 
-**Last updated:** 12 August 2026  
-**Support:** info@upvision.uk
+**Last updated:** 22 August 2026  
+**Website:** https://afterstate.store  
+**Support:** hello@afterstate.store
 
 ---
 
@@ -34,6 +36,8 @@ Hydrogen already renders them at `/policies/...`.
 
 If you paste the markdown wrappers, the storefront will show code instead of the policy. The Hydrogen app falls back to the same copy when Shopify bodies are empty or look mangled.
 
+Shopify keeps its own policy text. Updating this file (or the Hydrogen fallback) does **not** change checkout or Admin until you re-paste.
+
 ---
 
 ## Contact information (Shopify — Required)
@@ -45,7 +49,8 @@ Afterstate
 KKOSTOV LTD
 71-75 Shelton Street, Covent Garden
 London, United Kingdom, WC2H 9JQ
-Email: info@upvision.uk
+Website: https://afterstate.store
+Email: hello@afterstate.store
 ```
 
 ---
@@ -57,9 +62,10 @@ Email: info@upvision.uk
 ```text
 © 2026 Afterstate. All rights reserved.
 Operated by KKOSTOV LTD (company number 14964341), registered at 71-75 Shelton Street, Covent Garden, London, United Kingdom, WC2H 9JQ.
+Website: https://afterstate.store
 Product photography, lookbooks, designs, and brand marks are protected.
 Unauthorised copying or commercial reuse is prohibited.
-Permissions or infringement reports: info@upvision.uk
+Permissions or infringement reports: hello@afterstate.store
 ```
 
 ---
@@ -69,10 +75,11 @@ Permissions or infringement reports: info@upvision.uk
 **Shopify field:** Privacy policy
 
 ```html
-<p><strong>Afterstate</strong> (“we”, “us”, “our”) is the trading name of <strong>KKOSTOV LTD</strong>, registered at 71-75 Shelton Street, Covent Garden, London, United Kingdom, WC2H 9JQ. This Privacy Policy explains how we collect, use, and protect personal data when you use afterstate.com and related services.</p>
+<p><em>Last updated: 22 August 2026</em></p>
+<p><strong>Afterstate</strong> (“we”, “us”, “our”) is the trading name of <strong>KKOSTOV LTD</strong>, registered at 71-75 Shelton Street, Covent Garden, London, United Kingdom, WC2H 9JQ. This Privacy Policy explains how we collect, use, and protect personal data when you use <a href="https://afterstate.store">afterstate.store</a> and related services.</p>
 
 <h3>1. Who we are</h3>
-<p>Controller: KKOSTOV LTD (company number 14964341), registered at 71-75 Shelton Street, Covent Garden, London, United Kingdom, WC2H 9JQ. Contact: <a href="mailto:info@upvision.uk">info@upvision.uk</a>.</p>
+<p>Controller: KKOSTOV LTD (company number 14964341), registered at 71-75 Shelton Street, Covent Garden, London, United Kingdom, WC2H 9JQ. Contact: <a href="mailto:hello@afterstate.store">hello@afterstate.store</a>.</p>
 
 <h3>2. Data we collect</h3>
 <ul>
@@ -93,7 +100,7 @@ Permissions or infringement reports: info@upvision.uk
 </ul>
 
 <h3>4. Sharing</h3>
-<p>We share data with service providers who help us run the shop, including Shopify, payment processors, shipping carriers, email tools, and analytics providers — only as needed to provide the service. We do not sell your personal data.</p>
+<p>We share data with service providers who help us run the shop, including Shopify (commerce and checkout), Klaviyo (email marketing if you subscribe), payment processors, shipping carriers, and analytics providers — only as needed to provide the service. We do not sell your personal data.</p>
 
 <h3>5. International transfers</h3>
 <p>Some providers may process data outside the UK/EEA. Where required, we rely on appropriate safeguards (e.g. standard contractual clauses) offered by those providers.</p>
@@ -102,7 +109,7 @@ Permissions or infringement reports: info@upvision.uk
 <p>We keep order and account records as long as needed for legal, tax, and dispute purposes, then delete or anonymise them. Marketing contacts are kept until you unsubscribe or we delete inactive lists.</p>
 
 <h3>7. Your rights (UK GDPR / GDPR)</h3>
-<p>Depending on your location, you may have rights to access, correct, delete, restrict, or object to certain processing, and to data portability. You may also withdraw consent where processing is based on consent. Contact <a href="mailto:info@upvision.uk">info@upvision.uk</a>. You can complain to the UK ICO (ico.org.uk) or your local EU supervisory authority.</p>
+<p>Depending on your location, you may have rights to access, correct, delete, restrict, or object to certain processing, and to data portability. You may also withdraw consent where processing is based on consent. Contact <a href="mailto:hello@afterstate.store">hello@afterstate.store</a>. You can complain to the UK ICO (ico.org.uk) or your local EU supervisory authority.</p>
 
 <h3>8. Cookies</h3>
 <p>We use essential cookies to run the cart and checkout, and optional analytics/marketing cookies where you consent. You can change preferences via our cookie banner (where shown) or browser settings.</p>
@@ -121,10 +128,11 @@ Permissions or infringement reports: info@upvision.uk
 **Shopify field:** Terms of service
 
 ```html
-<p>These Terms govern purchases from <strong>Afterstate</strong> (afterstate.com), operated by <strong>KKOSTOV LTD</strong>. By placing an order you agree to them. Consumer rights under UK and applicable EU law still apply and are not excluded where they cannot be waived.</p>
+<p><em>Last updated: 22 August 2026</em></p>
+<p>These Terms govern purchases from <strong>Afterstate</strong> (<a href="https://afterstate.store">afterstate.store</a>), operated by <strong>KKOSTOV LTD</strong>. By placing an order you agree to them. Consumer rights under UK and applicable EU law still apply and are not excluded where they cannot be waived.</p>
 
 <h3>1. Who you are buying from</h3>
-<p>Seller: KKOSTOV LTD (company number 14964341), 71-75 Shelton Street, Covent Garden, London, United Kingdom, WC2H 9JQ. Contact: <a href="mailto:info@upvision.uk">info@upvision.uk</a>.</p>
+<p>Seller: KKOSTOV LTD (company number 14964341), 71-75 Shelton Street, Covent Garden, London, United Kingdom, WC2H 9JQ. Contact: <a href="mailto:hello@afterstate.store">hello@afterstate.store</a>.</p>
 
 <h3>2. Eligibility</h3>
 <p>You must be able to form a binding contract and provide accurate checkout details. We may refuse or cancel orders that appear fraudulent, abusive, or inventory-constrained.</p>
@@ -157,7 +165,7 @@ Permissions or infringement reports: info@upvision.uk
 <p>These Terms are governed by the laws of England and Wales. Courts of England and Wales have non-exclusive jurisdiction. If you are an EU consumer, you may also benefit from mandatory protections of your country of residence.</p>
 
 <h3>12. Contact</h3>
-<p>KKOSTOV LTD (company number 14964341), 71-75 Shelton Street, Covent Garden, London, United Kingdom, WC2H 9JQ<br /><a href="mailto:info@upvision.uk">info@upvision.uk</a></p>
+<p>KKOSTOV LTD (company number 14964341), 71-75 Shelton Street, Covent Garden, London, United Kingdom, WC2H 9JQ<br /><a href="https://afterstate.store">afterstate.store</a><br /><a href="mailto:hello@afterstate.store">hello@afterstate.store</a></p>
 ```
 
 ---
@@ -167,6 +175,7 @@ Permissions or infringement reports: info@upvision.uk
 **Shopify field:** Shipping policy
 
 ```html
+<p><em>Last updated: 22 August 2026</em></p>
 <p>Afterstate (KKOSTOV LTD) ships to the <strong>United Kingdom and Europe</strong>. Exact options, prices, and estimated delivery windows appear at checkout before you pay.</p>
 
 <h3>1. Processing</h3>
@@ -186,7 +195,7 @@ Permissions or infringement reports: info@upvision.uk
 <p>Please ensure your address and phone are correct. If a parcel is returned to us as undeliverable, we may charge re-shipping or deduct carrier return costs from any refund.</p>
 
 <h3>5. Lost or damaged in transit</h3>
-<p>Contact us within 14 days of the expected delivery date with your order number and photos if damaged. We will work with the carrier to replace or refund eligible orders. Email: <a href="mailto:info@upvision.uk">info@upvision.uk</a>.</p>
+<p>Contact us within 14 days of the expected delivery date with your order number and photos if damaged. We will work with the carrier to replace or refund eligible orders. Email: <a href="mailto:hello@afterstate.store">hello@afterstate.store</a>.</p>
 ```
 
 ---
@@ -196,13 +205,14 @@ Permissions or infringement reports: info@upvision.uk
 **Shopify field:** Refund policy / Return and refund policy
 
 ```html
+<p><em>Last updated: 22 August 2026</em></p>
 <p>This Refund Policy covers returns for Afterstate orders (sold by KKOSTOV LTD) shipped to the United Kingdom and Europe. Your statutory rights are not affected.</p>
 
 <h3>1. Change-of-mind returns (14 days)</h3>
 <p>If you change your mind, you may return eligible unworn items within <strong>14 days of delivery</strong>.</p>
 <ul>
   <li>Items must be unused, unwashed, with all original tags attached, in original packaging where provided.</li>
-  <li>Start a return by emailing <a href="mailto:info@upvision.uk">info@upvision.uk</a> with your order number.</li>
+  <li>Start a return by emailing <a href="mailto:hello@afterstate.store">hello@afterstate.store</a> with your order number.</li>
   <li><strong>You pay return shipping</strong> for change-of-mind returns. We recommend a tracked service; we are not responsible for returns lost in transit until we receive them.</li>
   <li>Once we inspect and accept the return, we refund the product price to your original payment method. <strong>Original outbound shipping is non-refundable</strong> unless required by law or the item was faulty/wrong.</li>
 </ul>
@@ -228,7 +238,7 @@ Permissions or infringement reports: info@upvision.uk
 <p>We do not guarantee size exchanges. Return the item under this policy and place a new order for the size you need (stock permitting).</p>
 
 <h3>7. Contact</h3>
-<p>KKOSTOV LTD (company number 14964341), 71-75 Shelton Street, Covent Garden, London, United Kingdom, WC2H 9JQ<br /><a href="mailto:info@upvision.uk">info@upvision.uk</a></p>
+<p>KKOSTOV LTD (company number 14964341), 71-75 Shelton Street, Covent Garden, London, United Kingdom, WC2H 9JQ<br /><a href="https://afterstate.store">afterstate.store</a><br /><a href="mailto:hello@afterstate.store">hello@afterstate.store</a></p>
 ```
 
 ---
@@ -239,8 +249,9 @@ On-site page: **/copyright**. Aligns with Terms §9 and Legal notice.
 
 - Brand / trading name: Afterstate
 - Legal owner / operator: KKOSTOV LTD
+- Website: https://afterstate.store
 - Photography, lookbooks, designs, logos, and copy are protected
-- Report misuse: info@upvision.uk
+- Report misuse: hello@afterstate.store
 - © year Afterstate — All rights reserved
 
 ---
@@ -252,6 +263,5 @@ On-site page: **/copyright**. Aligns with Terms §9 and Legal notice.
 - [ ] Paste Privacy, Terms, Shipping, Refund
 - [ ] Override Shopify “Automated” Privacy with the draft above
 - [ ] Optional: confirm company number 14964341 on Companies House if anything looks off
-- [ ] Later: swap `info@upvision.uk` → brand inbox
 - [ ] Tag non-returnable products with `Final Sale`
 - [ ] Solicitor review before heavy paid traffic

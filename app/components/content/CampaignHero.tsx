@@ -10,6 +10,7 @@ export type CampaignHeroProps = {
   ctaLabel?: string;
   ctaTo?: string;
   image?: Pick<ImageType, 'id' | 'url' | 'altText' | 'width' | 'height'> | null;
+  imageSrc?: string;
   className?: string;
 };
 
@@ -23,11 +24,14 @@ export function CampaignHero({
   ctaLabel = 'Explore the campaign',
   ctaTo = '/afterstate-001-no-rush',
   image,
+  imageSrc,
   className,
 }: CampaignHeroProps) {
+  const hasMedia = Boolean(image?.url || imageSrc);
+
   return (
     <header className={[styles.root, className].filter(Boolean).join(' ')}>
-      <div className={styles.media} aria-hidden={!image}>
+      <div className={styles.media} aria-hidden={!hasMedia}>
         {image?.url ? (
           <Image
             data={image}
@@ -35,6 +39,16 @@ export function CampaignHero({
             className={styles.image}
             sizes="100vw"
             loading="eager"
+          />
+        ) : imageSrc ? (
+          <img
+            className={styles.image}
+            src={imageSrc}
+            alt=""
+            width={2752}
+            height={1536}
+            decoding="async"
+            fetchPriority="high"
           />
         ) : (
           <div className={styles.placeholder} />

@@ -1,0 +1,296 @@
+.shell {
+  display: grid;
+}
+
+.stage {
+  display: grid;
+}
+
+.nav {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+}
+
+.main {
+  display: grid;
+  min-width: 0;
+}
+
+.board {
+  display: grid;
+  min-width: 0;
+}
+
+.chapterWrap {
+  display: grid;
+  gap: 0;
+}
+
+/* ------------------------------------------------------------------ */
+/* Interstitial still-life band                                        */
+/* ------------------------------------------------------------------ */
+
+.interstitial {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr;
+  width: 100%;
+  min-width: 0;
+  margin: 1rem 0 0;
+  overflow: hidden;
+  background: var(--color-night, #0b100e);
+  border-block: 1px solid
+    var(--color-hairline-dark-subtle, rgba(236, 231, 218, 0.08));
+}
+
+.interstitialMedia {
+  position: relative;
+  order: -1;
+  width: 100%;
+  height: 12.5rem;
+  overflow: hidden;
+}
+
+.interstitialImage {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  object-position: 72% 28%;
+}
+
+.interstitialVeil {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(8, 12, 10, 0.08) 0%,
+    rgba(8, 12, 10, 0.02) 50%,
+    rgba(8, 12, 10, 0.45) 100%
+  );
+}
+
+.interstitialCopy {
+  position: relative;
+  display: grid;
+  gap: 0.35rem;
+  width: 100%;
+  max-width: var(--width-wide, 92rem);
+  margin-inline: auto;
+  padding: 1.1rem var(--page-gutter, 1rem) 0.9rem;
+}
+
+.interstitialEyebrow {
+  margin: 0;
+  font-size: var(--text-xs, 0.6875rem);
+  font-weight: var(--font-weight-medium, 500);
+  letter-spacing: var(--tracking-caps, 0.14em);
+  text-transform: uppercase;
+  color: var(--color-brass, #c2a878);
+}
+
+.interstitialLine {
+  margin: 0;
+  max-width: 34rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 1.05rem + 1.2vw, 2rem);
+  font-weight: var(--font-weight-medium, 500);
+  letter-spacing: var(--tracking-tight, -0.035em);
+  line-height: 1.12;
+  color: var(--color-bone, #ece7da);
+  text-wrap: balance;
+}
+
+.interstitialAccent {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: var(--font-weight-regular, 400);
+  letter-spacing: -0.02em;
+  color: var(--color-brass-strong, #d3bc8f);
+}
+
+/* ------------------------------------------------------------------ */
+/* Outro                                                               */
+/* ------------------------------------------------------------------ */
+
+.outro {
+  display: grid;
+  justify-items: center;
+  gap: 1rem;
+  margin-top: 4rem;
+  padding: 4.5rem var(--page-gutter, 1rem) 4rem;
+  text-align: center;
+  border-top: 1px solid
+    var(--color-hairline-dark-subtle, rgba(236, 231, 218, 0.08));
+  background:
+    radial-gradient(
+      ellipse 60% 80% at 50% 110%,
+      var(--color-glow-a, rgba(194, 168, 120, 0.07)) 0%,
+      transparent 65%
+    );
+}
+
+.outroEyebrow {
+  margin: 0;
+  font-size: var(--text-xs, 0.6875rem);
+  font-weight: var(--font-weight-medium, 500);
+  letter-spacing: var(--tracking-caps, 0.14em);
+  text-transform: uppercase;
+  color: var(--color-brass, #c2a878);
+}
+
+.outroTitle {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 1.5rem + 2.4vw, 3.5rem);
+  font-weight: var(--font-weight-medium, 500);
+  letter-spacing: var(--tracking-tight, -0.035em);
+  line-height: 1.05;
+  color: var(--color-bone, #ece7da);
+  text-wrap: balance;
+}
+
+.outroAccent {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: var(--font-weight-regular, 400);
+  letter-spacing: -0.02em;
+  color: var(--color-brass-strong, #d3bc8f);
+}
+
+.outroSupport {
+  margin: 0;
+  max-width: 30rem;
+  font-size: var(--text-sm, 0.8125rem);
+  line-height: var(--leading-relaxed, 1.65);
+  color: var(--color-bone-muted, rgba(236, 231, 218, 0.64));
+}
+
+.outroActions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem 1.5rem;
+  margin-top: 1rem;
+}
+
+.outroLink,
+.outroLinkGhost {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.8rem 1.6rem;
+  font-size: 0.75rem;
+  font-weight: var(--font-weight-medium, 500);
+  letter-spacing: var(--tracking-caps, 0.14em);
+  text-transform: uppercase;
+  text-decoration: none;
+  transition:
+    color var(--duration-fast, 140ms) var(--ease-out, ease),
+    background-color var(--duration-fast, 140ms) var(--ease-out, ease),
+    border-color var(--duration-fast, 140ms) var(--ease-out, ease);
+}
+
+.outroLink {
+  color: var(--color-night, #0b100e);
+  background: var(--color-brass, #c2a878);
+  border: 1px solid var(--color-brass, #c2a878);
+}
+
+.outroLink:hover {
+  background: var(--color-brass-strong, #d3bc8f);
+  border-color: var(--color-brass-strong, #d3bc8f);
+  color: var(--color-night, #0b100e);
+  text-decoration: none;
+}
+
+.outroLinkGhost {
+  color: var(--color-bone, #ece7da);
+  border: 1px solid var(--color-hairline-dark, rgba(236, 231, 218, 0.14));
+}
+
+.outroLinkGhost:hover {
+  border-color: var(--color-bone-subtle, rgba(236, 231, 218, 0.4));
+  color: var(--color-brass-strong, #d3bc8f);
+  text-decoration: none;
+}
+
+.outroLink:focus-visible,
+.outroLinkGhost:focus-visible {
+  outline: 2px solid var(--color-brass, #c2a878);
+  outline-offset: 3px;
+}
+
+@media (min-width: 45em) {
+  .interstitial {
+    display: flex;
+    align-items: flex-end;
+    width: 100%;
+    height: min(18rem, 36svh);
+  }
+
+  .interstitialMedia {
+    position: absolute;
+    inset: 0;
+    order: 0;
+    width: auto;
+    height: auto;
+  }
+
+  .interstitialVeil {
+    background:
+      linear-gradient(
+        90deg,
+        rgba(8, 12, 10, 0.72) 0%,
+        rgba(8, 12, 10, 0.28) 42%,
+        rgba(8, 12, 10, 0.08) 100%
+      ),
+      linear-gradient(
+        180deg,
+        rgba(11, 16, 14, 0.2) 0%,
+        rgba(11, 16, 14, 0.55) 100%
+      );
+  }
+
+  .interstitialCopy {
+    position: relative;
+    z-index: 1;
+    padding: 1.25rem var(--page-gutter-lg, 2.5rem);
+    align-content: end;
+  }
+
+  .outro {
+    margin-top: 5rem;
+    padding-block: 6rem 5rem;
+  }
+}
+
+@media (min-width: 70em) {
+  .stage {
+    grid-template-columns: 13.25rem minmax(0, 1fr);
+    column-gap: 2.75rem;
+    align-items: start;
+  }
+
+  .nav {
+    grid-column: 1;
+    grid-row: 1;
+    margin: 0;
+  }
+
+  .main {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .interstitial {
+    margin-inline: 0;
+  }
+
+  .interstitialCopy {
+    padding-inline: 0;
+    max-width: none;
+  }
+}

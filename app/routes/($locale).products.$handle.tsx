@@ -17,7 +17,8 @@ import {
 } from '~/graphql/queries/product';
 import {getProductMetafields} from '~/lib/metafields';
 import {buildGalleryMedia} from '~/lib/product-media';
-import {ProductGallery} from '~/components/commerce/ProductGallery';
+import {getProductStageStills} from '~/lib/product-stage-media';
+import {ProductStage} from '~/components/product/ProductStage';
 import {ProductInfo, getProductDetailFields} from '~/components/product/ProductInfo';
 import {ProductDetails} from '~/components/product/ProductDetails';
 import {CompleteTheLook} from '~/components/product/CompleteTheLook';
@@ -130,6 +131,11 @@ export default function Product() {
 
   const metafields = getProductMetafields(product);
   const galleryMedia = buildGalleryMedia(product, selectedVariant, metafields.editorialMedia);
+  const stageStills = getProductStageStills(
+    product.handle,
+    galleryMedia,
+    product.title,
+  );
 
   const lines: OptimisticCartLineInput[] = selectedVariant?.id
     ? [
@@ -179,8 +185,9 @@ export default function Product() {
         }
       />
 
-      <PageContainer className={styles.crumbs}>
-        <Reveal>
+      <ProductStage
+        stills={stageStills}
+        crumbs={
           <Breadcrumbs
             items={[
               {label: 'Home', to: '/'},
@@ -188,26 +195,20 @@ export default function Product() {
               {label: product.title},
             ]}
           />
-        </Reveal>
-      </PageContainer>
-
-      <div className={styles.main}>
-        <Reveal className={styles.gallery}>
-          <ProductGallery media={galleryMedia} />
-        </Reveal>
-        <div className={styles.info}>
-          <ProductInfo
-            title={product.title}
-            description={product.description}
-            tags={product.tags}
-            productHandle={product.handle}
-            productOptions={productOptions}
-            selectedVariant={selectedVariant}
-            metafields={metafields}
-            onAddToCart={onAddToCart}
-          />
-        </div>
-      </div>
+        }
+      >
+        <ProductInfo
+          layout="overlay"
+          title={product.title}
+          description={product.description}
+          tags={product.tags}
+          productHandle={product.handle}
+          productOptions={productOptions}
+          selectedVariant={selectedVariant}
+          metafields={metafields}
+          onAddToCart={onAddToCart}
+        />
+      </ProductStage>
 
       <div className={styles.details}>
         <ProductDetails {...detailFields} />

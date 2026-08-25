@@ -1,6 +1,7 @@
 import {Link, useNavigate} from 'react-router';
 import type {MappedProductOptions} from '@shopify/hydrogen';
 import {LocaleAwareLink} from '~/components/navigation/LocaleAwareLink';
+import {sortBySize} from '~/lib/sizes';
 import styles from './SizeSelector.module.css';
 
 export type SizeSelectorProps = {
@@ -14,7 +15,7 @@ export type SizeSelectorProps = {
 export function SizeSelector({option, className}: SizeSelectorProps) {
   const navigate = useNavigate();
   const selected = option.optionValues.find((value) => value.selected);
-  const values = option.optionValues;
+  const values = sortBySize(option.optionValues, (value) => value.name);
   if (!values.length) return null;
 
   const single = values.length === 1;

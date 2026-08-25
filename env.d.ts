@@ -10,7 +10,13 @@ declare global {
   interface Env {
     /** Production origin for canonical / hreflang / og:url (no trailing slash) */
     PUBLIC_SITE_URL?: string;
-    /** Zapier / Make / Klaviyo webhook — required for newsletter + demand capture */
+    /** Klaviyo private API key (`pk_…`). Server-only — never prefix with PUBLIC_. */
+    KLAVIYO_PRIVATE_API_KEY?: string;
+    /** Klaviyo list ID for newsletter signups (Audience → Lists). */
+    KLAVIYO_NEWSLETTER_LIST_ID?: string;
+    /** Optional Klaviyo list for sold-out “Make a demand”. Falls back to newsletter list. */
+    KLAVIYO_DEMAND_LIST_ID?: string;
+    /** Optional Zapier / Make webhook if Klaviyo is not configured */
     NEWSLETTER_WEBHOOK_URL?: string;
     /**
      * Temporary storefront password. When set, the Hydrogen storefront

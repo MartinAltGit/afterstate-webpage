@@ -1,12 +1,13 @@
 import type {Route} from './+types/($locale).journal._index';
 import {JournalHub} from '~/components/journal/JournalHub';
 import {buildMetaTags} from '~/components/seo';
+import {getUiCopy} from '~/lib/ui-copy';
 
-export const meta: Route.MetaFunction = () => {
+export const meta: Route.MetaFunction = ({location}) => {
+  const copy = getUiCopy(location.pathname);
   return buildMetaTags({
-    title: 'Journal',
-    description:
-      'The Afterstate journal — brand essays, the thinking behind the clothes, and notes from a slower way of dressing.',
+    title: copy.hub.metaTitle,
+    description: copy.hub.metaDescription,
   });
 };
 

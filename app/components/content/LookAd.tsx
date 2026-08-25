@@ -4,6 +4,7 @@ import {ProductPrice} from '~/components/commerce/ProductPrice';
 import {LocaleAwareLink} from '~/components/navigation/LocaleAwareLink';
 import {CAMPAIGN_PATH, SHOP_PATH} from '~/lib/content-paths';
 import {splitProductTitle} from '~/lib/product-title';
+import {useUiCopy} from '~/lib/ui-copy';
 import type {ProductCardFragment} from 'storefrontapi.generated';
 import styles from './LookAd.module.css';
 
@@ -16,6 +17,7 @@ export type LookAdProps = {
  * Shop-the-look rail beside a fashion article — campaign still, then the pieces.
  */
 export function LookAd({products = [], className}: LookAdProps) {
+  const copy = useUiCopy();
   const pieces = products.slice(0, 3);
 
   return (
@@ -32,21 +34,21 @@ export function LookAd({products = [], className}: LookAdProps) {
           <img
             className={styles.image}
             src={campaignPortrait}
-            alt="Model wearing the Afterstate 001 hoodie"
-            width={972}
-            height={1296}
+            alt="Model in the Afterstate 001 No Rush look"
+            width={1696}
+            height={2528}
             loading="lazy"
             decoding="async"
           />
           <div className={styles.scrim} aria-hidden="true" />
           <div className={styles.copy}>
-            <p className={styles.eyebrow}>Afterstate 001</p>
+            <p className={styles.eyebrow}>{copy.lookAd.eyebrow}</p>
             <h2 id="look-ad-title" className={styles.title}>
-              No rush.
-              <span className={styles.accent}> Wear it longer.</span>
+              {copy.lookAd.title}
+              <span className={styles.accent}> {copy.lookAd.accent}</span>
             </h2>
             <span className={styles.cta}>
-              Shop the look <span aria-hidden="true">→</span>
+              {copy.lookAd.cta} <span aria-hidden="true">→</span>
             </span>
           </div>
         </div>
@@ -54,7 +56,7 @@ export function LookAd({products = [], className}: LookAdProps) {
 
       {pieces.length > 0 ? (
         <div className={styles.collection}>
-          <p className={styles.collectionEyebrow}>The collection</p>
+          <p className={styles.collectionEyebrow}>{copy.lookAd.collectionEyebrow}</p>
           <ul className={styles.pieces}>
             {pieces.map((product) => {
               const {headline} = splitProductTitle(product.title);
@@ -97,7 +99,7 @@ export function LookAd({products = [], className}: LookAdProps) {
             prefetch="intent"
             className={styles.all}
           >
-            View all pieces <span aria-hidden="true">→</span>
+            {copy.lookAd.viewAll} <span aria-hidden="true">→</span>
           </LocaleAwareLink>
         </div>
       ) : null}

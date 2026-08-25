@@ -50,6 +50,41 @@ body {
   background-attachment: fixed;
 }
 
+/*
+ * First-paint guard. Reset makes images `height: auto`, so slideshows stack
+ * as giant photos until CSS modules arrive. Overlay them on a dark stage.
+ */
+[data-slideshow] {
+  position: relative;
+  overflow: hidden;
+  background: var(--color-night, #0b100e);
+}
+
+[data-slideshow='hero'] {
+  min-height: 88svh;
+}
+
+[data-slideshow='wide'] {
+  min-height: min(70svh, 36rem);
+}
+
+[data-slideshow] picture,
+[data-slideshow] > img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+}
+
+[data-slideshow] img {
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+}
+
 h1,
 h2,
 .font-display {

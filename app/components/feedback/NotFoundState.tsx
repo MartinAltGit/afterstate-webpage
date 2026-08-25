@@ -2,6 +2,7 @@ import heroNotFound from '~/assets/mockups/lookbook-02.jpg';
 import {LocaleAwareLink} from '~/components/navigation/LocaleAwareLink';
 import {PageHero} from '~/components/layout/PageHero';
 import {Reveal} from '~/components/motion/Reveal';
+import {useUiCopy} from '~/lib/ui-copy';
 import quiet from '~/components/content/QuietPage.module.css';
 import styles from './NotFoundState.module.css';
 
@@ -20,9 +21,11 @@ type NotFoundStateProps = {
 
 export function NotFoundState({
   title = 'Afterstate',
-  message = 'This page does not exist — or it moved without leaving a note.',
+  message,
   className,
 }: NotFoundStateProps) {
+  const copy = useUiCopy();
+  const resolvedMessage = message ?? copy.notFound.message;
   return (
     <div
       className={[quiet.world, styles.root, className].filter(Boolean).join(' ')}
@@ -31,7 +34,7 @@ export function NotFoundState({
         align="center"
         eyebrow="404"
         title={title}
-        support={message}
+        support={resolvedMessage}
         imageSrc={heroNotFound}
         imageAlt="Afterstate lookbook — quiet silhouette"
         actions={
@@ -41,28 +44,26 @@ export function NotFoundState({
               to="/"
               prefetch="intent"
             >
-              Back home
+              {copy.notFound.home}
             </LocaleAwareLink>
             <LocaleAwareLink
               className={styles.secondary}
               to="/shop"
               prefetch="intent"
             >
-              Browse the shop
+              {copy.notFound.shop}
             </LocaleAwareLink>
           </div>
         }
       />
 
       <Reveal delayMs={80}>
-        <section className={quiet.panel} aria-label="Find your way">
+        <section className={quiet.panel} aria-label={copy.notFound.wayfinding}>
           <div className={`${quiet.panelInner} ${quiet.alignCenter}`}>
             <header className={quiet.panelHeader}>
-              <p className={quiet.eyebrow}>No rush</p>
-              <h2 className={quiet.panelTitle}>Find your way</h2>
-              <p className={styles.panelLede}>
-                Start again from somewhere that still exists.
-              </p>
+              <p className={quiet.eyebrow}>{copy.notFound.restart}</p>
+              <h2 className={quiet.panelTitle}>{copy.notFound.wayfinding}</h2>
+              <p className={styles.panelLede}>{copy.notFound.lede}</p>
             </header>
             <ul className={quiet.links}>
               {WAYFINDING.map((item) => (
@@ -72,8 +73,24 @@ export function NotFoundState({
                     prefetch="intent"
                     to={item.to}
                   >
-                    <span className={quiet.linkLabel}>{item.label}</span>
-                    <span className={quiet.linkHint}>{item.hint}</span>
+                    <span className={quiet.linkLabel}>
+                      {item.to === '/shop'
+                        ? copy.nav.shop
+                        : item.to === '/journal'
+                          ? copy.nav.journal
+                          : item.to === '/about'
+                            ? copy.footer.about
+                            : copy.footer.contact}
+                    </span>
+                    <span className={quiet.linkHint}>
+                      {item.to === '/shop'
+                        ? copy.notFound.shopHint
+                        : item.to === '/journal'
+                          ? copy.notFound.journalHint
+                          : item.to === '/about'
+                            ? copy.notFound.aboutHint
+                            : copy.notFound.contactHint}
+                    </span>
                   </LocaleAwareLink>
                 </li>
               ))}

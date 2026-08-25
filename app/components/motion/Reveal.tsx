@@ -1,6 +1,7 @@
 import {
   Children,
   isValidElement,
+  useEffect,
   useLayoutEffect,
   useRef,
   useState,
@@ -9,6 +10,8 @@ import {
 } from 'react';
 import {usePrefersReducedMotion} from '~/hooks/usePrefersReducedMotion';
 import styles from './Reveal.module.css';
+
+const useIsoLayoutEffect = import.meta.env.SSR ? useEffect : useLayoutEffect;
 
 export type RevealTag =
   | 'div'
@@ -49,7 +52,7 @@ function isNodeInRevealZone(node: HTMLElement, narrow: boolean) {
 /**
  * Scroll-triggered fade/rise. SSR stays visible; after mount we only hide
  * content that is actually below the fold. Back/remount uses a sync
- * intersection check in useLayoutEffect so in-view blocks never flash blank
+ * intersection check before paint so in-view blocks never flash blank
  * when IntersectionObserver is late (common after history POP).
  */
 export function Reveal({
@@ -65,7 +68,7 @@ export function Reveal({
   const [visible, setVisible] = useState(true);
   const reduced = usePrefersReducedMotion();
 
-  useLayoutEffect(() => {
+  useIsoLayoutEffect(() => {
     if (reduced) {
       setMounted(true);
       setVisible(true);

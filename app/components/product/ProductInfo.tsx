@@ -28,6 +28,8 @@ export type ProductInfoProps = {
   selectedVariant: ProductInfoVariant;
   metafields: ProductMetafields;
   onAddToCart?: () => void;
+  /** Glass cards floating over the 16:9 stage. */
+  layout?: 'column' | 'overlay';
 };
 
 export type ProductDetailFields = {
@@ -119,6 +121,7 @@ export function getProductDetailFields(input: {
 
 /**
  * Buy column: identity, options, CTA.
+ * Overlay layout splits name / sizes / add-to-cart into floating cards.
  */
 export function ProductInfo({
   title,
@@ -129,14 +132,16 @@ export function ProductInfo({
   selectedVariant,
   metafields,
   onAddToCart,
+  layout = 'column',
 }: ProductInfoProps) {
   const {headline, support} = splitProductTitle(title);
   const lede =
     metafields.subtitle || support || firstSentence(description);
+  const overlay = layout === 'overlay';
 
   return (
-    <div className={styles.root}>
-      <header className={styles.header}>
+    <div className={[styles.root, overlay ? styles.overlay : ''].filter(Boolean).join(' ')}>
+      <header className={overlay ? styles.card : styles.header}>
         <div className={styles.kicker}>
           {metafields.collectionNumber ? (
             <p className={styles.eyebrow}>{metafields.collectionNumber}</p>
@@ -169,6 +174,7 @@ export function ProductInfo({
           productBadge: metafields.productBadge,
         })}
         shippingNote={null}
+        tone={overlay ? 'overlay' : 'default'}
       />
     </div>
   );

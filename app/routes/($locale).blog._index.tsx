@@ -9,17 +9,17 @@ import {EditorialStage} from '~/components/layout/EditorialStage';
 import stageStyles from '~/components/layout/EditorialStage.module.css';
 import {buildMetaTags} from '~/components/seo';
 import {BLOG_INDEX_QUERY} from '~/graphql/queries/blog';
+import {getUiCopy, useUiCopy} from '~/lib/ui-copy';
 import pageStyles from '~/components/content/BlogIndex.module.css';
 
-export const meta: Route.MetaFunction = ({data}) => {
+export const meta: Route.MetaFunction = ({data, location}) => {
+  const copy = getUiCopy(location.pathname);
   const articles = data?.blog?.articles?.nodes ?? [];
   const empty = articles.length === 0;
 
   return buildMetaTags({
-    title: data?.blog?.seo?.title || data?.blog?.title || 'Blog',
-    description:
-      data?.blog?.seo?.description ||
-      'Fashion trends, stories, and culture from Afterstate — notes for the wider fashion world.',
+    title: data?.blog?.seo?.title || data?.blog?.title || copy.blog.metaTitle,
+    description: data?.blog?.seo?.description || copy.blog.metaDescription,
     noindex: empty,
   });
 };
@@ -42,17 +42,18 @@ export async function loader({context, request}: Route.LoaderArgs) {
 
 export default function BlogIndex() {
   const {blog} = useLoaderData<typeof loader>();
+  const copy = useUiCopy();
   const articles = (blog?.articles?.nodes ?? []).map((article) => ({
     id: article.id,
     to: `/blog/${article.handle}`,
     title: article.title,
     eyebrow: article.publishedAt
-      ? new Intl.DateTimeFormat('en-US', {
+      ? new Intl.DateTimeFormat(copy.dateLocale, {
           year: 'numeric',
           month: 'long',
           day: 'numeric',
         }).format(new Date(article.publishedAt))
-      : 'Blog',
+      : copy.blog.dateFallback,
     excerpt: article.excerpt ?? undefined,
     image: article.image,
   }));
@@ -74,12 +75,9 @@ export default function BlogIndex() {
           <div className={pageStyles.grain} />
         </div>
         <div className={pageStyles.inner}>
-          <p className={pageStyles.eyebrow}>Fashion world</p>
-          <h1 className={pageStyles.title}>Blog</h1>
-          <p className={pageStyles.lede}>
-            Trends, stories, and the culture around clothes — silhouettes in
-            cities, seasonal shifts, and the people shaping how we dress.
-          </p>
+          <p className={pageStyles.eyebrow}>{copy.blog.eyebrow}</p>
+          <h1 className={pageStyles.title}>{copy.blog.title}</h1>
+          <p className={pageStyles.lede}>{copy.blog.lede}</p>
         </div>
       </header>
 
@@ -98,7 +96,7 @@ export default function BlogIndex() {
                 eyebrow={article.eyebrow}
                 excerpt={article.excerpt}
                 image={article.image}
-                label={index === 0 ? 'Latest' : undefined}
+                label={index === 0 ? copy.blog.latest : undefined}
                 priority={index === 0}
               />
             </div>
@@ -108,11 +106,11 @@ export default function BlogIndex() {
         <EditorialStage>
           <div className={stageStyles.section}>
             <EmptyState
-              title="First posts coming soon"
-              message="We are preparing fashion trends, stories, and culture pieces for this space. Check back shortly — or read the Journal in the meantime."
+              title={copy.blog.emptyTitle}
+              message={copy.blog.emptyMessage}
               action={
                 <LocaleAwareLink prefetch="intent" to="/journal">
-                  Read the Journal
+                  {copy.blog.readJournal}
                 </LocaleAwareLink>
               }
             />

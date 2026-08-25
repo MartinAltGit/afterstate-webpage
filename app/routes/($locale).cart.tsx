@@ -7,10 +7,9 @@ import type {Route} from './+types/($locale).cart';
 import type {CartQueryDataReturn} from '@shopify/hydrogen';
 import {CartForm} from '@shopify/hydrogen';
 import type {CartApiQueryFragment} from 'storefrontapi.generated';
+import {CartEmpty} from '~/components/commerce/CartEmpty';
 import {CartLine} from '~/components/commerce/CartLine';
 import {CartSummary} from '~/components/commerce/CartSummary';
-import {EmptyState} from '~/components/feedback/EmptyState';
-import {LocaleAwareLink} from '~/components/navigation/LocaleAwareLink';
 import {PageContainer} from '~/components/layout/PageContainer';
 import {Breadcrumbs} from '~/components/navigation/Breadcrumbs';
 import {buildPageTitle} from '~/components/seo';
@@ -146,15 +145,7 @@ export default function Cart() {
       <h1>Cart</h1>
 
       {!hasItems ? (
-        <EmptyState
-          title="Your cart is empty"
-          message="When you find something that fits the pace, it will land here."
-          action={
-            <LocaleAwareLink to="/shop" prefetch="intent">
-              Continue shopping
-            </LocaleAwareLink>
-          }
-        />
+        <CartEmpty layout="page" />
       ) : (
         <div className="cart-page-layout">
           <ul className="cart-page-lines" aria-label="Cart lines">

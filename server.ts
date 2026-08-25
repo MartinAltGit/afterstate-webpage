@@ -7,6 +7,25 @@ import {
   isStorefrontPasswordEnabled,
 } from '~/lib/storefront-password';
 
+type DevCssHooks = {
+  getCriticalCss?: (...args: unknown[]) => unknown;
+};
+
+/**
+ * Oxygen worker: Hydrogen exposes Remix's CSS hook, React Router reads its own.
+ * Alias before the request handler so SSR can inline CSS-module styles.
+ */
+function aliasReactRouterDevCssHooks() {
+  if (process.env.NODE_ENV !== 'development') return;
+  const g = globalThis as typeof globalThis & {
+    __remix_devServerHooks?: DevCssHooks;
+    __reactRouterDevServerHooks?: DevCssHooks;
+  };
+  if (g.__remix_devServerHooks && !g.__reactRouterDevServerHooks) {
+    g.__reactRouterDevServerHooks = g.__remix_devServerHooks;
+  }
+}
+
 /**
  * Export a fetch handler in module format.
  */
@@ -17,6 +36,7 @@ export default {
     executionContext: ExecutionContext,
   ): Promise<Response> {
     try {
+      aliasReactRouterDevCssHooks();
       const hydrogenContext = await createHydrogenRouterContext(
         request,
         env,

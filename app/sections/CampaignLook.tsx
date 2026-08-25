@@ -5,6 +5,7 @@ import {
   prefixPathWithLocale,
   useLocalePathPrefix,
 } from '~/lib/locale';
+import {useUiCopy} from '~/lib/ui-copy';
 import styles from './CampaignLook.module.css';
 
 /**
@@ -44,15 +45,21 @@ export type CampaignLookProps = {
  */
 export function CampaignLook({
   imageSrc,
-  eyebrow = 'Limited edition',
-  title = 'No rush.',
-  accent = 'Wear it longer.',
-  caption = 'A short run. When it’s gone, it’s gone.',
-  ctaLabel = 'Explore the collection',
+  eyebrow,
+  title,
+  accent,
+  caption,
+  ctaLabel,
   ctaTo = '/shop',
   className,
 }: CampaignLookProps) {
   const localePrefix = useLocalePathPrefix();
+  const copy = useUiCopy();
+  const resolvedEyebrow = eyebrow ?? copy.landing.campaignEyebrow;
+  const resolvedTitle = title ?? copy.landing.campaignTitle;
+  const resolvedAccent = accent ?? copy.landing.campaignAccent;
+  const resolvedCaption = caption ?? copy.landing.campaignCaption;
+  const resolvedCta = ctaLabel ?? copy.landing.campaignCta;
 
   return (
     <section
@@ -64,32 +71,36 @@ export function CampaignLook({
           <img
             className={styles.image}
             src={imageSrc}
-            alt="Model wearing Afterstate hoodie with AS logo"
-            width={2048}
-            height={878}
+            alt={copy.landing.campaignImageAlt}
+            width={3168}
+            height={1344}
             loading="lazy"
             decoding="async"
           />
           <div className={styles.scrim} aria-hidden="true" />
           <div className={styles.copy}>
-            {eyebrow ? <p className={styles.eyebrow}>{eyebrow}</p> : null}
+            {resolvedEyebrow ? (
+              <p className={styles.eyebrow}>{resolvedEyebrow}</p>
+            ) : null}
             <h2 id="campaign-look-title" className={styles.title}>
-              {title}
-              {accent ? (
+              {resolvedTitle}
+              {resolvedAccent ? (
                 <>
                   <br />
-                  <span className={styles.accent}>{accent}</span>
+                  <span className={styles.accent}>{resolvedAccent}</span>
                 </>
               ) : null}
             </h2>
-            {caption ? <p className={styles.caption}>{caption}</p> : null}
-            {ctaLabel && ctaTo ? (
+            {resolvedCaption ? (
+              <p className={styles.caption}>{resolvedCaption}</p>
+            ) : null}
+            {resolvedCta && ctaTo ? (
               <MagneticLink
                 className={styles.cta}
                 variant="bright"
                 to={prefixPathWithLocale(ctaTo, localePrefix)}
               >
-                {ctaLabel}
+                {resolvedCta}
               </MagneticLink>
             ) : null}
           </div>

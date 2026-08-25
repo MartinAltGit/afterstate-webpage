@@ -1,7 +1,7 @@
 .grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1.75rem 0.85rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.85rem 0.85rem;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -16,13 +16,31 @@
 
 @media (min-width: 45em) {
   .grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2.25rem 1.5rem;
+    gap: 2.5rem 1.35rem;
   }
 }
 
 @media (min-width: 70em) {
-  .grid {
-    grid-template-columns: repeat(4, 1fr);
+  .catalog {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 2.85rem 1.75rem;
+  }
+
+  .editorial {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 3rem 1.65rem;
+  }
+
+  .editorial > :nth-child(1),
+  .editorial > :nth-child(2) {
+    grid-column: span 3;
+  }
+
+  .editorial > :nth-child(n + 3) {
+    grid-column: span 2;
+  }
+
+  .editorial > :nth-child(1):nth-last-child(1) {
+    grid-column: 1 / -1;
   }
 }

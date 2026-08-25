@@ -14,7 +14,6 @@ import {EmptyState} from '~/components/feedback/EmptyState';
 import {LocaleAwareLink} from '~/components/navigation/LocaleAwareLink';
 import {Reveal} from '~/components/motion/Reveal';
 import {OpeningStatement} from '~/sections/OpeningStatement';
-import {getProductSubtitle} from '~/lib/metafields';
 import {buildMetaTags} from '~/components/seo';
 import type {ProductCardFragment} from 'storefrontapi.generated';
 
@@ -132,16 +131,8 @@ export default function Collection() {
                     />
                   ) : (
                     <CollectionProductGrid
-                      products={(nodes as ProductCardFragment[]).map(
-                        (product) => ({
-                          id: product.id,
-                          handle: product.handle,
-                          title: product.title,
-                          subtitle: getProductSubtitle(product),
-                          featuredImage: product.featuredImage,
-                          priceRange: product.priceRange,
-                        }),
-                      )}
+                      products={nodes as ProductCardFragment[]}
+                      layout="editorial"
                     />
                   )}
 
