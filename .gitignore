@@ -20,5 +20,7 @@ app/assets/**/_candidates/
 app/assets/**/_tmp/
 app/assets/mockups/_header-gen/
 scripts/*.png
+scripts/inspect-*.mjs
+scripts/shot-*.mjs
 content/blog/.last-draft.json
 content/blog/.draft-*.json
