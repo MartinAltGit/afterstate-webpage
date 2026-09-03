@@ -40,7 +40,7 @@
     },
     {
       "id": "2026-w1-gsm-fabric-guide",
-      "status": "queued",
+      "status": "published",
       "role": "pillar",
       "cluster": "fabric",
       "hubHandle": "what-is-gsm-fabric",
@@ -62,12 +62,12 @@
         "quality"
       ],
       "handle": "what-is-gsm-fabric",
-      "publishedAt": null,
-      "notes": null
+      "publishedAt": "2026-09-03T09:03:17.368Z",
+      "notes": "gid://shopify/Article/620810699047"
     },
     {
       "id": "2026-w2-capsule-wardrobe-men",
-      "status": "queued",
+      "status": "published",
       "role": "pillar",
       "cluster": "capsule-wardrobe",
       "hubHandle": "mens-capsule-wardrobe",
@@ -89,12 +89,12 @@
         "seasonal"
       ],
       "handle": "mens-capsule-wardrobe",
-      "publishedAt": null,
-      "notes": null
+      "publishedAt": "2026-09-03T09:03:17.368Z",
+      "notes": "gid://shopify/Article/620828623143"
     },
     {
       "id": "2026-w2-slow-fashion-habit",
-      "status": "queued",
+      "status": "published",
       "role": "pillar",
       "cluster": "slow-fashion",
       "hubHandle": "slow-fashion-buying-habit",
@@ -115,8 +115,8 @@
         "habits"
       ],
       "handle": "slow-fashion-buying-habit",
-      "publishedAt": null,
-      "notes": null
+      "publishedAt": "2026-09-03T09:03:17.368Z",
+      "notes": "gid://shopify/Article/620851069223"
     },
     {
       "id": "2026-w3-relaxed-fit-trousers",
@@ -146,7 +146,7 @@
     },
     {
       "id": "2026-w3-organic-cotton-quality",
-      "status": "queued",
+      "status": "published",
       "role": "spoke",
       "cluster": "fabric",
       "hubHandle": "what-is-gsm-fabric",
@@ -166,12 +166,12 @@
         "materials"
       ],
       "handle": "organic-cotton-clothing-quality",
-      "publishedAt": null,
-      "notes": null
+      "publishedAt": "2026-09-03T09:03:17.368Z",
+      "notes": "gid://shopify/Article/620874826023"
     },
     {
       "id": "2026-w4-minimal-streetwear",
-      "status": "queued",
+      "status": "published",
       "role": "spoke",
       "cluster": "street",
       "hubHandle": null,
@@ -191,8 +191,8 @@
         "city"
       ],
       "handle": "minimal-streetwear",
-      "publishedAt": null,
-      "notes": null
+      "publishedAt": "2026-09-03T09:06:29.622Z",
+      "notes": "gid://shopify/Article/620926828839"
     },
     {
       "id": "2026-w4-oversized-blazer",
@@ -221,7 +221,7 @@
     },
     {
       "id": "2026-w5-quiet-luxury-dressing",
-      "status": "queued",
+      "status": "published",
       "role": "spoke",
       "cluster": "quiet-luxury",
       "hubHandle": "what-is-quiet-luxury",
@@ -242,6 +242,107 @@
         "styling"
       ],
       "handle": "how-to-dress-quiet-luxury",
+      "publishedAt": "2026-09-03T09:03:17.369Z",
+      "notes": "gid://shopify/Article/620898418983"
+    },
+    {
+      "id": "2026-w6-denim-fit-guide",
+      "status": "queued",
+      "role": "spoke",
+      "cluster": "fabric",
+      "hubHandle": "what-is-gsm-fabric",
+      "category": "craft",
+      "title": "Denim fit guide: rise, leg, and fabric weight that actually hold",
+      "angle": "Practical denim fit literacy tied to cloth weight. Keyword: denim fit guide. Spoke under fabric; link back to GSM pillar.",
+      "seoKeyword": "denim fit guide",
+      "keywordMetrics": {
+        "volume": 40,
+        "kd": 15,
+        "intent": "informational"
+      },
+      "imageMode": "generate",
+      "tags": [
+        "craft",
+        "denim",
+        "fit"
+      ],
+      "handle": "denim-fit-guide",
+      "publishedAt": null,
+      "notes": null
+    },
+    {
+      "id": "2026-w6-travel-capsule",
+      "status": "queued",
+      "role": "spoke",
+      "cluster": "capsule-wardrobe",
+      "hubHandle": "mens-capsule-wardrobe",
+      "category": "seasonal",
+      "title": "Travel capsule wardrobe: fewer pieces that still look considered",
+      "angle": "Packing and rotation for city travel without a uniform look. Keyword: travel capsule wardrobe. Spoke under men's capsule hub.",
+      "seoKeyword": "travel capsule wardrobe",
+      "seoKeywordSecondary": "mens travel capsule wardrobe",
+      "keywordMetrics": {
+        "volume": 170,
+        "kd": 0,
+        "intent": "transactional"
+      },
+      "imageMode": "generate",
+      "tags": [
+        "seasonal",
+        "capsule",
+        "travel"
+      ],
+      "handle": "travel-capsule-wardrobe",
+      "publishedAt": null,
+      "notes": null
+    },
+    {
+      "id": "2026-w7-repair-clothes",
+      "status": "queued",
+      "role": "spoke",
+      "cluster": "slow-fashion",
+      "hubHandle": "slow-fashion-buying-habit",
+      "category": "culture",
+      "title": "How to repair clothes before you replace them",
+      "angle": "Repair as a buying habit, not a craft class. Keyword: how to repair clothes. Spoke under slow-fashion hub.",
+      "seoKeyword": "how to repair clothes",
+      "keywordMetrics": {
+        "volume": 20,
+        "kd": null,
+        "intent": "informational"
+      },
+      "imageMode": "stock",
+      "tags": [
+        "culture",
+        "repair",
+        "slow fashion"
+      ],
+      "handle": "how-to-repair-clothes",
+      "publishedAt": null,
+      "notes": null
+    },
+    {
+      "id": "2026-w7-wide-leg-trousers",
+      "status": "queued",
+      "role": "spoke",
+      "cluster": "silhouette",
+      "hubHandle": "relaxed-fit-trousers",
+      "category": "trends",
+      "title": "Wide leg trousers for men: proportion without the costume look",
+      "angle": "How wide-leg reads differently from relaxed tailored. Keyword: wide leg trousers men. Spoke under silhouette; link hub once live.",
+      "seoKeyword": "wide leg trousers men",
+      "keywordMetrics": {
+        "volume": 3600,
+        "kd": 0,
+        "intent": "transactional"
+      },
+      "imageMode": "generate",
+      "tags": [
+        "trends",
+        "trousers",
+        "silhouette"
+      ],
+      "handle": "wide-leg-trousers-men",
       "publishedAt": null,
       "notes": null
     }
