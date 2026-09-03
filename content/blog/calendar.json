@@ -6,7 +6,7 @@
     "monday",
     "thursday"
   ],
-  "cadenceNote": "2 posts per week \u2014 do not increase without SEO review",
+  "cadenceNote": "2 posts per week — do not increase without SEO review",
   "openseoProjectId": "d4b81108-e1b8-45de-96b3-180ac0359b8b",
   "openseoMarket": "2826/en",
   "minQueuedBeforeRefill": 4,
@@ -36,7 +36,7 @@
       ],
       "handle": "what-is-quiet-luxury",
       "publishedAt": "2026-08-15T02:55:47.100Z",
-      "notes": "gid://shopify/Article/620800540967 \u2014 published before hub HTML; rewrite later with voice.md pillar skeleton if ranking. Cluster tag not on Shopify yet."
+      "notes": "gid://shopify/Article/620800540967 — published before hub HTML; rewrite later with voice.md pillar skeleton if ranking. Cluster tag not on Shopify yet."
     },
     {
       "id": "2026-w1-gsm-fabric-guide",
@@ -46,7 +46,7 @@
       "hubHandle": "what-is-gsm-fabric",
       "category": "craft",
       "title": "What is GSM in fabric? A practical guide to weight and feel",
-      "angle": "Explain GSM for shoppers: why weight changes drape, season, and longevity. Keyword: what is gsm fabric. Pillar for the fabric cluster \u2014 link to organic cotton when that spoke is live.",
+      "angle": "Explain GSM for shoppers: why weight changes drape, season, and longevity. Keyword: what is gsm fabric. Pillar for the fabric cluster — link to organic cotton when that spoke is live.",
       "seoKeyword": "what is gsm fabric",
       "seoKeywordSecondary": "fabric weight gsm",
       "keywordMetrics": {
@@ -99,7 +99,7 @@
       "cluster": "slow-fashion",
       "hubHandle": "slow-fashion-buying-habit",
       "category": "culture",
-      "title": "Slow fashion isn\u2019t a slogan, it\u2019s a buying habit",
+      "title": "Slow fashion isn’t a slogan, it’s a buying habit",
       "angle": "Culture piece on fewer, better purchases. Keywords: slow fashion, slow fashion brands (editorial, not a listicle dump). Cluster hub.",
       "seoKeyword": "slow fashion",
       "seoKeywordSecondary": "slow fashion brands",
@@ -126,7 +126,7 @@
       "hubHandle": "relaxed-fit-trousers",
       "category": "trends",
       "title": "Relaxed fit trousers: the silhouette that replaced skinny",
-      "angle": "How relaxed / tailored-relaxed trousers became the default city pant \u2014 proportion tips, not hype. Keyword: relaxed fit trousers. Silhouette cluster hub; deeper-link the oversized blazer spoke when live.",
+      "angle": "How relaxed / tailored-relaxed trousers became the default city pant — proportion tips, not hype. Keyword: relaxed fit trousers. Silhouette cluster hub; deeper-link the oversized blazer spoke when live.",
       "seoKeyword": "relaxed fit trousers",
       "seoKeywordSecondary": "relaxed tailored trousers",
       "keywordMetrics": {
@@ -151,8 +151,8 @@
       "cluster": "fabric",
       "hubHandle": "what-is-gsm-fabric",
       "category": "craft",
-      "title": "Organic cotton clothing: what \u201cquality\u201d actually means",
-      "angle": "Beyond the label \u2014 hand-feel, weight, construction. Keyword: organic cotton clothing. Spoke under fabric; link back to the GSM pillar.",
+      "title": "Organic cotton clothing: what “quality” actually means",
+      "angle": "Beyond the label — hand-feel, weight, construction. Keyword: organic cotton clothing. Spoke under fabric; link back to the GSM pillar.",
       "seoKeyword": "organic cotton clothing",
       "keywordMetrics": {
         "volume": 1000,
@@ -171,7 +171,7 @@
     },
     {
       "id": "2026-w4-minimal-streetwear",
-      "status": "queued",
+      "status": "published",
       "role": "spoke",
       "cluster": "street",
       "hubHandle": null,
@@ -191,8 +191,8 @@
         "city"
       ],
       "handle": "minimal-streetwear",
-      "publishedAt": null,
-      "notes": null
+      "publishedAt": "2026-09-03T09:06:29.622Z",
+      "notes": "gid://shopify/Article/620926828839"
     },
     {
       "id": "2026-w4-oversized-blazer",
@@ -201,7 +201,7 @@
       "cluster": "silhouette",
       "hubHandle": "relaxed-fit-trousers",
       "category": "trends",
-      "title": "Oversized blazer outfits that don\u2019t look costume",
+      "title": "Oversized blazer outfits that don’t look costume",
       "angle": "Proportion rules for oversized blazers with relaxed bottoms and soft layers. Keyword: oversized blazer outfit. Spoke under silhouette; link back to /blog/relaxed-fit-trousers once that pillar is live.",
       "seoKeyword": "oversized blazer outfit",
       "keywordMetrics": {
