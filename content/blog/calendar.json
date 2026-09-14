@@ -40,7 +40,7 @@
     },
     {
       "id": "2026-w1-gsm-fabric-guide",
-      "status": "queued",
+      "status": "published",
       "role": "pillar",
       "cluster": "fabric",
       "hubHandle": "what-is-gsm-fabric",
@@ -62,12 +62,12 @@
         "quality"
       ],
       "handle": "what-is-gsm-fabric",
-      "publishedAt": null,
-      "notes": null
+      "publishedAt": "2026-08-17T16:45:17Z",
+      "notes": "gid://shopify/Article/620810699047"
     },
     {
       "id": "2026-w2-capsule-wardrobe-men",
-      "status": "queued",
+      "status": "published",
       "role": "pillar",
       "cluster": "capsule-wardrobe",
       "hubHandle": "mens-capsule-wardrobe",
@@ -89,12 +89,12 @@
         "seasonal"
       ],
       "handle": "mens-capsule-wardrobe",
-      "publishedAt": null,
-      "notes": null
+      "publishedAt": "2026-08-20T09:06:58Z",
+      "notes": "gid://shopify/Article/620828623143"
     },
     {
       "id": "2026-w2-slow-fashion-habit",
-      "status": "queued",
+      "status": "published",
       "role": "pillar",
       "cluster": "slow-fashion",
       "hubHandle": "slow-fashion-buying-habit",
@@ -115,12 +115,12 @@
         "habits"
       ],
       "handle": "slow-fashion-buying-habit",
-      "publishedAt": null,
-      "notes": null
+      "publishedAt": "2026-08-24T09:10:16Z",
+      "notes": "gid://shopify/Article/620851069223"
     },
     {
       "id": "2026-w3-relaxed-fit-trousers",
-      "status": "queued",
+      "status": "published",
       "role": "pillar",
       "cluster": "silhouette",
       "hubHandle": "relaxed-fit-trousers",
@@ -141,12 +141,12 @@
         "silhouette"
       ],
       "handle": "relaxed-fit-trousers",
-      "publishedAt": null,
-      "notes": null
+      "publishedAt": "2026-09-07T09:07:45Z",
+      "notes": "gid://shopify/Article/620943606055"
     },
     {
       "id": "2026-w3-organic-cotton-quality",
-      "status": "queued",
+      "status": "published",
       "role": "spoke",
       "cluster": "fabric",
       "hubHandle": "what-is-gsm-fabric",
@@ -166,12 +166,12 @@
         "materials"
       ],
       "handle": "organic-cotton-clothing-quality",
-      "publishedAt": null,
-      "notes": null
+      "publishedAt": "2026-08-27T09:04:21Z",
+      "notes": "gid://shopify/Article/620874826023"
     },
     {
       "id": "2026-w4-minimal-streetwear",
-      "status": "queued",
+      "status": "published",
       "role": "spoke",
       "cluster": "street",
       "hubHandle": null,
@@ -191,12 +191,12 @@
         "city"
       ],
       "handle": "minimal-streetwear",
-      "publishedAt": null,
-      "notes": null
+      "publishedAt": "2026-09-03T09:06:15Z",
+      "notes": "gid://shopify/Article/620926828839"
     },
     {
       "id": "2026-w4-oversized-blazer",
-      "status": "queued",
+      "status": "published",
       "role": "spoke",
       "cluster": "silhouette",
       "hubHandle": "relaxed-fit-trousers",
@@ -216,12 +216,12 @@
         "styling"
       ],
       "handle": "oversized-blazer-outfits",
-      "publishedAt": null,
-      "notes": null
+      "publishedAt": "2026-09-14T09:06:30.509Z",
+      "notes": "gid://shopify/Article/620986663207"
     },
     {
       "id": "2026-w5-quiet-luxury-dressing",
-      "status": "queued",
+      "status": "published",
       "role": "spoke",
       "cluster": "quiet-luxury",
       "hubHandle": "what-is-quiet-luxury",
@@ -242,6 +242,132 @@
         "styling"
       ],
       "handle": "how-to-dress-quiet-luxury",
+      "publishedAt": "2026-08-31T09:06:52Z",
+      "notes": "gid://shopify/Article/620898418983"
+    },
+    {
+      "id": "2026-w6-denim-fit-guide",
+      "status": "published",
+      "role": "spoke",
+      "cluster": "fabric",
+      "hubHandle": "what-is-gsm-fabric",
+      "category": "craft",
+      "title": "Denim fit guide: rise, thigh, and wash without the jargon",
+      "angle": "Practical denim fit: rise, thigh room, and wash choice. Keyword: denim fit guide. Spoke under fabric; link to GSM pillar.",
+      "seoKeyword": "denim fit guide",
+      "keywordMetrics": {
+        "volume": 40,
+        "kd": 15,
+        "intent": "informational"
+      },
+      "imageMode": "generate",
+      "tags": [
+        "craft",
+        "denim",
+        "fit"
+      ],
+      "handle": "denim-fit-guide",
+      "publishedAt": "2026-09-10T09:04:59Z",
+      "notes": "gid://shopify/Article/620966936871 — backfilled into calendar after sync (was live on Shopify)."
+    },
+    {
+      "id": "2026-w7-travel-capsule",
+      "status": "queued",
+      "role": "spoke",
+      "cluster": "capsule-wardrobe",
+      "hubHandle": "mens-capsule-wardrobe",
+      "category": "seasonal",
+      "title": "Travel capsule wardrobe: fewer pieces, still city-ready",
+      "angle": "Pack a short trip from a men’s capsule without looking like airport loungewear. Keyword: travel capsule wardrobe. Spoke under capsule-wardrobe hub.",
+      "seoKeyword": "travel capsule wardrobe",
+      "keywordMetrics": {
+        "volume": 170,
+        "kd": 4,
+        "intent": "informational"
+      },
+      "imageMode": "generate",
+      "tags": [
+        "seasonal",
+        "capsule",
+        "travel"
+      ],
+      "handle": "travel-capsule-wardrobe",
+      "publishedAt": null,
+      "notes": null
+    },
+    {
+      "id": "2026-w7-repair-clothes",
+      "status": "queued",
+      "role": "spoke",
+      "cluster": "slow-fashion",
+      "hubHandle": "slow-fashion-buying-habit",
+      "category": "culture",
+      "title": "How to repair clothes before you replace them",
+      "angle": "Practical repair culture: seams, buttons, hems, when to stop. Keyword: how to repair clothes. Spoke under slow-fashion.",
+      "seoKeyword": "how to repair clothes",
+      "keywordMetrics": {
+        "volume": 20,
+        "kd": 0,
+        "intent": "informational"
+      },
+      "imageMode": "stock",
+      "tags": [
+        "culture",
+        "repair",
+        "slow fashion"
+      ],
+      "handle": "how-to-repair-clothes",
+      "publishedAt": null,
+      "notes": null
+    },
+    {
+      "id": "2026-w8-wide-leg-trousers",
+      "status": "queued",
+      "role": "spoke",
+      "cluster": "silhouette",
+      "hubHandle": "relaxed-fit-trousers",
+      "category": "street_style",
+      "title": "Wide leg trousers for men: proportion on the street",
+      "angle": "How wide legs read in real city outfits versus skinny or tapered. Keyword: wide leg trousers men. Spoke under silhouette.",
+      "seoKeyword": "wide leg trousers men",
+      "keywordMetrics": {
+        "volume": 3600,
+        "kd": 0,
+        "intent": "transactional"
+      },
+      "imageMode": "stock",
+      "tags": [
+        "street style",
+        "trousers",
+        "silhouette"
+      ],
+      "handle": "wide-leg-trousers-men",
+      "publishedAt": null,
+      "notes": null
+    },
+    {
+      "id": "2026-w8-quiet-luxury-vs-logos",
+      "status": "queued",
+      "role": "spoke",
+      "cluster": "quiet-luxury",
+      "hubHandle": "what-is-quiet-luxury",
+      "category": "trends",
+      "title": "Quiet luxury vs logos: when branding still works",
+      "angle": "Not an anti-logo sermon. When a mark helps and when cloth should do the talking. Keyword: quiet luxury fashion. Spoke under quiet-luxury.",
+      "seoKeyword": "quiet luxury fashion",
+      "seoKeywordSecondary": "quiet luxury",
+      "keywordMetrics": {
+        "volume": 40,
+        "kd": 12,
+        "intent": "commercial"
+      },
+      "imageMode": "generate",
+      "tags": [
+        "trends",
+        "quiet luxury",
+        "branding"
+      ],
+      "handle": "quiet-luxury-vs-logos",
       "publishedAt": null,
       "notes": null
     }
